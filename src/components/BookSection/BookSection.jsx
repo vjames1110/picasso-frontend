@@ -9,10 +9,16 @@ const BookSection = () => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
-    api.get("/books")
-      .then(res => res.json())
-      .then(data => setBooks(data))
-      .catch(err => console.error(err));
+    const fetchBooks = async () => {
+      try {
+        const res = await api.get("/books");
+        setBooks(res.data);
+      } catch (err) {
+        console.error("Error fetching books:", err);
+      }
+    };
+
+    fetchBooks();
   }, []);
 
   return (
