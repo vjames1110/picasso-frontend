@@ -1,0 +1,306 @@
+.checkout-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f7f7f7;
+}
+
+/* ---------------- CARD ---------------- */
+.checkout-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.checkout-card h2 {
+    margin-bottom: 20px;
+}
+
+/* ---------------- PHONE ---------------- */
+.phone-input {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 45px;
+    margin-bottom: 15px;
+}
+
+.phone-input span {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background: #f5f5f5;
+    font-weight: 500;
+}
+
+.phone-input input {
+    flex: 1;
+    padding: 0 12px;
+    border: none;
+    outline: none;
+}
+
+/* ---------------- BUTTON ---------------- */
+.checkout-card button,
+.place-order-btn,
+.address-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #ff7a18, #ffb347);
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.checkout-card button:hover,
+.place-order-btn:hover,
+.address-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 122, 24, 0.4);
+}
+
+/* ---------------- OTP ---------------- */
+.otp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.otp-popup {
+    background: white;
+    padding: 30px 25px;
+    border-radius: 16px;
+    width: 340px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.otp-input {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    letter-spacing: 5px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.verify-btn {
+    margin-top: 15px;
+}
+
+/* ---------------- ADDRESS ---------------- */
+.address-popup {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    width: 600px;
+    max-width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+}
+
+.address-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.address-form input {
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+    transition: 0.2s;
+}
+
+.address-form input:focus {
+    border-color: #ff7a18;
+    box-shadow: 0 0 0 2px rgba(255,122,24,0.2);
+}
+
+.address-type {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.address-type button {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+}
+
+.address-type button.active {
+    background: linear-gradient(90deg, #ff7a18, #ffb347);
+    color: white;
+    border: none;
+}
+
+.disabled-input {
+    background: #f5f5f5;
+    color: #666;
+}
+
+/* ---------------- PAYMENT ---------------- */
+.payment-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    width: 1000px;
+    max-width: 95%;
+}
+
+.payment-left,
+.payment-right {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+/* Payment Option */
+.payment-option {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.payment-option:hover {
+    border-color: #ff7a18;
+}
+
+.payment-option.active {
+    border-color: #ff7a18;
+    box-shadow: 0 0 10px rgba(255,122,24,0.2);
+}
+
+/* Inputs */
+.payment-option input,
+.card-form input,
+.payment-option select {
+    width: 100%;
+    padding: 12px 14px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    outline: none;
+}
+
+.payment-option input:focus,
+.card-form input:focus,
+.payment-option select:focus {
+    border-color: #ff7a18;
+    box-shadow: 0 0 0 2px rgba(255,122,24,0.2);
+}
+
+/* Card Grid */
+.card-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/* UPI Row */
+.upi-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* UPI Verify Button */
+.verify-upi-btn {
+    padding: 0 16px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #ff6a00, #ee0979);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* Success text */
+.success-text {
+    color: green;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* Summary */
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+/* ---------------- ORDER SUMMARY WITH IMAGE ---------------- */
+
+.summary-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.summary-img {
+    width: 55px;
+    height: 75px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.summary-info {
+    flex: 1;
+    font-size: 14px;
+}
+
+.summary-info p {
+    margin: 0;
+}
+
+.summary-price {
+    font-weight: 600;
+    color: #333;
+}
+
+.saved-address-card {
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 12px;
+    background: white;
+}
+
+.change-address-btn {
+    margin-top: 10px;
+    padding: 8px 14px;
+    border: none;
+    background: #eee;
+    border-radius: 8px;
+    cursor: pointer;
+}

@@ -1,0 +1,92 @@
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 80px 40px;
+  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  overflow: hidden;
+}
+
+/* LEFT */
+.hero-left {
+  max-width: 50%;
+}
+
+.hero-left h1 {
+  font-size: 42px;
+  line-height: 1.4;
+  color: #fff;
+}
+
+.hero-left span {
+  color: #ff7a18;
+  font-size: 20px;
+}
+
+/* BUTTONS */
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  margin: 25px 0;
+}
+
+.btn-primary {
+  background: #ff7a18;
+  border: none;
+  padding: 12px 22px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  transform: scale(1.08);
+  box-shadow: 0 10px 25px rgba(255,122,24,0.5);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 1px solid #fff;
+  padding: 12px 22px;
+  border-radius: 25px;
+  color: white;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: white;
+  color: #203a43;
+}
+
+/* ✨ GLASSMORPHISM CARDS */
+.hero-trust {
+  display: flex;
+  gap: 15px;
+}
+
+.glass-card {
+  padding: 10px 15px;
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.glass-card:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-3px);
+}
+
+/* RIGHT */
+.hero-right img {
+  width: 420px;
+  border-radius: 15px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+
+  will-change: transform;
+  backface-visibility: hidden;
+}

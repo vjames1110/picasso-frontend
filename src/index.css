@@ -1,0 +1,41 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BODY */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: #f5f7fa;
+  color: #222;
+}
+
+/* CONTAINER CONTROL */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* BUTTON RESET */
+button {
+  font-family: inherit;
+}
+
+/* RESPONSIVE FONT */
+html {
+  font-size: 16px;
+}
+
+@media (max-width: 1024px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}

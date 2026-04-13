@@ -1,0 +1,16 @@
+.toast {
+  position: fixed;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #ff7a18, #ffb347);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  transition: 0.4s;
+  z-index: 9999;
+}
+
+.toast.show {
+  bottom: 30px;
+}

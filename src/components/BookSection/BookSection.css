@@ -1,0 +1,20 @@
+.book-section {
+  padding: 60px 40px;
+}
+
+/* 🔥 FORCE HORIZONTAL */
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+}
+
+/* Optional: hide scrollbar (premium look) */
+.book-grid::-webkit-scrollbar {
+  height: 6px;
+}
+
+.book-grid::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
+}
