@@ -179,3 +179,82 @@
     width: 100%;
   }
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+
+  .modal-content {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .modal-left img {
+    width: 220px;
+    height: 300px;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .modal-overlay {
+    padding: 10px;
+  }
+
+  .modal-content {
+    flex-direction: column;
+    gap: 15px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-right h2 {
+    font-size: 18px;
+  }
+
+  .modal-right p {
+    font-size: 13px;
+  }
+
+  .qty {
+    justify-content: center;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .modal-left img {
+    width: 170px;
+    height: 240px;
+  }
+
+  .modal-content {
+    padding: 15px;
+  }
+
+  .cart-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .qty button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+  }
+
+}

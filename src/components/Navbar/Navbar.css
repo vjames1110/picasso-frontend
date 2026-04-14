@@ -70,3 +70,58 @@
   padding-left: 18px; /* smooth slide feel */
   box-shadow: 0 4px 8px rgba(0,0,0,0.08);
 }
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  .nav-list {
+    gap: 20px;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .navbar {
+    padding: 10px 10px;
+    overflow-x: auto;
+  }
+
+  .nav-list {
+    gap: 18px;
+    min-width: max-content;
+  }
+
+  .nav-item {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .dropdown {
+    min-width: 180px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .nav-item {
+    font-size: 13px;
+  }
+
+  .dropdown-item {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+}

@@ -83,3 +83,73 @@
   min-width: 80px;
   text-align: right;
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 768px) {
+
+  .cart-item {
+    gap: 15px;
+    padding: 12px;
+  }
+
+  .cart-item img {
+    width: 70px;
+    height: 90px;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 600px) {
+
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cart-item img {
+    width: 60px;
+    height: 80px;
+  }
+
+  .item-details {
+    width: 100%;
+  }
+
+  .item-total {
+    width: 100%;
+    text-align: left;
+    margin-top: 8px;
+  }
+
+  .qty-box {
+    padding-left: 0;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 400px) {
+
+  .item-details h4 {
+    font-size: 14px;
+  }
+
+  .price {
+    font-size: 14px;
+  }
+
+  .original {
+    font-size: 12px;
+  }
+
+  .item-total {
+    font-size: 14px;
+  }
+
+}

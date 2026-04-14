@@ -145,3 +145,91 @@
 .book-image:hover .quick-view {
   pointer-events: auto;
 }
+
+/* ================= LAPTOP ================= */
+
+@media (max-width: 1200px) {
+
+  .book-image {
+    height: 230px;
+  }
+
+}
+
+
+/* ================= TABLET ================= */
+
+@media (max-width: 992px) {
+
+  .book-image {
+    height: 210px;
+  }
+
+  .book-card h3 {
+    font-size: 14px;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .book-card {
+    padding: 12px;
+  }
+
+  .book-image {
+    height: 180px;
+  }
+
+  .book-card h3 {
+    font-size: 13px;
+    min-height: 36px;
+  }
+
+  .author {
+    font-size: 12px;
+  }
+
+  .price {
+    font-size: 14px;
+  }
+
+  .add-cart {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  /* show quick view always on mobile */
+  .quick-view {
+    bottom: 8px;
+    opacity: 1;
+    font-size: 12px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .book-image {
+    height: 160px;
+  }
+
+  .book-card {
+    padding: 10px;
+  }
+
+  .book-card h3 {
+    font-size: 12px;
+  }
+
+  .delivery {
+    font-size: 11px;
+  }
+
+}

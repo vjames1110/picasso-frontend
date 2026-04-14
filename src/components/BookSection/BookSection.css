@@ -18,3 +18,66 @@
   background: #ccc;
   border-radius: 10px;
 }
+
+/* ================= LARGE LAPTOP ================= */
+
+@media (max-width: 1400px) {
+
+  .book-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+}
+
+
+/* ================= LAPTOP ================= */
+
+@media (max-width: 1200px) {
+
+  .book-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+}
+
+
+/* ================= TABLET ================= */
+
+@media (max-width: 992px) {
+
+  .book-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .book-section {
+    padding: 40px 20px;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .book-section {
+    padding: 30px 15px;
+  }
+
+  .book-grid {
+    grid-template-columns: 1fr;
+  }
+
+}

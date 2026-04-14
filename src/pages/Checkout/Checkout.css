@@ -304,3 +304,82 @@
     border-radius: 8px;
     cursor: pointer;
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+
+  .payment-container {
+    grid-template-columns: 1fr;
+    width: 100%;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .checkout-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .otp-popup {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .address-popup {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .address-form {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-left,
+  .payment-right {
+    padding: 15px;
+  }
+
+  .summary-img {
+    width: 45px;
+    height: 65px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .checkout-container {
+    padding: 10px;
+  }
+
+  .checkout-card h2 {
+    font-size: 18px;
+  }
+
+  .address-popup h2 {
+    font-size: 18px;
+  }
+
+  .summary-info {
+    font-size: 13px;
+  }
+
+  .place-order-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .upi-row {
+    flex-direction: column;
+  }
+
+}

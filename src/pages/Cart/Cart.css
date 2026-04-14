@@ -89,3 +89,65 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+
+  .cart-container {
+    padding: 20px;
+  }
+
+  .cart-content {
+    flex-direction: column;
+  }
+
+  .cart-right {
+    position: relative;
+    top: auto;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .cart-container {
+    padding: 15px;
+  }
+
+  .cart-header {
+    font-size: 16px;
+  }
+
+  .cart-right {
+    padding: 15px;
+  }
+
+  .checkout-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .cart-container {
+    padding: 10px;
+  }
+
+  .cart-right h3 {
+    font-size: 16px;
+  }
+
+  .cart-right p {
+    font-size: 13px;
+  }
+
+}

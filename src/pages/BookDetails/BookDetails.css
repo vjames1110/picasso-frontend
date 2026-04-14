@@ -170,3 +170,97 @@
   color: #ff7a18;
   font-weight: 600;
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+
+  .details-container {
+    padding: 30px;
+    gap: 25px;
+  }
+
+  .details-left img {
+    width: 260px;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .details-container {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .details-left {
+    text-align: center;
+  }
+
+  .details-left img {
+    width: 200px;
+  }
+
+  .details-right h1 {
+    font-size: 22px;
+  }
+
+  .action-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .cart-btn {
+    width: 100%;
+  }
+
+  .pincode-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .pincode-row input {
+    width: 100%;
+  }
+
+  .pincode-row button {
+    width: 100%;
+  }
+
+  .trust {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .details-container {
+    padding: 15px;
+  }
+
+  .details-right h1 {
+    font-size: 20px;
+  }
+
+  .price {
+    font-size: 18px;
+  }
+
+  .qty-box span {
+    padding: 8px 12px;
+  }
+
+  .delivery-date {
+    font-size: 13px;
+  }
+
+}

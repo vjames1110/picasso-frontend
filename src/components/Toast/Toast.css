@@ -14,3 +14,33 @@
 .toast.show {
   bottom: 30px;
 }
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .toast {
+    width: calc(100% - 30px);
+    text-align: center;
+    padding: 12px 15px;
+    font-size: 14px;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .toast {
+    font-size: 13px;
+    padding: 10px 12px;
+    bottom: -80px;
+  }
+
+  .toast.show {
+    bottom: 20px;
+  }
+
+}

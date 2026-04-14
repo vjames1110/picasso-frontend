@@ -90,3 +90,91 @@
   will-change: transform;
   backface-visibility: hidden;
 }
+
+/* ================= TABLET ================= */
+
+@media (max-width: 1024px) {
+
+  .hero {
+    padding: 60px 30px;
+  }
+
+  .hero-left h1 {
+    font-size: 34px;
+  }
+
+  .hero-right img {
+    width: 320px;
+  }
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 768px) {
+
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding: 40px 20px;
+    gap: 25px;
+  }
+
+  .hero-left {
+    max-width: 100%;
+  }
+
+  .hero-left h1 {
+    font-size: 26px;
+  }
+
+  .hero-left span {
+    font-size: 16px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .hero-right img {
+    width: 240px;
+  }
+
+  .hero-trust {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+}
+
+
+/* ================= SMALL MOBILE ================= */
+
+@media (max-width: 480px) {
+
+  .hero {
+    padding: 30px 15px;
+  }
+
+  .hero-left h1 {
+    font-size: 22px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .glass-card {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+
+  .hero-right img {
+    width: 200px;
+  }
+
+}
