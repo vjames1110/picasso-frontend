@@ -59,11 +59,13 @@ const Checkout = () => {
 
             const data = await res.json();
 
-            if (data && data.name) {
-                setSavedAddress(data);
-                setStep(4);
+            console.log("ADDRESS RESPONSE:", data); // debug
+
+            if (data.has_address) {
+                setSavedAddress(data.address);
+                setStep(4); // skip address form
             } else {
-                setStep(3);
+                setStep(3); // show form
             }
 
         } catch (err) {
