@@ -3,18 +3,14 @@ import { useCart } from "../../context/CartContext";
 import "./CartItem.css";
 
 const CartItem = ({ item }) => {
-    const { removeFromCart, updateQuantity } = useCart();
+    const { removeFromCart, increaseQuantity, decreaseQuantity } = useCart();
 
     const handleDecrease = () => {
-        if (item.quantity > 1) {
-            updateQuantity(item.id, item.quantity - 1);
-        };
+        decreaseQuantity(item)
     };
 
     const handleIncrease = () => {
-        if (item.quantity < item.stock) {
-            updateQuantity(item.id, item.quantity + 1)
-        }
+        increaseQuantity(item)
     }
 
     const handleRemove = () => {

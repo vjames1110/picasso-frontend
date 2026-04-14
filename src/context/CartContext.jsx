@@ -138,14 +138,52 @@ export const CartProvider = ({ children }) => {
   };
 
   const increaseQuantity = async (item) => {
+
+    // STOCK GUARD
+    if (item.quantity >= item.stock) return;
+
+    // GUEST
+    if (!token) {
+      const updatedCart = cart.map(i =>
+        i.book_id === item.book_id
+          ? { ...i, quantity: i.quantity + 1 }
+          : i
+      );
+
+      setCart(updatedCart);
+      localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
+      return;
+    }
+
+    // USER
     await updateQuantity(item.id, item.quantity + 1);
   };
 
   const decreaseQuantity = async (item) => {
     const newQty = item.quantity - 1;
 
+    // GUEST
+    if (!token) {
+      if (newQty <= 0) {
+        const updatedCart = cart.filter(i => i.book_id !== item.book_id);
+        setCart(updatedCart);
+        localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
+      } else {
+        const updatedCart = cart.map(i =>
+          i.book_id === item.book_id
+            ? { ...i, quantity: newQty }
+            : i
+        );
+
+        setCart(updatedCart);
+        localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
+      }
+      return;
+    }
+
+    // USER
     if (newQty <= 0) {
-      await removeFromCart(item.id);
+      await removeFromCart(item.id, item.book_id);
     } else {
       await updateQuantity(item.id, newQty);
     }
