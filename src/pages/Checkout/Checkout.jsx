@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const Checkout = () => {
     const { isAuthenticated, sendOtp, verifyOtp } = useAuth();
-    const [step, setStep] = useState(isAuthenticated ? 3 : 1);
+    const [step, setStep] = useState(0);
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -39,6 +39,8 @@ const Checkout = () => {
     useEffect(() => {
         if (isAuthenticated) {
             fetchSavedAddress();
+        } else {
+            setStep(1);
         }
     }, [isAuthenticated]);
 
@@ -46,24 +48,28 @@ const Checkout = () => {
         try {
             const token = localStorage.getItem("token");
 
-            const res = await fetch("https://picasso-backend-7rap.onrender.com", {
-                headers: {
-                    Authorization: `Bearer ${token}`
+            const res = await fetch(
+                "https://picasso-backend-7rap.onrender.com/auth/address",
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 }
-            });
+            );
 
             const data = await res.json();
 
-            if (data.has_address) {
-                setSavedAddress(data.address);
+            if (data && data.name) {
+                setSavedAddress(data);
                 setStep(4);
+            } else {
+                setStep(3);
             }
 
         } catch (err) {
-            console.log("No saved address");
+            setStep(3);
         }
     };
-
     /* ---------------- SEND OTP ---------------- */
 
     const handleSendOtp = async () => {
