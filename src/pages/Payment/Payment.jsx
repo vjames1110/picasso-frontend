@@ -8,7 +8,7 @@ const Payment = () => {
     const { clearCart } = useCart();
     const { state } = useLocation();
 
-    const { amount, order_id } = state || {};
+    const { amount, order_id } = state || {};   // keep order_id from checkout
     const razorPayOpened = useRef(false);
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const Payment = () => {
                 currency: "INR",
                 name: "Picasso Publications",
                 description: "Book Purchase",
-                order_id: order_id,
+                order_id: order_id,   // Razorpay requires this
 
                 handler: async function (response) {
                     try {
@@ -76,7 +76,7 @@ const Payment = () => {
                         navigate("/order-success", {
                             replace: true,
                             state: {
-                                order_id,
+                                orderId: order_id,   // <-- pass correctly here
                                 paymentMethod: "razorpay",
                                 paymentId: response.razorpay_payment_id,
                                 amount
