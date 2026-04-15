@@ -11,6 +11,7 @@ import Payment from "./pages/Payment/Payment";
 import OrderSuccess from "./pages/OrderSuccess/OrderSuccess";
 import Login from "./pages/Login/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import MyOrders from "./pages/MyOrders/MyOrders";
 
 
 function AppLayout() {
@@ -48,6 +49,12 @@ function AppLayout() {
 
         <Route path="/payment" element={<Payment />} />
         <Route path="/order-success" element={<OrderSuccess />} />
+        <Route path="/my-orders" element={
+          <ProtectedRoute>
+            <MyOrders />
+          </ProtectedRoute>
+        }
+        />
       </Routes>
     </>
   );

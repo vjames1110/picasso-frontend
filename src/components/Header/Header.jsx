@@ -54,6 +54,13 @@ const Header = () => {
                     <span className='cart-count'>{getTotalItems()}</span>
                 </div>
 
+                <button
+                    className="login-btn"
+                    onClick={() => navigate("/my-orders")}
+                >
+                    My Orders
+                </button>
+
             </div>
         </header>
     )
