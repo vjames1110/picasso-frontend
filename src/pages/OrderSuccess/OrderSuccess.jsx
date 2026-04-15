@@ -9,6 +9,8 @@ const OrderSuccess = () => {
 
     const { cart, getTotalPrice, clearCart } = useCart();
 
+    const orderId = location.state?.orderId
+
     const paymentMethod = location.state?.paymentMethod || "razorpay";
     const paymentId = location.state?.paymentId;
 
