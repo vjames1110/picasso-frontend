@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import "./MyOrders.css";
 
@@ -7,6 +8,7 @@ const MyOrders = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [openOrder, setOpenOrder] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchOrders();
@@ -80,20 +82,29 @@ const MyOrders = () => {
                                 </strong>
                             </div>
 
-                            <button
-                                className="view-btn"
-                                onClick={() =>
-                                    setOpenOrder(
-                                        openOrder === order.id
-                                            ? null
-                                            : order.id
-                                    )
-                                }
-                            >
-                                {openOrder === order.id
-                                    ? "Hide"
-                                    : "View"}
-                            </button>
+                            <div className="order-actions">
+
+                                <button
+                                    className="view-btn"
+                                    onClick={() =>
+                                        setOpenOrder(
+                                            openOrder === order.id
+                                                ? null
+                                                : order.id
+                                        )
+                                    }
+                                >
+                                    {openOrder === order.id ? "Hide" : "View"}
+                                </button>
+
+                                <button
+                                    className="track-btn"
+                                    onClick={() => navigate(`/order/${order.id}`)}
+                                >
+                                    Track
+                                </button>
+
+                            </div>
 
                         </div>
 

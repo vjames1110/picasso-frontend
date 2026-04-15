@@ -1,0 +1,52 @@
+.track-container {
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.track-card {
+    width: 900px;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.track-info {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    margin-top: 20px;
+}
+
+.track-info span {
+    display: block;
+    font-size: 12px;
+    color: gray;
+}
+
+.track-items {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.track-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+/* responsive */
+
+@media (max-width:768px) {
+
+.track-card {
+    width: 100%;
+}
+
+.track-info {
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+}

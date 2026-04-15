@@ -12,6 +12,7 @@ import OrderSuccess from "./pages/OrderSuccess/OrderSuccess";
 import Login from "./pages/Login/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import MyOrders from "./pages/MyOrders/MyOrders";
+import OrderTracking from "./pages/OrderTracking/OrderTracking";
 
 
 function AppLayout() {
@@ -56,6 +57,12 @@ function AppLayout() {
         }
         />
       </Routes>
+      <Route path="/order/:orderId" element={
+        <ProtectedRoute>
+          <OrderTracking />
+        </ProtectedRoute>
+      }
+      />
     </>
   );
 }

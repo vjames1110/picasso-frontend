@@ -12,8 +12,6 @@ const OrderSuccess = () => {
     const paymentMethod = location.state?.paymentMethod || "razorpay";
     const paymentId = location.state?.paymentId;
 
-    const orderId = "ORD" + Math.floor(Math.random() * 1000000);
-
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 5);
 
@@ -90,6 +88,7 @@ const OrderSuccess = () => {
 
                     <button
                         className="track-btn"
+                        onClick={() => navigate(`/order/${orderId}`)}
                     >
                         Track Order
                     </button>
