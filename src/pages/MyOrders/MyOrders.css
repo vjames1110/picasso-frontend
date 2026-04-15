@@ -51,7 +51,7 @@
 .order-item {
     display: flex;
     justify-content: space-between;
-    padding: 8px 0;
+    padding: 10px 0;
 }
 
 .status {
@@ -69,4 +69,72 @@
 .orders-empty {
     text-align: center;
     padding: 60px;
+}
+
+/* ---------- Tablet ---------- */
+
+@media (max-width: 1024px) {
+
+    .orders-container {
+        padding: 20px;
+    }
+
+    .order-top {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .view-btn {
+        grid-column: span 2;
+    }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 768px) {
+
+    .orders-container {
+        padding: 15px;
+    }
+
+    .order-card {
+        padding: 15px;
+    }
+
+    .order-top {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .order-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .view-btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+}
+
+/* ---------- Small Mobile ---------- */
+
+@media (max-width: 480px) {
+
+    .orders-container {
+        padding: 10px;
+    }
+
+    .order-card {
+        padding: 12px;
+    }
+
+    .order-top strong {
+        font-size: 14px;
+    }
+
+    .order-item {
+        font-size: 14px;
+    }
 }
