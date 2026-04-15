@@ -42,7 +42,7 @@ const Payment = () => {
             }
             console.log("RAZOR KEY:", import.meta.env.VITE_RAZORPAY_KEY);
             const options = {
-                key: import.meta.env.RAZORPAY_KEY_ID,
+                key: import.meta.env.VITE_RAZORPAY_KEY,
                 amount: amount * 100,
                 currency: "INR",
                 name: "Picasso Publications",
