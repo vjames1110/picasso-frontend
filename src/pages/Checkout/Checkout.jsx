@@ -408,7 +408,7 @@ const Checkout = () => {
                                     const token = localStorage.getItem("token");
 
                                     const res = await fetch(
-                                        "https://picasso-backend-7rap.onrender.com/orders",
+                                        "https://picasso-backend-7rap.onrender.com/orders/",
                                         {
                                             method: "POST",
                                             headers: {
