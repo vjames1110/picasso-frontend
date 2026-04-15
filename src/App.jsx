@@ -56,13 +56,15 @@ function AppLayout() {
           </ProtectedRoute>
         }
         />
+        <Route
+          path="/order/:orderId"
+          element={
+            <ProtectedRoute>
+              <OrderTracking />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
-      <Route path="/order/:orderId" element={
-        <ProtectedRoute>
-          <OrderTracking />
-        </ProtectedRoute>
-      }
-      />
     </>
   );
 }
