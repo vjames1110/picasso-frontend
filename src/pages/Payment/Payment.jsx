@@ -40,30 +40,53 @@ const Payment = () => {
                 alert("Payment gateway failed. Please try again.");
                 return;
             }
-            console.log("RAZOR KEY:", import.meta.env.VITE_RAZORPAY_KEY);
+
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY,
                 amount: amount * 100,
                 currency: "INR",
                 name: "Picasso Publications",
                 description: "Book Purchase",
-
                 order_id: order_id,
 
-                handler: function (response) {
+                handler: async function (response) {
+                    try {
 
-                    clearCart();
+                        const token = localStorage.getItem("token");
 
-                    navigate("/order-success", {
-                        replace: true,
-                        state: {
-                            order_id,
-                            paymentMethod: "razorpay",
-                            paymentId: response.razorpay_payment_id,
-                            amount
-                        }
-                    });
+                        await fetch(
+                            "https://picasso-backend-7rap.onrender.com/orders/verify",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${token}`
+                                },
+                                body: JSON.stringify({
+                                    order_id: order_id,
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature
+                                })
+                            }
+                        );
 
+                        clearCart();
+
+                        navigate("/order-success", {
+                            replace: true,
+                            state: {
+                                order_id,
+                                paymentMethod: "razorpay",
+                                paymentId: response.razorpay_payment_id,
+                                amount
+                            }
+                        });
+
+                    } catch (err) {
+                        alert("Payment verification failed");
+                        navigate("/checkout");
+                    }
                 },
 
                 modal: {
