@@ -8,7 +8,7 @@ const Payment = () => {
     const { clearCart } = useCart();
     const { state } = useLocation();
 
-    const { paymentMethod, amount, order_id } = state || {};
+    const { amount, order_id } = state || {};
     const razorPayOpened = useRef(false);
 
     useEffect(() => {
