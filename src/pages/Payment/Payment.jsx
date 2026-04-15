@@ -42,7 +42,7 @@ const Payment = () => {
             }
 
             const options = {
-                key: "rzp_test_Sa8lKyq9A6WawJ",
+                key: import.meta.env.RAZORPAY_KEY_ID,
                 amount: amount * 100,
                 currency: "INR",
                 name: "Picasso Publications",
