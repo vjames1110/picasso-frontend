@@ -40,7 +40,7 @@ const Payment = () => {
                 alert("Payment gateway failed. Please try again.");
                 return;
             }
-
+            console.log("RAZOR KEY:", import.meta.env.VITE_RAZORPAY_KEY);
             const options = {
                 key: import.meta.env.RAZORPAY_KEY_ID,
                 amount: amount * 100,
