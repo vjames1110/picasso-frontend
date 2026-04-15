@@ -33,6 +33,16 @@ const OrderTracking = () => {
         return <div className="track-container">Order not found</div>;
     }
 
+    const steps = [
+        "pending",
+        "confirmed",
+        "packed",
+        "shipped",
+        "delivered"
+    ]
+
+    const currentStep = steps.indexOf(order.status)
+
     return (
         <div className="track-container">
 
@@ -66,6 +76,30 @@ const OrderTracking = () => {
                         </strong>
                     </div>
                 </div>
+
+                <div className="timeline">
+
+    {steps.map((step, index) => (
+
+        <div key={step} className="timeline-step">
+
+            <div className={`circle ${index <= currentStep ? "active" : ""}`}>
+                {index <= currentStep ? "✓" : ""}
+            </div>
+
+            <div className="label">
+                {step.charAt(0).toUpperCase() + step.slice(1)}
+            </div>
+
+            {index !== steps.length - 1 && (
+                <div className={`line ${index < currentStep ? "active" : ""}`} />
+            )}
+
+        </div>
+
+    ))}
+
+</div>
 
                 <div className="track-items">
                     <h3>Items</h3>
