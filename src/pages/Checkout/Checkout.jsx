@@ -432,8 +432,10 @@ const Checkout = () => {
                                         state: {
                                             paymentMethod: selectedPayment,
                                             amount: data.amount,
-                                            order_id: data.razorpay_order_id,
-                                            backend_order_id: data.order_id,
+
+                                            orderId: data.order_id,                 // DB order id
+                                            razorpay_order_id: data.razorpay_order_id, // Razorpay id
+
                                             address: savedAddress
                                         }
                                     });

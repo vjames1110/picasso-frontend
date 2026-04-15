@@ -8,8 +8,7 @@ const Payment = () => {
     const { clearCart } = useCart();
     const { state } = useLocation();
 
-    const { amount, order_id, orderId } = state || {};
-    const finalOrderId = order_id || orderId;
+    const { amount, orderId, razorpay_order_id } = state || {};
 
     const razorPayOpened = useRef(false);
 
@@ -49,7 +48,7 @@ const Payment = () => {
                 currency: "INR",
                 name: "Picasso Publications",
                 description: "Book Purchase",
-                order_id: finalOrderId,   // ✅ FIXED
+                order_id: razorpay_order_id, // Razorpay id
 
                 handler: async function (response) {
                     try {
@@ -65,7 +64,6 @@ const Payment = () => {
                                     Authorization: `Bearer ${token}`
                                 },
                                 body: JSON.stringify({
-                                    order_id: finalOrderId,   // ✅ FIXED
                                     razorpay_order_id: response.razorpay_order_id,
                                     razorpay_payment_id: response.razorpay_payment_id,
                                     razorpay_signature: response.razorpay_signature
@@ -78,7 +76,7 @@ const Payment = () => {
                         navigate("/order-success", {
                             replace: true,
                             state: {
-                                orderId: finalOrderId,  // ✅ FIXED
+                                orderId: orderId, // DB id
                                 paymentMethod: "razorpay",
                                 paymentId: response.razorpay_payment_id,
                                 amount
