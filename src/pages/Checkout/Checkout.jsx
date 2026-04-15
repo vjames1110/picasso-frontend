@@ -404,11 +404,10 @@ const Checkout = () => {
                             onClick={async () => {
 
                                 try {
-
                                     const token = localStorage.getItem("token");
 
                                     const res = await fetch(
-                                        "https://picasso-backend-7rap.onrender.com/orders/",
+                                        "https://picasso-backend-7rap.onrender.com/orders/create",
                                         {
                                             method: "POST",
                                             headers: {
@@ -440,7 +439,8 @@ const Checkout = () => {
                                     });
 
                                 } catch (err) {
-                                    alert("Failed to create order");
+                                    console.log(err);
+                                    alert("Order creation failed");
                                 }
 
                             }}
