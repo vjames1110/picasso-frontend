@@ -401,7 +401,49 @@ const Checkout = () => {
 
                         <button
                             className="place-order-btn"
-                            onClick={() => navigate("/payment")}
+                            onClick={async () => {
+
+                                try {
+
+                                    const token = localStorage.getItem("token");
+
+                                    const res = await fetch(
+                                        "https://picasso-backend-7rap.onrender.com/orders",
+                                        {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                Authorization: `Bearer ${token}`
+                                            },
+                                            body: JSON.stringify({
+                                                amount: finalAmount,
+                                                items: cart.map(item => ({
+                                                    book_id: item.id,
+                                                    title: item.title,
+                                                    quantity: item.quantity,
+                                                    price: item.price
+                                                }))
+                                            })
+                                        }
+                                    );
+
+                                    const data = await res.json();
+
+                                    navigate("/payment", {
+                                        state: {
+                                            paymentMethod: selectedPayment,
+                                            amount: data.amount,
+                                            order_id: data.razorpay_order_id,
+                                            backend_order_id: data.order_id,
+                                            address: savedAddress
+                                        }
+                                    });
+
+                                } catch (err) {
+                                    alert("Failed to create order");
+                                }
+
+                            }}
                         >
                             Proceed to Payment
                         </button>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { replace, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import "./Payment.css";
 
@@ -11,18 +11,17 @@ const Payment = () => {
     const { paymentMethod, amount, order_id } = state || {};
     const razorPayOpened = useRef(false);
 
-useEffect(() => {
-    if (!amount) {
-        navigate("/");
-        return;
-    }
+    useEffect(() => {
+        if (!state || !amount) {
+            navigate("/checkout");
+            return;
+        }
 
-    if (razorPayOpened.current) return;
+        if (razorPayOpened.current) return;
 
-    razorPayOpened.current = true;
-    handleRazorpay();
-
-}, [amount]);
+        razorPayOpened.current = true;
+        handleRazorpay();
+    }, [state]);
 
     const loadRazorpay = () => {
         return new Promise((resolve) => {
@@ -49,7 +48,11 @@ useEffect(() => {
                 name: "Picasso Publications",
                 description: "Book Purchase",
 
+                order_id: order_id,
+
                 handler: function (response) {
+
+                    clearCart();
 
                     navigate("/order-success", {
                         replace: true,
@@ -62,6 +65,7 @@ useEffect(() => {
                     });
 
                 },
+
                 modal: {
                     ondismiss: function () {
                         navigate("/checkout");
@@ -69,9 +73,9 @@ useEffect(() => {
                 },
 
                 prefill: {
-                    name: "",
-                    email: "",
-                    contact: ""
+                    name: state?.address?.name ?? "",
+                    email: state?.address?.email ?? "",
+                    contact: state?.address?.phone ?? ""
                 },
 
                 theme: {
