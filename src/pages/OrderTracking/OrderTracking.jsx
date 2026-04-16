@@ -11,8 +11,9 @@ const OrderTracking = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!orderId) return;
         fetchOrder();
-    }, []);
+    }, [orderId]);
 
     const fetchOrder = async () => {
         try {
@@ -82,7 +83,7 @@ const OrderTracking = () => {
                     {steps.map((step, index) => {
 
                         const timestamps = {
-                            pending: order.created_at === "pending" ? order.created_at : null,
+                            pending: order.created_at,
                             confirmed: order.confirmed_at,
                             packed: order.packed_at,
                             shipped: order.shipped_at,

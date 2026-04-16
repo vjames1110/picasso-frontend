@@ -14,7 +14,7 @@ const CartItem = ({ item }) => {
     }
 
     const handleRemove = () => {
-        removeFromCart(item.id, item.book_id);
+        removeFromCart(item.id || item.book_id, item.book_id);
     };
 
     return (
@@ -34,7 +34,7 @@ const CartItem = ({ item }) => {
                     <span className='original'>₹{item.originalPrice}</span>
                 </div>
 
-                <p style={{ fontstyle: "italic", fontsize: "12px", color: "gray" }}>
+                <p style={{ fontStyle: "italic", fontSize: "12px", color: "gray" }}>
                     Stock Available: {item.stock}
                 </p>
 
@@ -44,7 +44,7 @@ const CartItem = ({ item }) => {
                     <span>{item.quantity}</span>
                     <button
                         onClick={handleIncrease}
-                        disabled={item.quantity >= item.stock}
+                        disabled={item.stock && item.quantity >= item.stock}
                     >
                         +
                     </button>

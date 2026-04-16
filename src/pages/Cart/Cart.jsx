@@ -24,8 +24,10 @@ const Cart = () => {
     const totalItems = getTotalItems();
 
     const totalMRP = cart.reduce(
-        (total, item) => total + item.originalPrice * item.quantity
-        , 0)
+        (total, item) =>
+            total + (item.originalPrice || item.price) * item.quantity,
+        0
+    );
 
     const sellingPrice = getTotalPrice();
     const discount = totalMRP - sellingPrice;

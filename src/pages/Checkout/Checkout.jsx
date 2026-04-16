@@ -417,7 +417,7 @@ const Checkout = () => {
                                             body: JSON.stringify({
                                                 amount: finalAmount,
                                                 items: cart.map(item => ({
-                                                    book_id: item.book_id || item.id,
+                                                    book_id: item.book_id,
                                                     title: item.title,
                                                     quantity: item.quantity,
                                                     price: item.price
