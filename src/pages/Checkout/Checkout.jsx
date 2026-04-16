@@ -417,7 +417,7 @@ const Checkout = () => {
                                             body: JSON.stringify({
                                                 amount: finalAmount,
                                                 items: cart.map(item => ({
-                                                    book_id: item.id,
+                                                    book_id: item.book_id || item.id,
                                                     title: item.title,
                                                     quantity: item.quantity,
                                                     price: item.price
@@ -428,14 +428,17 @@ const Checkout = () => {
 
                                     const data = await res.json();
 
+                                    if (!res.ok) {
+                                        alert(data.detail || "Order creation failed");
+                                        return;
+                                    }
+
                                     navigate("/payment", {
                                         state: {
                                             paymentMethod: selectedPayment,
                                             amount: data.amount,
-
-                                            orderId: data.order_id,                 // DB order id
-                                            razorpay_order_id: data.razorpay_order_id, // Razorpay id
-
+                                            orderId: data.order_id,
+                                            razorpay_order_id: data.razorpay_order_id,
                                             address: savedAddress
                                         }
                                     });
