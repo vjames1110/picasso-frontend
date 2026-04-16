@@ -182,6 +182,10 @@ const Checkout = () => {
         }
     };
 
+    const uniqueItems = Array.from(
+    new Map(cart.map(i => [i.book_id, i])).values()
+);
+
     /* ---------------- PRICE ---------------- */
 
     const sellingPrice = getTotalPrice();
@@ -205,8 +209,8 @@ const Checkout = () => {
                     },
                     body: JSON.stringify({
                         amount: finalAmount,
-                        items: cart.map(item => ({
-                            book_id: item.book_id || item.id,
+                        items: uniqueItems.map(item => ({
+                            book_id: item.book_id ?? item.id,
                             title: item.title,
                             quantity: item.quantity,
                             price: item.price
