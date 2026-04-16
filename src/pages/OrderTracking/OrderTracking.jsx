@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 import "./OrderTracking.css";
@@ -10,9 +10,14 @@ const OrderTracking = () => {
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const fetched = useRef(false)
+
     useEffect(() => {
-        if (!orderId) return;
+        if (!orderId || fetched.current) return;
+
+        fetched.current = true;
         fetchOrder();
+
     }, [orderId]);
 
     const fetchOrder = async () => {

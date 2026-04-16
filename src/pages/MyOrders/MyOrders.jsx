@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import "./MyOrders.css";
@@ -10,7 +10,12 @@ const MyOrders = () => {
     const [openOrder, setOpenOrder] = useState(null);
     const navigate = useNavigate();
 
+    const fetched = useRef(false)
+
     useEffect(() => {
+        if (fetched.current) return;
+        fetched.current = true;
+
         fetchOrders();
     }, []);
 

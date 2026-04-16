@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import api from "../../services/api";
@@ -8,6 +8,8 @@ const OrderSuccess = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const params = useParams();
+
+    const fetched = useRef(false);
 
     const { clearCart } = useCart();
 
@@ -21,9 +23,11 @@ const OrderSuccess = () => {
     deliveryDate.setDate(deliveryDate.getDate() + 5);
 
     useEffect(() => {
-        if (!orderId) return;
+        if (!orderId || fetched.current) return;
 
-        clearCart(); // clear immediately
+        fetched.current = true;
+
+        clearCart();
         fetchOrder();
 
     }, [orderId]);
