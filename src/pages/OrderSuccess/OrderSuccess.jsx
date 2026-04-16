@@ -23,13 +23,9 @@ const OrderSuccess = () => {
     useEffect(() => {
         if (!orderId) return;
 
+        clearCart(); // clear immediately
         fetchOrder();
 
-        const timer = setTimeout(() => {
-            clearCart();
-        }, 500);
-
-        return () => clearTimeout(timer);
     }, [orderId]);
 
     const fetchOrder = async () => {

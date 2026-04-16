@@ -225,19 +225,26 @@ export const CartProvider = ({ children }) => {
   const clearCart = async () => {
     try {
 
+      // clear guest cart first
+      localStorage.removeItem("guest_cart");
+
+      // clear server cart
       if (token) {
         const res = await api.get("/cart/");
 
-        for (const item of res.data) {
-          await api.delete(`/cart/${item.id}`);
-        }
+        await Promise.all(
+          res.data.map(item =>
+            api.delete(`/cart/${item.id}`)
+          )
+        );
       }
 
+      // clear UI cart LAST
       setCart([]);
-      localStorage.removeItem("guest_cart");
 
     } catch (err) {
       console.log("clear cart error", err);
+      setCart([]); // fallback safety
     }
   };
 

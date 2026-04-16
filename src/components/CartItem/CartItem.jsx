@@ -14,7 +14,7 @@ const CartItem = ({ item }) => {
     }
 
     const handleRemove = () => {
-        removeFromCart(item.id || item.book_id, item.book_id);
+        removeFromCart(item.id || null, item.book_id);
     };
 
     return (

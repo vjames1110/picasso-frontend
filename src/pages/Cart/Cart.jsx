@@ -46,9 +46,9 @@ const Cart = () => {
 
                 {/*Left Section/*/}
                 <div className="cart-left">
-                    {cart.map((item, index) => (
+                    {cart.map((item) => (
                         <CartItem
-                            key={item.book_id}
+                            key={`${item.id || "guest"}-${item.book_id}`}
                             item={item}
                         />
                     ))}
