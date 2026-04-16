@@ -75,19 +75,21 @@ const Payment = () => {
                             throw new Error("Verification failed");
                         }
 
-                        const verifyData = await verifyRes.json();
+                        await verifyRes.json();
 
                         clearCart();
 
-                        navigate(`/order-success/${orderId}`, {
-                            replace: true,
-                            state: {
-                                orderId: orderId,
-                                paymentMethod: "razorpay",
-                                paymentId: response.razorpay_payment_id,
-                                amount
-                            }
-                        });
+                        // IMPORTANT FIX
+                        setTimeout(() => {
+                            navigate(`/order-success/${orderId}`, {
+                                replace: true,
+                                state: {
+                                    orderId,
+                                    paymentId: response.razorpay_payment_id,
+                                    amount
+                                }
+                            });
+                        }, 200);
 
                     } catch (err) {
                         console.error("VERIFY ERROR:", err);

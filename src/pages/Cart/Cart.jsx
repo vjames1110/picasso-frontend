@@ -48,7 +48,7 @@ const Cart = () => {
                 <div className="cart-left">
                     {cart.map((item, index) => (
                         <CartItem
-                            key={item.id || item.book_id || index}
+                            key={item.book_id}
                             item={item}
                         />
                     ))}
