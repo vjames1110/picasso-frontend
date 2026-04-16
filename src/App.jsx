@@ -89,6 +89,10 @@ function AppLayout() {
           }
         />
 
+        {/* Important Fallback */}
+
+        <Route path="*" element={<Cart />} />
+
       </Routes>
     </>
   );
