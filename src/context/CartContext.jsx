@@ -31,35 +31,35 @@ export const CartProvider = ({ children }) => {
   // SYNC GUEST CART AFTER LOGIN
   // ===============================
   const syncGuestCart = async () => {
-  const guestCart = JSON.parse(localStorage.getItem("guest_cart"));
+    const guestCart = JSON.parse(localStorage.getItem("guest_cart"));
 
-  if (!guestCart || guestCart.length === 0) return;
+    if (!guestCart || guestCart.length === 0) return;
 
-  try {
+    try {
 
-    // CLEAR SERVER CART FIRST
-    const existing = await api.get("/cart/");
+      // CLEAR SERVER CART FIRST
+      const existing = await api.get("/cart/");
 
-    for (const item of existing.data) {
-      await api.delete(`/cart/${item.id}`);
+      for (const item of existing.data) {
+        await api.delete(`/cart/${item.id}`);
+      }
+
+      // ADD ONLY CURRENT GUEST CART
+      for (const item of guestCart) {
+        await api.post("/cart/", {
+          book_id: item.book_id,
+          quantity: item.quantity
+        });
+      }
+
+      localStorage.removeItem("guest_cart");
+
+      await loadCart();
+
+    } catch (err) {
+      console.log("Guest cart sync error", err);
     }
-
-    // ADD ONLY CURRENT GUEST CART
-    for (const item of guestCart) {
-      await api.post("/cart/", {
-        book_id: item.book_id,
-        quantity: item.quantity
-      });
-    }
-
-    localStorage.removeItem("guest_cart");
-
-    await loadCart();
-
-  } catch (err) {
-    console.log("Guest cart sync error", err);
-  }
-};
+  };
 
   // ===============================
   // ADD TO CART
@@ -222,9 +222,23 @@ export const CartProvider = ({ children }) => {
   const getTotalItems = () =>
     cart.reduce((t, i) => t + i.quantity, 0);
 
-  const clearCart = () => {
-    setCart([]);
-    localStorage.removeItem("guest_cart");
+  const clearCart = async () => {
+    try {
+
+      if (token) {
+        const res = await api.get("/cart/");
+
+        for (const item of res.data) {
+          await api.delete(`/cart/${item.id}`);
+        }
+      }
+
+      setCart([]);
+      localStorage.removeItem("guest_cart");
+
+    } catch (err) {
+      console.log("clear cart error", err);
+    }
   };
 
   // ===============================

@@ -410,6 +410,16 @@ const Checkout = () => {
                                 try {
                                     const token = localStorage.getItem("token");
 
+                                    // IMPORTANT: freeze cart snapshot
+                                    const orderItems = cart.map(item => ({
+                                        book_id: item.book_id,
+                                        title: item.title,
+                                        quantity: item.quantity,
+                                        price: item.price
+                                    }));
+
+                                    console.log("ORDER ITEMS:", orderItems);
+
                                     const res = await fetch(
                                         "https://picasso-backend-7rap.onrender.com/orders/create",
                                         {
@@ -420,12 +430,7 @@ const Checkout = () => {
                                             },
                                             body: JSON.stringify({
                                                 amount: finalAmount,
-                                                items: cart.map(item => ({
-                                                    book_id: item.book_id,
-                                                    title: item.title,
-                                                    quantity: item.quantity,
-                                                    price: item.price
-                                                }))
+                                                items: orderItems
                                             })
                                         }
                                     );
