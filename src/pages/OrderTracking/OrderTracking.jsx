@@ -82,7 +82,7 @@ const OrderTracking = () => {
                     {steps.map((step, index) => {
 
                         const timestamps = {
-                            pending: order.created_at,
+                            pending: order.created_at === "pending" ? order.created_at : null,
                             confirmed: order.confirmed_at,
                             packed: order.packed_at,
                             shipped: order.shipped_at,
