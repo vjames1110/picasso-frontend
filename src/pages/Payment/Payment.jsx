@@ -73,7 +73,7 @@ const Payment = () => {
 
                         clearCart();
 
-                        navigate("/order-success", {
+                        navigate("/order-success/${orderId}", {
                             replace: true,
                             state: {
                                 orderId: orderId, // DB id

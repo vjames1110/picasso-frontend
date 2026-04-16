@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import api from "../../services/api";
 import "./OrderSuccess.css";
@@ -7,12 +7,13 @@ import "./OrderSuccess.css";
 const OrderSuccess = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const params = useParams();
 
     const { clearCart } = useCart();
 
     const [order, setOrder] = useState(null);
 
-    const orderId = location.state?.orderId;
+    const orderId = location.state?.orderId || params.orderId;
     const paymentId = location.state?.paymentId;
 
     const deliveryDate = new Date();
