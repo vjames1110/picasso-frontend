@@ -97,8 +97,11 @@ const OrderSuccess = () => {
                 <div className="ordered-items">
                     <h3>Items Ordered</h3>
 
-                    {order.items?.map((item, index) => (
-                        <div key={index} className="ordered-item">
+                    {order.items?.map((item) => (
+                        <div
+                            key={`${item.title}-${item.price}-${item.quantity}`}
+                            className="ordered-item"
+                        >
                             <div>
                                 {item.title}
                                 <span>x {item.quantity}</span>
