@@ -127,7 +127,14 @@ const OrderTracking = () => {
                 <div className="track-items">
                     <h3>Items</h3>
 
-                    {order.items.map((item) => (
+                    {Array.from(
+                        new Map(
+                            order.items.map(item => [
+                                item.book_id,
+                                item
+                            ])
+                        ).values()
+                    ).map((item) => (
                         <div key={`${item.title}-${item.price}-${item.quantity}`} className="track-item">
                             <div>
                                 {item.title}

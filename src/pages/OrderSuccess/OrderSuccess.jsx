@@ -97,7 +97,14 @@ const OrderSuccess = () => {
                 <div className="ordered-items">
                     <h3>Items Ordered</h3>
 
-                    {order.items?.map((item) => (
+                    {Array.from(
+                        new Map(
+                            order.items?.map(item => [
+                                item.book_id,
+                                item
+                            ])
+                        ).values()
+                    ).map((item) => (
                         <div
                             key={`${item.title}-${item.price}-${item.quantity}`}
                             className="ordered-item"

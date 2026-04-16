@@ -117,7 +117,14 @@ const MyOrders = () => {
 
                             <div className="order-items">
 
-                                {order.items.map((item) => (
+                                {Array.from(
+                                    new Map(
+                                        order.items.map(item => [
+                                            item.book_id,
+                                            item
+                                        ])
+                                    ).values()
+                                ).map((item) => (
                                     <div key={`${item.title}-${item.price}-${item.quantity}`} className="order-item">
 
                                         <div>
