@@ -18,6 +18,8 @@ const Checkout = () => {
 
     const [savedAddress, setSavedAddress] = useState(null);
 
+    const [creatingOrder, setCreatingOrder] = useState(false);
+
     const [address, setAddress] = useState({
         name: "",
         email: "",
@@ -185,6 +187,52 @@ const Checkout = () => {
     const sellingPrice = getTotalPrice();
     const shipping = sellingPrice >= 500 ? 0 : 50;
     const finalAmount = sellingPrice + shipping;
+    const handleCreateOrder = async () => {
+
+        if (creatingOrder) return; // prevent double call
+        setCreatingOrder(true);
+
+        try {
+            const token = localStorage.getItem("token");
+
+            const res = await fetch(
+                "https://picasso-backend-7rap.onrender.com/orders/create",
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        amount: finalAmount,
+                        items: cart.map(item => ({
+                            book_id: item.book_id || item.id,
+                            title: item.title,
+                            quantity: item.quantity,
+                            price: item.price
+                        }))
+                    })
+                }
+            );
+
+            const data = await res.json();
+
+            navigate("/payment", {
+                state: {
+                    paymentMethod: selectedPayment,
+                    amount: data.amount,
+                    orderId: data.order_id,
+                    razorpay_order_id: data.razorpay_order_id,
+                    address: savedAddress
+                }
+            });
+
+        } catch (err) {
+            console.log(err);
+            alert("Order creation failed");
+            setCreatingOrder(false);
+        }
+    }
 
     return (
         <div className="checkout-container">
@@ -380,8 +428,8 @@ const Checkout = () => {
                     <div className="payment-right">
                         <h3>Order Summary</h3>
 
-                        {cart.map((item, index) => (
-                            <div key={index} className="summary-item">
+                        {cart.map((item) => (
+                            <div key={`${item.id} || "guest"}-${item.book_id}`} className="summary-item">
 
                                 <img
                                     src={item.image}
@@ -405,61 +453,10 @@ const Checkout = () => {
 
                         <button
                             className="place-order-btn"
-                            onClick={async () => {
-
-                                try {
-                                    const token = localStorage.getItem("token");
-
-                                    // IMPORTANT: freeze cart snapshot
-                                    const orderItems = cart.map(item => ({
-                                        book_id: item.book_id,
-                                        title: item.title,
-                                        quantity: item.quantity,
-                                        price: item.price
-                                    }));
-
-                                    console.log("ORDER ITEMS:", orderItems);
-
-                                    const res = await fetch(
-                                        "https://picasso-backend-7rap.onrender.com/orders/create",
-                                        {
-                                            method: "POST",
-                                            headers: {
-                                                "Content-Type": "application/json",
-                                                Authorization: `Bearer ${token}`
-                                            },
-                                            body: JSON.stringify({
-                                                amount: finalAmount,
-                                                items: orderItems
-                                            })
-                                        }
-                                    );
-
-                                    const data = await res.json();
-
-                                    if (!res.ok) {
-                                        alert(data.detail || "Order creation failed");
-                                        return;
-                                    }
-
-                                    navigate("/payment", {
-                                        state: {
-                                            paymentMethod: selectedPayment,
-                                            amount: data.amount,
-                                            orderId: data.order_id,
-                                            razorpay_order_id: data.razorpay_order_id,
-                                            address: savedAddress
-                                        }
-                                    });
-
-                                } catch (err) {
-                                    console.log(err);
-                                    alert("Order creation failed");
-                                }
-
-                            }}
+                            onClick={handleCreateOrder}
+                            disabled={creatingOrder}
                         >
-                            Proceed to Payment
+                            {creatingOrder ? "Creating Order..." : "Proceed to Payment"}
                         </button>
                     </div>
 
