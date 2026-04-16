@@ -14,10 +14,12 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import OrderTracking from "./pages/OrderTracking/OrderTracking";
 
-
 function AppLayout() {
   const location = useLocation();
-  const hideLayout = location.pathname === "/login";
+
+  const hideLayout =
+    location.pathname === "/login" ||
+    location.pathname === "/payment";
 
   return (
     <>
@@ -25,6 +27,7 @@ function AppLayout() {
       {!hideLayout && <Navbar />}
 
       <Routes>
+
         <Route
           path="/"
           element={
@@ -36,7 +39,9 @@ function AppLayout() {
         />
 
         <Route path="/login" element={<Login />} />
+
         <Route path="/book/:id" element={<BookDetails />} />
+
         <Route path="/cart" element={<Cart />} />
 
         <Route
@@ -48,14 +53,33 @@ function AppLayout() {
           }
         />
 
-        <Route path="/payment" element={<Payment />} />
-        <Route path="/order-success" element={<OrderSuccess />} />
-        <Route path="/my-orders" element={
-          <ProtectedRoute>
-            <MyOrders />
-          </ProtectedRoute>
-        }
+        <Route
+          path="/payment"
+          element={
+            <ProtectedRoute>
+              <Payment />
+            </ProtectedRoute>
+          }
         />
+
+        <Route
+          path="/order-success/:orderId"
+          element={
+            <ProtectedRoute>
+              <OrderSuccess />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/my-orders"
+          element={
+            <ProtectedRoute>
+              <MyOrders />
+            </ProtectedRoute>
+          }
+        />
+
         <Route
           path="/order/:orderId"
           element={
@@ -64,11 +88,11 @@ function AppLayout() {
             </ProtectedRoute>
           }
         />
+
       </Routes>
     </>
   );
 }
-
 
 function App() {
   return (
