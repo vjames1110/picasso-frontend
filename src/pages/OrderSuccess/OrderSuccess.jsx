@@ -12,6 +12,7 @@ const OrderSuccess = () => {
     const { clearCart } = useCart();
 
     const [order, setOrder] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     const orderId = location.state?.orderId || params.orderId;
     const paymentId = location.state?.paymentId;
@@ -20,6 +21,8 @@ const OrderSuccess = () => {
     deliveryDate.setDate(deliveryDate.getDate() + 5);
 
     useEffect(() => {
+        if (!orderId) return;
+
         fetchOrder();
 
         const timer = setTimeout(() => {
@@ -27,22 +30,34 @@ const OrderSuccess = () => {
         }, 500);
 
         return () => clearTimeout(timer);
-    }, []);
+    }, [orderId]);
 
     const fetchOrder = async () => {
         try {
             const res = await api.get(`/orders/${orderId}`);
             setOrder(res.data);
         } catch (err) {
-            console.error(err);
+            console.error("ORDER FETCH ERROR:", err);
+        } finally {
+            setLoading(false);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="success-container">
+                <div className="success-card">
+                    Loading order...
+                </div>
+            </div>
+        );
+    }
 
     if (!order) {
         return (
             <div className="success-container">
                 <div className="success-card">
-                    Loading order...
+                    Order not found
                 </div>
             </div>
         );
@@ -63,12 +78,12 @@ const OrderSuccess = () => {
                 <div className="order-info">
                     <div>
                         <span>Order ID</span>
-                        <strong>{orderId}</strong>
+                        <strong>{order.id}</strong>
                     </div>
 
                     <div>
                         <span>Payment ID</span>
-                        <strong>{paymentId}</strong>
+                        <strong>{order.payment_id}</strong>
                     </div>
 
                     <div>
@@ -82,7 +97,7 @@ const OrderSuccess = () => {
                 <div className="ordered-items">
                     <h3>Items Ordered</h3>
 
-                    {order.items.map((item, index) => (
+                    {order.items?.map((item, index) => (
                         <div key={index} className="ordered-item">
                             <div>
                                 {item.title}
@@ -111,7 +126,7 @@ const OrderSuccess = () => {
 
                     <button
                         className="track-btn"
-                        onClick={() => navigate(`/order/${orderId}`)}
+                        onClick={() => navigate(`/order/${order.id}`)}
                     >
                         Track Order
                     </button>
