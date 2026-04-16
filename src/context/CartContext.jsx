@@ -31,24 +31,35 @@ export const CartProvider = ({ children }) => {
   // SYNC GUEST CART AFTER LOGIN
   // ===============================
   const syncGuestCart = async () => {
-    const guestCart = JSON.parse(localStorage.getItem("guest_cart"));
+  const guestCart = JSON.parse(localStorage.getItem("guest_cart"));
 
-    if (!guestCart || guestCart.length === 0) return;
+  if (!guestCart || guestCart.length === 0) return;
 
-    try {
-      for (const item of guestCart) {
-        await api.post("/cart/", {
-          book_id: item.book_id,
-          quantity: item.quantity
-        });
-      }
+  try {
 
-      localStorage.removeItem("guest_cart");
+    // CLEAR SERVER CART FIRST
+    const existing = await api.get("/cart/");
 
-    } catch (err) {
-      console.log("Guest cart sync error", err);
+    for (const item of existing.data) {
+      await api.delete(`/cart/${item.id}`);
     }
-  };
+
+    // ADD ONLY CURRENT GUEST CART
+    for (const item of guestCart) {
+      await api.post("/cart/", {
+        book_id: item.book_id,
+        quantity: item.quantity
+      });
+    }
+
+    localStorage.removeItem("guest_cart");
+
+    await loadCart();
+
+  } catch (err) {
+    console.log("Guest cart sync error", err);
+  }
+};
 
   // ===============================
   // ADD TO CART
