@@ -13,7 +13,7 @@ const Payment = () => {
     const razorPayOpened = useRef(false);
 
     useEffect(() => {
-        if (!state || !amount) {
+        if (!state || !amount || !orderId) {
             navigate("/checkout");
             return;
         }
@@ -48,14 +48,14 @@ const Payment = () => {
                 currency: "INR",
                 name: "Picasso Publications",
                 description: "Book Purchase",
-                order_id: razorpay_order_id, // Razorpay id
+                order_id: razorpay_order_id,
 
                 handler: async function (response) {
                     try {
 
                         const token = localStorage.getItem("token");
 
-                        await fetch(
+                        const verifyRes = await fetch(
                             "https://picasso-backend-7rap.onrender.com/orders/verify",
                             {
                                 method: "POST",
@@ -71,6 +71,12 @@ const Payment = () => {
                             }
                         );
 
+                        if (!verifyRes.ok) {
+                            throw new Error("Verification failed");
+                        }
+
+                        const verifyData = await verifyRes.json();
+
                         clearCart();
 
                         navigate(`/order-success/${orderId}`, {
@@ -84,6 +90,7 @@ const Payment = () => {
                         });
 
                     } catch (err) {
+                        console.error("VERIFY ERROR:", err);
                         alert("Payment verification failed");
                         navigate("/checkout");
                     }
