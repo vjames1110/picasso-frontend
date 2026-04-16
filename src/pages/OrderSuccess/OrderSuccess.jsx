@@ -1,31 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import api from "../../services/api";
 import "./OrderSuccess.css";
 
 const OrderSuccess = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { cart, getTotalPrice, clearCart } = useCart();
+    const { clearCart } = useCart();
 
-    const orderId = location.state?.orderId
+    const [order, setOrder] = useState(null);
 
-    const paymentMethod = location.state?.paymentMethod || "razorpay";
+    const orderId = location.state?.orderId;
     const paymentId = location.state?.paymentId;
 
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 5);
 
-    const total = getTotalPrice();
-
     useEffect(() => {
+        fetchOrder();
+
         const timer = setTimeout(() => {
             clearCart();
         }, 500);
 
         return () => clearTimeout(timer);
     }, []);
+
+    const fetchOrder = async () => {
+        try {
+            const res = await api.get(`/orders/${orderId}`);
+            setOrder(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    if (!order) {
+        return (
+            <div className="success-container">
+                <div className="success-card">
+                    Loading order...
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="success-container">
@@ -61,8 +81,8 @@ const OrderSuccess = () => {
                 <div className="ordered-items">
                     <h3>Items Ordered</h3>
 
-                    {cart.map(item => (
-                        <div key={item.id} className="ordered-item">
+                    {order.items.map((item, index) => (
+                        <div key={index} className="ordered-item">
                             <div>
                                 {item.title}
                                 <span>x {item.quantity}</span>
@@ -77,7 +97,7 @@ const OrderSuccess = () => {
 
                 <div className="order-total">
                     <span>Total Paid</span>
-                    <strong>₹{total}</strong>
+                    <strong>₹{order.total_amount}</strong>
                 </div>
 
                 <div className="success-buttons">
