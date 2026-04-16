@@ -39,10 +39,14 @@ const Checkout = () => {
     useEffect(() => {
         if (isAuthenticated) {
             fetchSavedAddress();
-        } else {
-            setStep(1);
         }
     }, [isAuthenticated]);
+
+    useEffect(() => {
+        if (!isAuthenticated && step === 0) {
+            setStep(1);
+        }
+    }, []);
 
     const fetchSavedAddress = async () => {
         try {
