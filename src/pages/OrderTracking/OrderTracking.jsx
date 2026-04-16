@@ -79,27 +79,44 @@ const OrderTracking = () => {
 
                 <div className="timeline">
 
-    {steps.map((step, index) => (
+                    {steps.map((step, index) => {
 
-        <div key={step} className="timeline-step">
+                        const timestamps = {
+                            pending: order.created_at,
+                            confirmed: order.confirmed_at,
+                            packed: order.packed_at,
+                            shipped: order.shipped_at,
+                            delivered: order.delivered_at
+                        }
 
-            <div className={`circle ${index <= currentStep ? "active" : ""}`}>
-                {index <= currentStep ? "✓" : ""}
-            </div>
+                        const time = timestamps[step]
 
-            <div className="label">
-                {step.charAt(0).toUpperCase() + step.slice(1)}
-            </div>
+                        return (
+                            <div key={step} className="timeline-step">
 
-            {index !== steps.length - 1 && (
-                <div className={`line ${index < currentStep ? "active" : ""}`} />
-            )}
+                                <div className={`circle ${index <= currentStep ? "active" : ""}`}>
+                                    {index <= currentStep ? "✓" : ""}
+                                </div>
 
-        </div>
+                                <div className="label">
+                                    {step.charAt(0).toUpperCase() + step.slice(1)}
+                                </div>
 
-    ))}
+                                {time && (
+                                    <div className="time">
+                                        {new Date(time).toLocaleDateString()}
+                                    </div>
+                                )}
 
-</div>
+                                {index !== steps.length - 1 && (
+                                    <div className={`line ${index < currentStep ? "active" : ""}`} />
+                                )}
+
+                            </div>
+                        )
+                    })}
+
+                </div>
 
                 <div className="track-items">
                     <h3>Items</h3>
