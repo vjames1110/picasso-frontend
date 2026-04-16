@@ -73,10 +73,10 @@ const Payment = () => {
 
                         clearCart();
 
-                        navigate("/order-success/${orderId}", {
+                        navigate(`/order-success/${orderId}`, {
                             replace: true,
                             state: {
-                                orderId: orderId, // DB id
+                                orderId: orderId,
                                 paymentMethod: "razorpay",
                                 paymentId: response.razorpay_payment_id,
                                 amount
