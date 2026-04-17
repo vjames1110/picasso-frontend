@@ -99,7 +99,7 @@ function AppLayout() {
         <Route path="/admin/login" element={<AdminLogin />} />
 
         <Route
-          path="/admin"
+          path="/admin/"
           element={
             <AdminProtectedRoute>
               <AdminLayout />
