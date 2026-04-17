@@ -17,6 +17,8 @@ import AdminLogin from "./pages/admin/AdminLogin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard/AdminDashboard";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
+import AdminBooks from "./pages/admin/AdminBooks/AdminBooks";
+import AdminOrders from "./pages/admin/AdminOrders/AdminOrders";
 import Footer from "./components/Footer/Footer";
 
 function AppLayout() {
@@ -107,7 +109,9 @@ function AppLayout() {
             </AdminProtectedRoute>
           }
           >
-            <Route path="dashboard" element={AdminDashboard} />
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="books" element={<AdminBooks />} />
+            <Route path="orders" element={<AdminOrders />} />
           </Route>
 
         {/* Important Fallback */}

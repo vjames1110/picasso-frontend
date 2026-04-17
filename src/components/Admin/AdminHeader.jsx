@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminHeader.css";
 
-const AdminHeader = ({ title }) => {
+const AdminHeader = ({ toggleSidebar }) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -14,11 +14,19 @@ const AdminHeader = ({ title }) => {
 
   return (
     <div className="admin-header">
-      <h2>{title}</h2>
+      <div className="admin-header-left">
+        <div className="admin-hamburger" onClick={toggleSidebar}>
+          ☰
+        </div>
 
-      <button onClick={handleLogout} className="admin-header-logout">
-        Logout
-      </button>
+        <h2>Admin Panel</h2>
+      </div>
+
+      <div className="admin-header-right">
+        <button className="admin-header-logout" onClick={handleLogout}>
+          Logout
+        </button>
+      </div>
     </div>
   );
 };

@@ -6,41 +6,108 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 0;
+  transition: transform 0.3s ease;
+  z-index: 1000;
 }
 
+/* LOGO */
 .admin-logo {
   font-size: 18px;
   font-weight: 700;
   padding: 0 20px;
   margin-bottom: 30px;
+  color: #222;
 }
 
+/* NAV */
 .admin-nav {
   display: flex;
   flex-direction: column;
+  gap: 6px;
 }
 
+/* LINKS */
 .admin-link {
-  padding: 12px 20px;
+  margin: 0 12px;
+  padding: 12px 16px;
   text-decoration: none;
   color: #333;
-  transition: 0.2s;
+  border-radius: 10px;
+  transition: 0.25s;
 }
 
+/* HOVER */
 .admin-link:hover {
-  background: #f5f5f5;
+  background: #f8f8f8;
 }
 
+/* ACTIVE (STORE GRADIENT) */
 .admin-link.active {
-  background: #000;
+  background: linear-gradient(90deg, #ff7a18, #ffb347);
   color: white;
+  box-shadow: 0 6px 15px rgba(255,122,24,0.35);
 }
 
+/* LOGOUT BUTTON */
 .admin-logout {
   margin: 20px;
   padding: 10px;
+  border-radius: 20px;
   border: none;
-  background: #000;
+  background: linear-gradient(90deg, #ff7a18, #ffb347);
   color: white;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.admin-logout:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255,122,24,0.35);
+}
+
+/* ================= MOBILE SIDEBAR ================= */
+
+@media (max-width: 1024px) {
+  .admin-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    transform: translateX(-100%);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+/* OVERLAY */
+.admin-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+/* TABLET */
+@media (max-width: 768px) {
+  .admin-sidebar {
+    width: 220px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .admin-sidebar {
+    width: 200px;
+  }
+
+  .admin-link {
+    padding: 10px 14px;
+    font-size: 14px;
+  }
 }
