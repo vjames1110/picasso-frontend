@@ -17,6 +17,7 @@ import AdminLogin from "./pages/admin/AdminLogin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard/AdminDashboard";
 import AdminLayout from "./components/Admin/AdminLayout";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
+import Footer from "./components/Footer/Footer";
 
 function AppLayout() {
   const location = useLocation();
@@ -114,6 +115,8 @@ function AppLayout() {
         <Route path="*" element={<Cart />} />
 
       </Routes>
+
+      {!hideLayout && <Footer />}
     </>
   );
 }
