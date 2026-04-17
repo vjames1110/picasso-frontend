@@ -1,0 +1,22 @@
+.admin-header {
+  height: 60px;
+  background: white;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.admin-header h2 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.admin-header-logout {
+  background: black;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  cursor: pointer;
+}

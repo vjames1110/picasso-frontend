@@ -1,17 +1,16 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import AdminSidebar from "./AdminSidebar";
+import AdminHeader from "./AdminHeader";
 import "./AdminLayout.css";
 
 const AdminLayout = () => {
   return (
     <div className="admin-container">
-      <Sidebar />
+      <AdminSidebar />
 
       <div className="admin-main">
-        <div className="admin-topbar">
-          <h2>📚 Picasso Admin Panel</h2>
-        </div>
+        <AdminHeader title="Admin Panel" />
 
         <div className="admin-content">
           <Outlet />

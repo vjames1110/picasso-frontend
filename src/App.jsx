@@ -13,13 +13,18 @@ import Login from "./pages/Login/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import MyOrders from "./pages/MyOrders/MyOrders";
 import OrderTracking from "./pages/OrderTracking/OrderTracking";
+import AdminLogin from "./pages/admin/AdminLogin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard/AdminDashboard";
+import AdminLayout from "./components/Admin/AdminLayout";
+import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 
 function AppLayout() {
   const location = useLocation();
 
   const hideLayout =
     location.pathname === "/login" ||
-    location.pathname === "/payment";
+    location.pathname === "/payment" ||
+    location.pathname.startsWith("/admin");
 
   return (
     <>
@@ -88,6 +93,21 @@ function AppLayout() {
             </ProtectedRoute>
           }
         />
+
+        {/* Admin Section */}
+
+        <Route path="/admin/login" element={<AdminLogin />} />
+
+        <Route
+          path="/admin"
+          element={
+            <AdminProtectedRoute>
+              <AdminLayout />
+            </AdminProtectedRoute>
+          }
+          >
+            <Route path="dashboard" element={AdminDashboard} />
+          </Route>
 
         {/* Important Fallback */}
 
