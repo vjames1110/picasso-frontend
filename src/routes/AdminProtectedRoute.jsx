@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-const ADMIN_EMAILS = ["vikashjames8@gmail.com"];
+const ADMIN_EMAILS = ["picasso.india10@gmail.com"];
 
 const AdminProtectedRoute = ({ children }) => {
   const { isAuthenticated, user, loading } = useAuth();
