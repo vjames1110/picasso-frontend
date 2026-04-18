@@ -110,40 +110,21 @@ const AdminBooks = () => {
         loadBooks();
     };
 
-    const handleImageUpload = async (e) => {
-  const file = e.target.files[0];
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
 
-  if (!file) return;
+        const reader = new FileReader();
 
-  const formData = new FormData();
-  formData.append("file", file);
+        reader.onloadend = () => {
+            setForm(prev => ({
+                ...prev,
+                image: reader.result
+            }));
+        };
 
-  setLoading(true);
-
-  try {
-    // using free image upload service
-    const res = await fetch(
-      "https://api.cloudinary.com/v1_1/demo/image/upload",
-      {
-        method: "POST",
-        body: formData
-      }
-    );
-
-    const data = await res.json();
-
-    setForm({
-      ...form,
-      image: data.secure_url
-    });
-
-    setLoading(false);
-
-  } catch (err) {
-    setLoading(false);
-    alert("Image upload failed");
-  }
-};
+        reader.readAsDataURL(file);
+    };
 
     return (
         <div className="admin-books">
@@ -187,28 +168,28 @@ const AdminBooks = () => {
                     <input
                         name="title"
                         placeholder="Book Title"
-                        value={form.title}
+                        value={form.title || ""}
                         onChange={handleChange}
                     />
 
                     <textarea
                         name="description"
                         placeholder="Description"
-                        value={form.description}
+                        value={form.description || ""}
                         onChange={handleChange}
                     />
 
                     <input
                         name="author"
                         placeholder="Author (comma separated)"
-                        value={form.author}
+                        value={form.author || ""}
                         onChange={handleChange}
                     />
 
                     <input
                         name="category"
                         placeholder="Category"
-                        value={form.category}
+                        value={form.category || ""}
                         onChange={handleChange}
                     />
 
@@ -217,7 +198,7 @@ const AdminBooks = () => {
                         <input
                             name="image"
                             placeholder="Image URL"
-                            value={form.image}
+                            value={form.image || ""}
                             onChange={handleChange}
                         />
 
@@ -237,14 +218,14 @@ const AdminBooks = () => {
                         <input
                             name="price"
                             placeholder="Price"
-                            value={form.price}
+                            value={form.price || ""}
                             onChange={handleChange}
                         />
 
                         <input
                             name="original_price"
                             placeholder="Original Price"
-                            value={form.original_price}
+                            value={form.original_price || ""}
                             onChange={handleChange}
                         />
                     </div>
@@ -252,7 +233,7 @@ const AdminBooks = () => {
                     <input
                         name="stock"
                         placeholder="Stock"
-                        value={form.stock}
+                        value={form.stock || ""}
                         onChange={handleChange}
                     />
 

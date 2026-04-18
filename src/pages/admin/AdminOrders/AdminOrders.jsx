@@ -17,8 +17,12 @@ const AdminOrders = () => {
   const [loading, setLoading] = useState(false);
 
   const loadOrders = async () => {
-    const res = await api.get("/orders/admin/all");
-    setOrders(res.data);
+    try {
+      const res = await api.get("/orders/admin/all");
+      setOrders(res.data);
+    } catch (err) {
+      console.log("error loading orders");
+    }
   };
 
   useEffect(() => {
@@ -40,6 +44,12 @@ const AdminOrders = () => {
     <div className="admin-orders">
 
       <h2>All Orders</h2>
+
+      {orders.length === 0 && (
+        <div className="no-orders">
+          No orders yet
+        </div>
+      )}
 
       <div className="orders-list">
 
@@ -85,19 +95,78 @@ const AdminOrders = () => {
 
             </div>
 
+
             {/* DETAILS */}
 
             {expanded === order.id && (
 
               <div className="order-details">
 
-                {order.items.map((item, i) => (
-                  <div key={i} className="order-item">
-                    <div>{item.title}</div>
-                    <div>Qty: {item.quantity}</div>
-                    <div>₹{item.price}</div>
+                {/* CUSTOMER INFO */}
+
+                {order.user && (
+                  <div className="customer-box">
+
+                    <h4>Customer Details</h4>
+
+                    <div className="customer-grid">
+
+                      <div>
+                        <strong>Name:</strong>
+                        <p>{order.user.name}</p>
+                      </div>
+
+                      <div>
+                        <strong>Phone:</strong>
+                        <p>{order.user.phone}</p>
+                      </div>
+
+                      <div>
+                        <strong>Email:</strong>
+                        <p>{order.user.email}</p>
+                      </div>
+
+                    </div>
+
+                    <div className="address-box">
+                      <strong>Delivery Address</strong>
+
+                      <p>
+                        {order.user.house}, {order.user.area}
+                      </p>
+
+                      <p>
+                        {order.user.city}, {order.user.state}
+                      </p>
+
+                      <p>
+                        Pincode: {order.user.pincode}
+                      </p>
+
+                    </div>
+
                   </div>
-                ))}
+                )}
+
+
+                {/* ITEMS */}
+
+                <div className="items-box">
+
+                  <h4>Ordered Items</h4>
+
+                  {order.items?.map((item, i) => (
+                    <div key={i} className="order-item">
+                      <div>{item.title}</div>
+                      <div>Qty: {item.quantity}</div>
+                      <div>₹{item.price}</div>
+                    </div>
+                  ))}
+
+                </div>
+
+
+                {/* TIMELINE */}
 
                 <div className="timeline">
 
