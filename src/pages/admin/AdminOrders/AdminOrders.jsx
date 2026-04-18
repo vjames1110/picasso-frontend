@@ -155,8 +155,18 @@ const AdminOrders = () => {
 
                   <h4>Ordered Items</h4>
 
-                  {order.items?.map((item, i) => (
-                    <div key={i} className="order-item">
+                  {Array.from(
+                    new Map(
+                      order.items?.map(item => [
+                        item.book_id,
+                        item
+                      ])
+                    ).values()
+                  ).map((item) => (
+                    <div
+                      key={`${item.book_id}-${item.quantity}`}
+                      className="order-item"
+                    >
                       <div>{item.title}</div>
                       <div>Qty: {item.quantity}</div>
                       <div>₹{item.price}</div>
