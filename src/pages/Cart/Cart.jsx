@@ -39,7 +39,14 @@ const Cart = () => {
 
             {/*Top Section/*/}
             <div className="cart-header">
-                Home &gt; Shopping Cart
+                <span
+                    className="breadcrumb-home"
+                    onClick={() => navigate("/")}
+                    style={{ cursor: "pointer" }}
+                >
+                    Home
+                </span>
+                {" > "} Shopping Cart
             </div>
 
             <div className="cart-content">
@@ -74,7 +81,7 @@ const Cart = () => {
                         className="checkout-btn"
                         onClick={() => navigate("/checkout")}
                     >
-                        Proceed to Checkout!
+                        Buy Now!
                     </button>
                 </div>
             </div>

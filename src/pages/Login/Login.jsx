@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Login.css";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate, useLocation } from "react-router-dom";
 import Toast from "../../components/Toast/Toast";
 
 const Login = () => {
+
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
 
   const location = useLocation();
   const redirectPath = location.state?.from || "/";
@@ -19,6 +22,22 @@ const Login = () => {
   const [toastMsg, setToastMsg] = useState("");
   const [showToast, setShowToast] = useState(false);
 
+  useEffect(() => {
+    let interval;
+
+    if (step === 2 && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prev) => prev - 1);
+      }, 1000);
+    }
+
+    if (timer === 0) {
+      setCanResend(true);
+    }
+
+    return () => clearInterval(interval);
+  }, [step, timer]);
+
 
   // Send OTP
   const handleSendOtp = async () => {
@@ -31,6 +50,11 @@ const Login = () => {
     try {
       await sendOtp(email);
       setStep(2);
+
+      // Start Timer
+
+      setTimer(60);
+      setCanResend(false);
 
       setToastMsg("OTP sent to email");
       setShowToast(true);
@@ -62,6 +86,23 @@ const Login = () => {
     }
   };
 
+  const handleResendOtp = async () => {
+    try {
+      await sendOtp(email);
+
+      setTimer(60);
+      setCanResend(false);
+
+      setToastMsg("OTP resent");
+      setShowToast(true)
+    } catch {
+      setToastMsg("Failed to resend OTP");
+      setShowToast(true);
+    }
+  };
+
+
+
 
   return (
     <div className="login-container">
@@ -90,6 +131,7 @@ const Login = () => {
           </>
         )}
 
+
         {step === 2 && (
           <>
             <h2>Verify OTP</h2>
@@ -104,9 +146,21 @@ const Login = () => {
             <button onClick={handleVerify}>
               Verify & Login
             </button>
+
+            {!canResend ? (
+              <p className="otp-timer">
+                Resend OTP in {timer}s
+              </p>
+            ) : (
+              <button
+                className="resend-btn"
+                onClick={handleResendOtp}
+              >
+                Resend OTP
+              </button>
+            )}
           </>
         )}
-
       </div>
 
       <Toast

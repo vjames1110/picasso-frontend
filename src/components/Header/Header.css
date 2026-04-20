@@ -132,3 +132,11 @@
   }
 
 }
+
+.logo-section {
+  cursor: pointer;
+}
+
+.logo-section h1:hover {
+  opacity: 0.9;
+}

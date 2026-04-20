@@ -1,29 +1,46 @@
 .toast {
   position: fixed;
-  bottom: -60px;
+  bottom: 25px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(20px);
+
   background: linear-gradient(90deg, #ff7a18, #ffb347);
   color: white;
-  padding: 12px 20px;
-  border-radius: 25px;
-  transition: 0.4s;
+
+  padding: 8px 14px;
+  border-radius: 30px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: all 0.25s ease;
+
+  width: auto;
+  max-width: max-content;
+  white-space: nowrap;
+
   z-index: 9999;
 }
 
 .toast.show {
-  bottom: 30px;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
+
 
 /* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
 
   .toast {
-    width: calc(100% - 30px);
-    text-align: center;
-    padding: 12px 15px;
-    font-size: 14px;
+    bottom: 20px;
+    font-size: 12px;
+    padding: 7px 12px;
   }
 
 }
@@ -34,13 +51,8 @@
 @media (max-width: 480px) {
 
   .toast {
-    font-size: 13px;
-    padding: 10px 12px;
-    bottom: -80px;
-  }
-
-  .toast.show {
-    bottom: 20px;
+    font-size: 12px;
+    padding: 6px 10px;
   }
 
 }

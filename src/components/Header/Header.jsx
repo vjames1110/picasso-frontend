@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./Header.css";
 import { FaShieldAlt, FaShoppingCart, FaUser } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
@@ -10,18 +10,40 @@ const Header = () => {
     const { getTotalItems } = useCart();
     const { isAuthenticated, logout } = useAuth();
 
+    const [search, setSearch] = useState("");
+
+
     return (
         <header className='header'>
             {/* Logo Section */}
-            <div className="logo-section">
+            <div 
+                className="logo-section"
+                onClick={() => navigate("/")}
+                style={{ cursor: "pointer"}}>
                 <h1>Picasso Publications</h1>
                 <p className='tagline'>Your Success Partner</p>
             </div>
 
             {/* Search Section */}
             <div className='search-bar'>
-                <input type='text' placeholder='Search Books for SSC, UPSC, Banking...' />
-                <button className='search-button'>Search</button>
+                <input
+                    type='text'
+                    placeholder='Search Books for SSC, UPSC, Banking...'
+                    value={search || ""}
+                    onChange={(e) => setSearch(e.target.value)}
+                />
+                <button
+                    className='search-button'
+                    onClick={() => {
+                        if (!search.trim()) {
+                            navigate("/")
+                        } else {
+                            navigate(`/?search=${search}`)
+                        }
+                    }}
+                >
+                    Search
+                </button>
             </div>
 
             {/* Actions */}

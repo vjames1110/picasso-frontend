@@ -79,3 +79,23 @@
   transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(255, 122, 24, 0.4);
 }
+
+.otp-timer {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #888;
+  text-align: center;
+}
+
+.resend-btn {
+  margin-top: 10px;
+  background: none;
+  border: none;
+  color: #6c5ce7;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.resend-btn:hover {
+  text-decoration: underline;
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import "./Payment.css";
@@ -11,6 +11,9 @@ const Payment = () => {
     const { amount, orderId, razorpay_order_id } = state || {};
 
     const razorPayOpened = useRef(false);
+
+    // ✅ ADD LOADING
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (!state || !amount || !orderId) {
@@ -35,9 +38,14 @@ const Payment = () => {
     };
 
     function handleRazorpay() {
+
+        // ✅ START LOADING
+        setLoading(true);
+
         loadRazorpay().then((res) => {
 
             if (!res) {
+                setLoading(false);
                 alert("Payment gateway failed. Please try again.");
                 return;
             }
@@ -79,7 +87,9 @@ const Payment = () => {
 
                         clearCart();
 
-                        // IMPORTANT FIX
+                        // ✅ STOP LOADING
+                        setLoading(false);
+
                         setTimeout(() => {
                             navigate(`/order-success/${orderId}`, {
                                 replace: true,
@@ -92,6 +102,9 @@ const Payment = () => {
                         }, 200);
 
                     } catch (err) {
+
+                        setLoading(false);
+
                         console.error("VERIFY ERROR:", err);
                         alert("Payment verification failed");
                         navigate("/checkout");
@@ -100,6 +113,7 @@ const Payment = () => {
 
                 modal: {
                     ondismiss: function () {
+                        setLoading(false);
                         navigate("/checkout");
                     }
                 },
@@ -123,7 +137,11 @@ const Payment = () => {
 
     return (
         <div className="payment-page">
-            <h2>Redirecting to secure payment...</h2>
+            {loading ? (
+                <h2>Redirecting to secure payment...</h2>
+            ) : (
+                <h2>Opening Payment Gateway...</h2>
+            )}
         </div>
     );
 };

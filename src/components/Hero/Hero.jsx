@@ -55,12 +55,23 @@ const Hero = () => {
         <div className="hero-buttons">
           <button
             className="btn-primary"
-            onClick={() => window.scrollTo({ top: 600, behavior: "smooth" })}
+            onClick={() =>
+              document
+                .getElementById("book-section")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
           >
             Explore Books
           </button>
 
-          <button className="btn-secondary">
+          <button
+            className="btn-secondary"
+            onClick={() =>
+              document
+                .getElementById("book-section")
+                ?.scrollIntoView({ behavior: "smooth" })
+            }
+          >
             Top Sellers
           </button>
         </div>

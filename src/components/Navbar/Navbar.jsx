@@ -1,9 +1,11 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 import categories from "../../data/categories";
 
 const Navbar = () => {
   const [activeIndex, setActiveIndex] = useState(null);
+  const navigate = useNavigate();
 
   return (
     <nav className="navbar">
@@ -23,7 +25,12 @@ const Navbar = () => {
             {/* Dropdown */}
             <div className={`dropdown ${activeIndex === index ? "show" : ""}`}>
               {cat.sub.map((item, i) => (
-                <div key={i} className="dropdown-item">
+                <div 
+                  key={i} 
+                  className="dropdown-item"
+                  onClick={() => navigate(`/?category=${item}`)
+                  }
+                >
                   {item}
                 </div>
               ))}

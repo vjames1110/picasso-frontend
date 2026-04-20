@@ -10,7 +10,7 @@ const OrderTracking = () => {
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const fetched = useRef(false)
+    const fetched = useRef(false);
 
     useEffect(() => {
         if (!orderId || fetched.current) return;
@@ -45,9 +45,17 @@ const OrderTracking = () => {
         "packed",
         "shipped",
         "delivered"
-    ]
+    ];
 
-    const currentStep = steps.indexOf(order.status)
+    const currentStep = steps.indexOf(order.status);
+
+    const timestamps = {
+        pending: order.created_at,
+        confirmed: order.confirmed_at,
+        packed: order.packed_at,
+        shipped: order.shipped_at,
+        delivered: order.delivered_at
+    };
 
     return (
         <div className="track-container">
@@ -64,7 +72,7 @@ const OrderTracking = () => {
 
                     <div>
                         <span>Status</span>
-                        <strong className={`status ${order.status}`}>
+                        <strong className="status">
                             {order.status}
                         </strong>
                     </div>
@@ -77,45 +85,36 @@ const OrderTracking = () => {
                     <div>
                         <span>Date</span>
                         <strong>
-                            {new Date(order.created_at)
-                                .toLocaleDateString()}
+                            {new Date(order.created_at).toLocaleDateString()}
                         </strong>
                     </div>
                 </div>
 
+
+                {/* TIMELINE */}
                 <div className="timeline">
 
                     {steps.map((step, index) => {
 
-                        const timestamps = {
-                            pending: order.created_at,
-                            confirmed: order.confirmed_at,
-                            packed: order.packed_at,
-                            shipped: order.shipped_at,
-                            delivered: order.delivered_at
-                        }
-
                         const time = timestamps[step]
 
                         return (
-                            <div key={step} className="timeline-step">
+                            <div
+                                key={step}
+                                className={`timeline-step ${index <= currentStep ? "active" : ""
+                                    }`}
+                            >
 
-                                <div className={`circle ${index <= currentStep ? "active" : ""}`}>
-                                    {index <= currentStep ? "✓" : ""}
-                                </div>
+                                <div className="timeline-circle" />
 
-                                <div className="label">
-                                    {step.charAt(0).toUpperCase() + step.slice(1)}
+                                <div className="timeline-label">
+                                    {step}
                                 </div>
 
                                 {time && (
-                                    <div className="time">
+                                    <div className="timeline-time">
                                         {new Date(time).toLocaleDateString()}
                                     </div>
-                                )}
-
-                                {index !== steps.length - 1 && (
-                                    <div className={`line ${index < currentStep ? "active" : ""}`} />
                                 )}
 
                             </div>
@@ -124,7 +123,10 @@ const OrderTracking = () => {
 
                 </div>
 
+
+                {/* ITEMS */}
                 <div className="track-items">
+
                     <h3>Items</h3>
 
                     {Array.from(
@@ -135,7 +137,12 @@ const OrderTracking = () => {
                             ])
                         ).values()
                     ).map((item) => (
-                        <div key={`${item.title}-${item.price}-${item.quantity}`} className="track-item">
+
+                        <div
+                            key={`${item.title}-${item.quantity}`}
+                            className="track-item"
+                        >
+
                             <div>
                                 {item.title}
                                 <span>x {item.quantity}</span>
@@ -144,8 +151,11 @@ const OrderTracking = () => {
                             <div>
                                 ₹{item.price * item.quantity}
                             </div>
+
                         </div>
+
                     ))}
+
                 </div>
 
             </div>
