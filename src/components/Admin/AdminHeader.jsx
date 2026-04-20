@@ -9,7 +9,7 @@ const AdminHeader = ({ toggleSidebar }) => {
 
   const handleLogout = () => {
     logout();
-    navigate("/admin/login");
+    navigate("/");
   };
 
   return (
