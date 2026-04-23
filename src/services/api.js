@@ -1,10 +1,12 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://picasso-backend-7rap.onrender.com",
+  baseURL: "https://picasso-backend-7rap.onrender.com/",
   headers: {
     "Content-Type": "application/json",
   },
+
+  timeout: 10000, // 10 seconds timeout
 });
 
 // Attach token automatically if exists
