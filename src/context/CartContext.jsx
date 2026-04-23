@@ -36,21 +36,27 @@ export const CartProvider = ({ children }) => {
     if (!guestCart || guestCart.length === 0) return;
 
     try {
-
-      // CLEAR SERVER CART FIRST
+      // STEP 1: clear server cart safely
       const existing = await api.get("/cart/");
 
-      for (const item of existing.data) {
-        await api.delete(`/cart/${item.id}`);
-      }
+      await Promise.all(
+        existing.data.map(item => api.delete(`/cart/${item.id}`))
+      );
 
-      // ADD ONLY CURRENT GUEST CART
-      for (const item of guestCart) {
-        await api.post("/cart/", {
-          book_id: item.book_id,
-          quantity: item.quantity
-        });
-      }
+      // STEP 2: REMOVE DUPLICATES BEFORE SENDING
+      const uniqueCart = Array.from(
+        new Map(guestCart.map(i => [i.book_id, i])).values()
+      );
+
+      // STEP 3: re-add clean cart
+      await Promise.all(
+        uniqueCart.map(item =>
+          api.post("/cart/", {
+            book_id: item.book_id,
+            quantity: item.quantity
+          })
+        )
+      );
 
       localStorage.removeItem("guest_cart");
 
@@ -224,27 +230,21 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = async () => {
     try {
-
-      // clear guest cart first
       localStorage.removeItem("guest_cart");
 
-      // clear server cart
       if (token) {
         const res = await api.get("/cart/");
 
         await Promise.all(
-          res.data.map(item =>
-            api.delete(`/cart/${item.id}`)
-          )
+          res.data.map(item => api.delete(`/cart/${item.id}`))
         );
       }
 
-      // clear UI cart LAST
       setCart([]);
 
     } catch (err) {
       console.log("clear cart error", err);
-      setCart([]); // fallback safety
+      setCart([]);
     }
   };
 

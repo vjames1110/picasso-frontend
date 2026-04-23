@@ -7,6 +7,7 @@ import "./BookSection.css";
 
 const BookSection = () => {
   const location = useLocation();
+  const [loading, setLoading] = useState(true);
   const query = new URLSearchParams(location.search);
   const search = query.get("search");
   const category = query.get("category");
@@ -14,41 +15,51 @@ const BookSection = () => {
   const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
+  const fetchBooks = async () => {
+    try {
 
-        let params = []
+      setLoading(true);
 
-        if (search) params.push(`search=${search}`)
-        if (category) params.push(`category=${category}`)
+      let params = []
 
-        const query = params.length ? `?${params.join("&")}` : ""
+      if (search) params.push(`search=${search}`)
+      if (category) params.push(`category=${category}`)
 
-        const res = await api.get(`/books${query}`)
-        setBooks(res.data)
+      const query = params.length ? `?${params.join("&")}` : ""
 
-      } catch (err) {
-        console.error("Error fetching books:", err);
-      }
-    };
+      const res = await api.get(`/books${query}`)
+      setBooks(res.data)
 
-    fetchBooks();
-  }, [search, category]);
+    } catch (err) {
+      console.error("Error fetching books:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBooks();
+}, [search, category]);
 
   return (
-    <div id="book-section" className="book-section">
+<div className="book-section">
 
-      <h2>#Picasso Picks 🔥</h2>
+  <h2>#Picasso Picks 🔥</h2>
 
-      <div className="book-grid">
-        {books.map((book) => (
-          <BookCard
-            key={book.id}
-            book={book}
-            onQuickView={setSelectedBook}
-          />
-        ))}
-      </div>
+  {loading ? (
+    <div className="book-loading">
+      Loading books...
+    </div>
+  ) : (
+    <div className="book-grid">
+      {books.map((book) => (
+        <BookCard
+          key={book.id}
+          book={book}
+          onQuickView={setSelectedBook}
+        />
+      ))}
+    </div>
+  )}
 
       {selectedBook && (
         <QuickViewModal
