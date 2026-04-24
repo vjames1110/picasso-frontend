@@ -233,3 +233,20 @@
   }
 
 }
+
+.price-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.share-icon{
+background:transparent;
+border:none;
+cursor:pointer;
+padding:4px;
+}
+
+.share-icon:hover{
+transform:scale(1.1);
+}

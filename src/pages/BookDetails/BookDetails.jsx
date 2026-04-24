@@ -21,10 +21,10 @@ const BookDetails = () => {
     const today = new Date();
 
     const minDelivery = new Date();
-    minDelivery.setDate(today.getDate() + 10);
+    minDelivery.setDate(today.getDate() + 3);
 
     const maxDelivery = new Date();
-    maxDelivery.setDate(today.getDate() + 15);
+    maxDelivery.setDate(today.getDate() + 5);
 
     const formatDate = (date) =>
         date.toLocaleDateString("en-IN", {
@@ -34,7 +34,6 @@ const BookDetails = () => {
 
     const [qty, setQty] = useState(1);
     const [pincode, setPincode] = useState("");
-    const [editable, setEditable] = useState(false);
     const [showToast, setShowToast] = useState(false);
     const [toastMsg, setToastMsg] = useState("");
     const { addToCart, getItemQuantity } = useCart();
@@ -62,6 +61,18 @@ const BookDetails = () => {
         ((book.original_price - book.price) / book.original_price) * 100
     ) : 0;
 
+    const handleShare = async () => {
+        try {
+            await navigator.share({
+                title: book.title,
+                text: `Check out this book: ${book.title}`,
+                url: window.location.href
+            });
+        } catch (err) {
+            console.log("Share cancelled");
+        }
+    };
+
     const checkDelivery = () => {
         if (pincode.length === 6) {
             setToastMsg("Delivery Available ✅");
@@ -69,6 +80,9 @@ const BookDetails = () => {
             setToastMsg("Unable to Deliver ❌");
         }
         setShowToast(true);
+
+        // clear after check
+        setPincode("");
     };
 
     if (!book) {
@@ -94,10 +108,18 @@ const BookDetails = () => {
                     <span>{book.category}</span>
                 </div>
 
-                <div className="price">
-                    ₹{book.price}
-                    <span className="original">₹{book.original_price}</span>
-                    <span className="discount">({discount}% OFF)</span>
+                <div className="price-row">
+
+                    <div className="price">
+                        ₹{book.price}
+                        <span className="original">₹{book.original_price}</span>
+                        <span className="discount">({discount}% OFF)</span>
+                    </div>
+
+                    <button className="share-btn" onClick={handleShare}>
+                        🔗 Share
+                    </button>
+
                 </div>
 
                 {/* QUANTITY + CART */}
@@ -134,15 +156,13 @@ const BookDetails = () => {
                         <input
                             type="text"
                             value={pincode}
-                            disabled={!editable}
                             onChange={(e) => setPincode(e.target.value)}
                             placeholder="Enter Pincode"
                         />
-                        {!editable ? (
-                            <button onClick={() => setEditable(true)}>Change</button>
-                        ) : (
-                            <button onClick={checkDelivery}>Check</button>
-                        )}
+
+                        <button onClick={checkDelivery}>
+                            Check
+                        </button>
                     </div>
                     <div>
                         <p className="delivery-date">
