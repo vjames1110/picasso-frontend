@@ -29,7 +29,7 @@ const BookCard = ({ book, onQuickView }) => {
 Price: ₹${book.price}
 
 Buy from Picasso Publications`,
-        url: `https://picassopublications.com/book/${book.id}`
+        url: `https://picassopublications.com/seo/book/${book.id}`
       });
     } catch (err) {
       console.log("Share cancelled");
