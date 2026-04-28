@@ -66,7 +66,7 @@ const BookDetails = () => {
             await navigator.share({
                 title: book.title,
                 text: `Check out this book: ${book.title}`,
-                url: `https://picasso-backend-7rap.onrender.com/seo/book/${book.id}`
+                url: `https://picassopublications.com/book/${book.id}`
             });
         } catch (err) {
             console.log("Share cancelled");
