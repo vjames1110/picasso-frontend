@@ -67,7 +67,7 @@ const BookDetails = () => {
             await navigator.share({
                 title: book.title,
                 text: `Check out this book: ${book.title}`,
-                url: window.location.href
+                url: `https://picassopublications.com/seo/book/${book.id}`
             });
         } catch (err) {
             console.log("Share cancelled");
@@ -93,126 +93,126 @@ const BookDetails = () => {
 
     return (
         <>
-        <Helmet>
-            <title>{book.title} | Picasso Publications</title>
+            <Helmet>
+                <title>{book.title} | Picasso Publications</title>
 
-            <meta property="og:title" content={book.title} />
-            <meta property="og:description" content={`Buy ${book.title} at ₹${book.price}`} />
-            <meta property="og:image" content={book.image} />
-            <meta property="og:url" content={window.location.href} />
-            <meta property="og:type" content="product" />
+                <meta property="og:title" content={book.title} />
+                <meta property="og:description" content={`Buy ${book.title} at ₹${book.price}`} />
+                <meta property="og:image" content={book.image} />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:type" content="product" />
 
-            <meta name="twitter:card" content="summary_large_image" />
-            <meta name="twitter:title" content={book.title} />
-            <meta name="twitter:description" content={`Buy ${book.title}`} />
-            <meta name="twitter:image" content={book.image} />
-        </Helmet>
-        <div className="details-container">
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={book.title} />
+                <meta name="twitter:description" content={`Buy ${book.title}`} />
+                <meta name="twitter:image" content={book.image} />
+            </Helmet>
+            <div className="details-container">
 
-            {/* LEFT */}
-            <div className="details-left">
-                <img src={book.image} alt={book.title} />
-            </div>
-
-            {/* RIGHT */}
-            <div className="details-right">
-
-                <h1>{book.title}</h1>
-                <p className="author">{book.author}</p>
-
-                <div className="tags">
-                    <span>{book.category}</span>
+                {/* LEFT */}
+                <div className="details-left">
+                    <img src={book.image} alt={book.title} />
                 </div>
 
-                <div className="price-row">
+                {/* RIGHT */}
+                <div className="details-right">
 
-                    <div className="price">
-                        ₹{book.price}
-                        <span className="original">₹{book.original_price}</span>
-                        <span className="discount">({discount}% OFF)</span>
+                    <h1>{book.title}</h1>
+                    <p className="author">{book.author}</p>
+
+                    <div className="tags">
+                        <span>{book.category}</span>
                     </div>
 
-                    <button className="share-btn" onClick={handleShare}>
-                        🔗 Share
-                    </button>
+                    <div className="price-row">
 
-                </div>
+                        <div className="price">
+                            ₹{book.price}
+                            <span className="original">₹{book.original_price}</span>
+                            <span className="discount">({discount}% OFF)</span>
+                        </div>
 
-                {/* QUANTITY + CART */}
-                <div className="action-row">
+                        <button className="share-btn" onClick={handleShare}>
+                            🔗 Share
+                        </button>
 
-                    <div className="qty-box">
-                        <button onClick={() => setQty(qty > 1 ? qty - 1 : 1)}>-</button>
-                        <span>{qty}</span>
-                        <button
-                            onClick={() => setQty(qty < stockLeft ? qty + 1 : qty)}
-                            disabled={qty >= stockLeft}
+                    </div>
+
+                    {/* QUANTITY + CART */}
+                    <div className="action-row">
+
+                        <div className="qty-box">
+                            <button onClick={() => setQty(qty > 1 ? qty - 1 : 1)}>-</button>
+                            <span>{qty}</span>
+                            <button
+                                onClick={() => setQty(qty < stockLeft ? qty + 1 : qty)}
+                                disabled={qty >= stockLeft}
                             >+</button>
+                        </div>
+
+                        <p>
+                            {stockLeft > 0
+                                ? `${stockLeft} items left in stock`
+                                : "Out of Stock"}
+                        </p>
+
+                        <button className="cart-btn"
+                            onClick={handleCartClick}>
+                            {qtyInCart ? "Go to Cart →" : "Add to Cart 🛒"}
+                        </button>
+
                     </div>
 
-                    <p>
-                        {stockLeft > 0
-                            ? `${stockLeft} items left in stock`
-                            : "Out of Stock"}
-                    </p>
+                    {/* PINCODE */}
+                    <div className="delivery-box">
 
-                    <button className="cart-btn"
-                        onClick={handleCartClick}>
-                        {qtyInCart ? "Go to Cart →" : "Add to Cart 🛒"}
-                    </button>
+                        <p>📍 Check Delivery</p>
 
-                </div>
-
-                {/* PINCODE */}
-                <div className="delivery-box">
-
-                    <p>📍 Check Delivery</p>
-
-                    <div className="pincode-row">
-                        <input
-                            type="text"
-                            value={pincode}
-                            onChange={(e) => setPincode(e.target.value)}
-                            placeholder="Enter Pincode"
+                        <div className="pincode-row">
+                            <input
+                                type="text"
+                                value={pincode}
+                                onChange={(e) => setPincode(e.target.value)}
+                                placeholder="Enter Pincode"
                             />
 
-                        <button onClick={checkDelivery}>
-                            Check
-                        </button>
-                    </div>
-                    <div>
-                        <p className="delivery-date">
-                            <span>🚚 Standard Delivery: {formatDate(minDelivery)} - {formatDate(maxDelivery)}</span>
+                            <button onClick={checkDelivery}>
+                                Check
+                            </button>
+                        </div>
+                        <div>
+                            <p className="delivery-date">
+                                <span>🚚 Standard Delivery: {formatDate(minDelivery)} - {formatDate(maxDelivery)}</span>
+                            </p>
+                        </div>
+
+                        <p className="note">
+                            COD and delivery charges may apply on certain items
                         </p>
+                        <p className="note">
+                            Review final details at checkout
+                        </p>
+
                     </div>
 
-                    <p className="note">
-                        COD and delivery charges may apply on certain items
-                    </p>
-                    <p className="note">
-                        Review final details at checkout
-                    </p>
+                    {/* TRUST ICONS */}
+                    <div className="trust">
+                        <span>🔒 Secure</span>
+                        <span>📦 Fast Delivery</span>
+                        <span>✅ Quality</span>
+                        <span>🌱 Eco Print</span>
+                    </div>
 
                 </div>
 
-                {/* TRUST ICONS */}
-                <div className="trust">
-                    <span>🔒 Secure</span>
-                    <span>📦 Fast Delivery</span>
-                    <span>✅ Quality</span>
-                    <span>🌱 Eco Print</span>
-                </div>
+                <Toast
+                    message={toastMsg}
+                    show={showToast}
+                    onClose={() => setShowToast(false)}
+                />
 
             </div>
-
-            <Toast
-                message={toastMsg}
-                show={showToast}
-                onClose={() => setShowToast(false)}
-            />
-
-        </div>
-    </>
+        </>
     );
 };
 
