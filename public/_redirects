@@ -1,2 +1,2 @@
-/book/*  https://picasso-backend-7rap.onrender.com/seo/book/:splat 301
-/*       /index.html 200
+/book/:id  https://picasso-backend-7rap.onrender.com/seo/book/:id  200
+/*         /index.html 200
