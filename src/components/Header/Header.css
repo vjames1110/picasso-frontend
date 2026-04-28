@@ -140,3 +140,20 @@
 .logo-section h1:hover {
   opacity: 0.9;
 }
+
+.home-btn {
+  background: #00b894;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  color: white;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-btn:hover {
+  background: #019875;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./Header.css";
-import { FaShieldAlt, FaShoppingCart, FaUser } from 'react-icons/fa';
+import { FaShieldAlt, FaShoppingCart, FaUser, FaHome } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { useCart } from '../../context/CartContext';
 import { useAuth } from "../../context/AuthContext";
@@ -48,6 +48,15 @@ const Header = () => {
 
             {/* Actions */}
             <div className='header-actions'>
+
+                {/* Home Button */}
+
+                <button
+                    className='home-btn'
+                    onClick={() => navigate("/")}
+                >
+                    <FaHome /> Home
+                </button>
 
                 {!isAuthenticated ? (
                     <button
