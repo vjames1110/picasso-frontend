@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import "./BookDetails.css";
 import Toast from "../../components/Toast/Toast";
 import { useCart } from "../../context/CartContext";
@@ -67,7 +66,7 @@ const BookDetails = () => {
             await navigator.share({
                 title: book.title,
                 text: `Check out this book: ${book.title}`,
-                url: `https://picassopublications.com/seo/book/${book.id}`
+                url: `https://picasso-backend-7rap.onrender.com/seo/book/${book.id}`
             });
         } catch (err) {
             console.log("Share cancelled");
@@ -93,20 +92,6 @@ const BookDetails = () => {
 
     return (
         <>
-            <Helmet>
-                <title>{book.title} | Picasso Publications</title>
-
-                <meta property="og:title" content={book.title} />
-                <meta property="og:description" content={`Buy ${book.title} at ₹${book.price}`} />
-                <meta property="og:image" content={book.image} />
-                <meta property="og:url" content={window.location.href} />
-                <meta property="og:type" content="product" />
-
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={book.title} />
-                <meta name="twitter:description" content={`Buy ${book.title}`} />
-                <meta name="twitter:image" content={book.image} />
-            </Helmet>
             <div className="details-container">
 
                 {/* LEFT */}
