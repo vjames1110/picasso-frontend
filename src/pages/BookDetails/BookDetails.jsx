@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import "./BookDetails.css";
 import Toast from "../../components/Toast/Toast";
 import { useCart } from "../../context/CartContext";
@@ -91,6 +92,21 @@ const BookDetails = () => {
 
 
     return (
+        <>
+        <Helmet>
+            <title>{book.title} | Picasso Publications</title>
+
+            <meta property="og:title" content={book.title} />
+            <meta property="og:description" content={`Buy ${book.title} at ₹${book.price}`} />
+            <meta property="og:image" content={book.image} />
+            <meta property="og:url" content={window.location.href} />
+            <meta property="og:type" content="product" />
+
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={book.title} />
+            <meta name="twitter:description" content={`Buy ${book.title}`} />
+            <meta name="twitter:image" content={book.image} />
+        </Helmet>
         <div className="details-container">
 
             {/* LEFT */}
@@ -131,7 +147,7 @@ const BookDetails = () => {
                         <button
                             onClick={() => setQty(qty < stockLeft ? qty + 1 : qty)}
                             disabled={qty >= stockLeft}
-                        >+</button>
+                            >+</button>
                     </div>
 
                     <p>
@@ -158,7 +174,7 @@ const BookDetails = () => {
                             value={pincode}
                             onChange={(e) => setPincode(e.target.value)}
                             placeholder="Enter Pincode"
-                        />
+                            />
 
                         <button onClick={checkDelivery}>
                             Check
@@ -196,6 +212,7 @@ const BookDetails = () => {
             />
 
         </div>
+    </>
     );
 };
 
