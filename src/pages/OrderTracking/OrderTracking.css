@@ -53,57 +53,64 @@
 }
 
 
-/* TIMELINE */
+/* =========================
+   TIMELINE (FIXED)
+========================= */
 
 .timeline {
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
   position: relative;
   margin: 50px 0 30px;
 }
 
-/* base line */
+/* LINE */
 
 .timeline::before {
   content: "";
   position: absolute;
-  top: 14px;
-  left: 2;
-  width: 2;
-  height: 2;
+  top: 11px;
+  left: 0;
+  right: 0;
+  height: 3px;
   background: #e5e7eb;
+  z-index: 0;
 }
 
-/* step */
+/* STEP */
 
 .timeline-step {
   text-align: center;
   position: relative;
   flex: 1;
+  z-index: 1;
 }
 
-/* circle */
+/* CIRCLE */
 
 .timeline-circle {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: #ffffff;
-  border: 2px solid #64748b;
-  margin: auto;
-  z-index: 2;
+  background: white;
+  border: 3px solid #cbd5e1;
+  margin: 0 auto;
   position: relative;
+  z-index: 2;   /* ADD THIS */
 }
+
+/* ACTIVE STEP */
 
 .timeline-step.active .timeline-circle {
   background: #16a34a;
   border-color: #16a34a;
 }
 
-/* label */
+/* LABEL */
 
 .timeline-label {
-  margin-top: 8px;
+  margin-top: 10px;
   font-size: 13px;
   color: #64748b;
   text-transform: capitalize;
@@ -114,7 +121,7 @@
   font-weight: 600;
 }
 
-/* time */
+/* TIME */
 
 .timeline-time {
   font-size: 11px;
@@ -148,7 +155,9 @@
 }
 
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:768px){
 
@@ -156,32 +165,21 @@
 grid-template-columns:1fr 1fr;
 }
 
-.timeline{
-flex-direction:column;
-gap:20px;
-}
+/* horizontal scroll timeline */
 
-.timeline::before{
-display:none;
+.timeline{
+overflow-x:auto;
+gap:30px;
+padding-bottom:10px;
 }
 
 .timeline-step{
-display:flex;
-align-items:center;
-text-align:left;
+min-width:90px;
 }
 
-.circle{
-margin:0;
-margin-right:6px;
 }
 
-.label{
-margin-top:auto;
-}
-
-.time{
-margin-left:-5px;
-}
-
+/* FIX: remove admin timeline dots from tracking page */
+.track-container .timeline div::before {
+  display: none !important;
 }
