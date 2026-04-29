@@ -250,3 +250,54 @@ padding:4px;
 .share-icon:hover{
 transform:scale(1.1);
 }
+
+/* ================= BUTTON ALIGN FIX ================= */
+
+/* ================= BUTTON LAYOUT ================= */
+
+/* ================= BUTTON LAYOUT ================= */
+
+.cart-actions{
+display:flex;
+gap:8px;
+margin-top:10px;
+width:100%;
+}
+
+/* single button */
+.cart-actions.single .add-cart{
+width:100%;
+flex:none;
+}
+
+/* split buttons */
+.cart-actions.split .add-cart,
+.cart-actions.split .go-cart{
+flex:1;
+}
+
+/* FORCE SAME SIZE */
+.cart-actions button{
+height:38px;
+padding:0 10px;
+font-size:13px;
+white-space:nowrap;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+border-radius:20px;
+}
+
+/* override add button */
+.cart-actions .add-cart{
+margin-top:0;
+}
+
+/* go to cart */
+.cart-actions .go-cart{
+border:none;
+background:linear-gradient(90deg,#00b09b,#96c93d);
+color:white;
+}

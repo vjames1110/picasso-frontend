@@ -70,52 +70,68 @@ export const CartProvider = ({ children }) => {
   // ===============================
   // ADD TO CART
   // ===============================
-  const addToCart = async (book, qty = 1) => {
+  // ===============================
+// ADD TO CART
+// ===============================
+const addToCart = async (book, qty = 1) => {
 
-    // ---------- GUEST USER ----------
-    if (!token) {
+  // ---------- GUEST USER ----------
+  if (!token) {
 
-      const existing = cart.find(i => i.book_id === book.id);
+    const existing = cart.find(i => i.book_id === book.id);
 
-      let updatedCart;
+    let updatedCart;
 
-      if (existing) {
-        updatedCart = cart.map(i =>
-          i.book_id === book.id
-            ? { ...i, quantity: i.quantity + qty }
-            : i
-        );
-      } else {
-        updatedCart = [
-          ...cart,
-          {
-            book_id: book.id,
-            title: book.title,
-            price: book.price,
-            image: book.image,
-            quantity: qty
-          }
-        ];
-      }
-
-      setCart(updatedCart);
-      localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
-      return;
+    if (existing) {
+      updatedCart = cart.map(i =>
+        i.book_id === book.id
+          ? { ...i, quantity: i.quantity + qty }
+          : i
+      );
+    } else {
+      updatedCart = [
+        ...cart,
+        {
+          book_id: book.id,
+          title: book.title,
+          price: book.price,
+          image: book.image,
+          quantity: qty
+        }
+      ];
     }
 
-    // ---------- LOGGED USER ----------
-    try {
+    setCart(updatedCart);
+    localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
+    return;
+  }
+
+  // ---------- LOGGED USER (FIXED) ----------
+  try {
+
+    // 🔥 CHECK EXISTING ITEM
+    const existing = cart.find(i => i.book_id === book.id);
+
+    if (existing) {
+      // 🔥 UPDATE QUANTITY INSTEAD OF ADD
+      await api.put(`/cart/${existing.id}`, {
+        quantity: existing.quantity + qty
+      });
+
+    } else {
+      // 🔥 CREATE NEW ITEM
       await api.post("/cart/", {
         book_id: book.id,
         quantity: qty,
       });
-
-      await loadCart();
-
-    } catch (err) {
-      console.log("Add cart error", err);
     }
-  };
+
+    await loadCart();
+
+  } catch (err) {
+    console.log("Add cart error", err);
+  }
+};
 
   // ===============================
   // UPDATE QUANTITY

@@ -37,14 +37,16 @@ Buy from Picasso Publications`,
   };
 
   const handleCartClick = () => {
-    if (qtyInCart > 0) {
-      navigate("/cart");
-    } else {
-      addToCart(book, 1);
-      setToastMsg("Added To Cart 🛒");
-      setShowToast(true);
-    }
-  }
+    addToCart(book, 1);
+
+    setToastMsg(
+      qtyInCart
+        ? "Cart Updated 🛒"
+        : "Added To Cart 🛒"
+    );
+
+    setShowToast(true);
+  };
 
   return (
     <div className="book-card">
@@ -94,10 +96,25 @@ Buy from Picasso Publications`,
         Delivery by {deliveryDate.toDateString()}
       </p>
 
-      <button className="add-cart"
-        onClick={handleCartClick}>
-        {qtyInCart ? "Go To Cart →" : "Add to Cart 🛒"}
-      </button>
+      <div className={`cart-actions ${qtyInCart ? "split" : "single"}`}>
+
+        <button
+          className="add-cart"
+          onClick={handleCartClick}
+        >
+          {qtyInCart ? "Add More" : "Add to Cart 🛒"}
+        </button>
+
+        {qtyInCart > 0 && (
+          <button
+            className="go-cart show"
+            onClick={() => navigate("/cart")}
+          >
+            Go To Cart
+          </button>
+        )}
+
+      </div>
 
       <Toast
         message={toastMsg}

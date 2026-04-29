@@ -13,15 +13,19 @@ const QuickViewModal = ({ book, onClose }) => {
     const { addToCart, getItemQuantity } = useCart();
     const qtyInCart = getItemQuantity(book.id)
     const stockLeft = book.stock - qtyInCart
+
+
     const handleCartClick = () => {
-        if (qtyInCart) {
-            navigate("/cart");
-        } else {
-            addToCart(book, qty);
-            setToastMsg("Added To Cart 🛒");
-            setShowToast(true);
-        }
-    }
+        addToCart(book, qty);
+
+        setToastMsg(
+            qtyInCart
+                ? "Cart Updated 🛒"
+                : "Added To Cart 🛒"
+        );
+
+        setShowToast(true);
+    };
 
     return (
         <div className="modal-overlay" onClick={onClose}>
@@ -55,7 +59,7 @@ const QuickViewModal = ({ book, onClose }) => {
                     <div className="qty">
                         <button onClick={() => setQty(qty > 1 ? qty - 1 : 1)}>-</button>
                         {qty}
-                        <button 
+                        <button
                             onClick={() => setQty(qty < stockLeft ? qty + 1 : qty)}
                             disabled={qty >= stockLeft}>+</button>
                     </div>
@@ -64,8 +68,24 @@ const QuickViewModal = ({ book, onClose }) => {
                         {stockLeft > 0 ? `${stockLeft} available` : "Out of Stock"}
                     </p>
 
-                    <button className="cart-btn"
-                        onClick={handleCartClick}>{qtyInCart ? "Go to Cart →" : "Add to Cart 🛒"}</button>
+                    <div className="cart-actions">
+
+                        <button
+                            className="cart-btn"
+                            onClick={handleCartClick}
+                        >
+                            {qtyInCart ? "Add More 🛒" : "Add to Cart 🛒"}
+                        </button>
+
+                        <button
+                            className={`go-cart ${qtyInCart ? "show" : ""}`}
+                            disabled={!qtyInCart}
+                            onClick={() => navigate("/cart")}
+                        >
+                            Go To Cart →
+                        </button>
+
+                    </div>
 
                     <Toast
                         message={toastMsg}

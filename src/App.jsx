@@ -20,6 +20,13 @@ import AdminProtectedRoute from "./routes/AdminProtectedRoute";
 import AdminBooks from "./pages/admin/AdminBooks/AdminBooks";
 import AdminOrders from "./pages/admin/AdminOrders/AdminOrders";
 import Footer from "./components/Footer/Footer";
+import About from "./pages/Footer/About";
+import Contact from "./pages/Footer/Contact";
+import Privacy from "./pages/Footer/Privacy";
+import Terms from "./pages/Footer/Terms";
+import Refund from "./pages/Footer/Refund";
+import Shipping from "./pages/Footer/Shipping";
+import Support from "./pages/Footer/Support";
 
 function AppLayout() {
   const location = useLocation();
@@ -49,6 +56,16 @@ function AppLayout() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/book/:id" element={<BookDetails />} />
+
+        {/* Footer Pages */}
+
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/refund" element={<Refund />} />
+        <Route path="/shipping" element={<Shipping />} />
+        <Route path="/support" element={<Support />} />
 
         <Route path="/cart" element={<Cart />} />
 
@@ -108,11 +125,11 @@ function AppLayout() {
               <AdminLayout />
             </AdminProtectedRoute>
           }
-          >
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="books" element={<AdminBooks />} />
-            <Route path="orders" element={<AdminOrders />} />
-          </Route>
+        >
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="books" element={<AdminBooks />} />
+          <Route path="orders" element={<AdminOrders />} />
+        </Route>
 
         {/* Important Fallback */}
 

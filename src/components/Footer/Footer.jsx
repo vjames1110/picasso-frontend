@@ -8,6 +8,19 @@ const Footer = () => {
 
   return (
     <footer className="footer">
+
+      <div className="footer-links">
+
+        <span onClick={() => navigate("/about")}>About Us</span>
+        <span onClick={() => navigate("/contact")}>Contact Us</span>
+        <span onClick={() => navigate("/privacy")}>Privacy Policy</span>
+        <span onClick={() => navigate("/terms")}>Terms & Conditions</span>
+        <span onClick={() => navigate("/refund")}>Refund Policy</span>
+        <span onClick={() => navigate("/shipping")}>Shipping Policy</span>
+        <span onClick={() => navigate("/support")}>Support</span>
+
+      </div>
+
       <div className="footer-content">
 
         {/* LEFT */}
@@ -15,7 +28,6 @@ const Footer = () => {
           <h3>Picasso Publications</h3>
           <p>All Rights Reserved</p>
         </div>
-
 
         {/* CENTER */}
         <div className="footer-center">
@@ -29,12 +41,10 @@ const Footer = () => {
           </a>
         </div>
 
-
         {/* RIGHT */}
         <div className="footer-right">
 
           <div className="social-icons">
-
             <a
               href="https://www.facebook.com/picasso.bilaspur"
               target="_blank"
@@ -50,7 +60,6 @@ const Footer = () => {
             >
               <FaInstagram />
             </a>
-
           </div>
 
           <span
@@ -63,6 +72,11 @@ const Footer = () => {
         </div>
 
       </div>
+
+      <div className="footer-bottom">
+        © 2026 Picasso Publications. All rights reserved.
+      </div>
+
     </footer>
   );
 };

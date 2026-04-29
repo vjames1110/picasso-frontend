@@ -102,3 +102,47 @@
   color: #16a34a;
   text-decoration: underline;
 }
+
+/* LINKS */
+
+.footer-links{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+padding-bottom:15px;
+margin-bottom:15px;
+border-bottom:1px solid #1e293b;
+}
+
+.footer-links span{
+font-size:13px;
+color:#94a3b8;
+cursor:pointer;
+transition:0.2s;
+}
+
+.footer-links span:hover{
+color:white;
+}
+
+/* BOTTOM */
+
+.footer-bottom{
+margin-top:15px;
+padding-top:10px;
+border-top:1px solid #1e293b;
+text-align:center;
+font-size:12px;
+color:#94a3b8;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.footer-links{
+gap:12px;
+}
+
+}

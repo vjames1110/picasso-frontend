@@ -46,14 +46,18 @@ const BookDetails = () => {
 
     const handleCartClick = () => {
         if (!book) return;
-        if (qtyInCart) {
-            navigate("/cart")
-        } else {
-            addToCart(book, qty);
-            setToastMsg("Added To Cart 🛒");
-            setShowToast(true);
-            setQty(1);
-        }
+
+        // ALWAYS ADD (merge handled in context)
+        addToCart(book, qty);
+
+        setToastMsg(
+            qtyInCart
+                ? "Cart Updated 🛒"
+                : "Added To Cart 🛒"
+        );
+
+        setShowToast(true);
+        setQty(1);
     };
 
 
@@ -143,7 +147,15 @@ const BookDetails = () => {
 
                         <button className="cart-btn"
                             onClick={handleCartClick}>
-                            {qtyInCart ? "Go to Cart →" : "Add to Cart 🛒"}
+                            {qtyInCart ? "Add More 🛒 →" : "Add to Cart 🛒"}
+                        </button>
+
+                        <button
+                            className={`go-cart ${qtyInCart ? "show" : ""}`}
+                            disabled={!qtyInCart}
+                            onClick={() => navigate("/cart")}
+                        >
+                            Go To Cart →
                         </button>
 
                     </div>
