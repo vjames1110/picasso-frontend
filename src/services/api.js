@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://picasso-backend-7rap.onrender.com/",
+  baseURL: "https://picasso-backend-v8ci.onrender.com/",
   headers: {
     "Content-Type": "application/json",
   },
