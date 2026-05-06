@@ -55,7 +55,7 @@ const Checkout = () => {
             const token = localStorage.getItem("token");
 
             const res = await fetch(
-                "https://picasso-backend-7rap.onrender.com/auth/address",
+                "https://picasso-backend-v8ci.onrender.com/auth/address",
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -157,7 +157,7 @@ const Checkout = () => {
         try {
             const token = localStorage.getItem("token");
 
-            await fetch("https://picasso-backend-7rap.onrender.com/auth/address", {
+            await fetch("https://picasso-backend-v8ci.onrender.com/auth/address", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -200,7 +200,7 @@ const Checkout = () => {
             const token = localStorage.getItem("token");
 
             const res = await fetch(
-                "https://picasso-backend-7rap.onrender.com/orders/create",
+                "https://picasso-backend-v8ci.onrender.com/orders/create",
                 {
                     method: "POST",
                     headers: {

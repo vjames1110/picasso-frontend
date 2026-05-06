@@ -64,7 +64,7 @@ const Payment = () => {
                         const token = localStorage.getItem("token");
 
                         const verifyRes = await fetch(
-                            "https://picasso-backend-7rap.onrender.com/orders/verify",
+                            "https://picasso-backend-v8ci.onrender.com/orders/verify",
                             {
                                 method: "POST",
                                 headers: {
