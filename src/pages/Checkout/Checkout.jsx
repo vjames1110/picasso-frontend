@@ -189,7 +189,7 @@ const Checkout = () => {
     /* ---------------- PRICE ---------------- */
 
     const sellingPrice = getTotalPrice();
-    const shipping = sellingPrice >= 500 ? 0 : 50;
+    const shipping = cart.reduce((sum, item) => sum + (item.quantity || 0), 0) * 65;
     const finalAmount = sellingPrice + shipping;
     const handleCreateOrder = async () => {
 

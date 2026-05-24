@@ -31,7 +31,7 @@ const Cart = () => {
 
     const sellingPrice = getTotalPrice();
     const discount = totalMRP - sellingPrice;
-    const shipping = sellingPrice >= 500 ? 0 : 50;
+    const shipping = totalItems * 65;
     const finalPrice = sellingPrice + shipping;
 
     return (
@@ -68,7 +68,7 @@ const Cart = () => {
                     <p style={{ color: "green" }}>Discount: -₹{discount}</p>
 
                     <p>Order Value: ₹{sellingPrice}</p>
-                    <p>Shipping Charges: ₹{shipping}</p>
+                    <p>Shipping Charges (₹65 per item): ₹{shipping}</p>
 
                     <hr />
                     <h2>You Pay: ₹{finalPrice}</h2>
