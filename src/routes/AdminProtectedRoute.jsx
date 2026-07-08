@@ -21,7 +21,7 @@ const AdminProtectedRoute = ({ children }) => {
   }
 
   // Logged in but not admin → redirect home
-  if (!user || !ADMIN_EMAILS.includes(user.email)) {
+  if (!user?.email || !ADMIN_EMAILS.includes(user.email.toLowerCase())) {
     return <Navigate to="/" replace />;
   }
 
