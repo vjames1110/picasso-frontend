@@ -5,6 +5,9 @@ import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../services/api";
+import { FaArrowRight, FaCheckCircle, FaCreditCard, FaLock, FaMapMarkerAlt, FaPen } from "react-icons/fa";
+
+const money = (value) => `Rs. ${Number(value || 0).toLocaleString("en-IN")}`;
 
 const Checkout = () => {
     const { isAuthenticated, sendOtp, verifyOtp } = useAuth();
@@ -167,6 +170,8 @@ const Checkout = () => {
     /* ---------------- PRICE ---------------- */
 
     const sellingPrice = getTotalPrice();
+    const totalMRP = cart.reduce((sum, item) => sum + Number(item.originalPrice || item.original_price || item.price || 0) * item.quantity, 0);
+    const discount = Math.max(totalMRP - sellingPrice, 0);
     const shipping = cart.reduce((sum, item) => sum + (item.quantity || 0), 0) * 65;
     const finalAmount = sellingPrice + shipping;
     const handleCreateOrder = async () => {
@@ -357,19 +362,10 @@ const Checkout = () => {
                 <div className="payment-container">
 
                     <div className="payment-left">
+                        <div className="checkout-section-heading"><p>SECURE CHECKOUT</p><h1>Complete your order</h1><span>Review the delivery and payment details before continuing.</span></div>
 
-                        <h3>Delivery Address</h3>
-
-                        <div className="saved-address-box">
-                            <div className="address-badge">
-                                {savedAddress.type || "Home"}
-                            </div>
-                            <p><b>{savedAddress.name}</b></p>
-                            <p>{savedAddress.house}, {savedAddress.area}</p>
-                            <p>{savedAddress.city}, {savedAddress.state}</p>
-                            <p>{savedAddress.pincode}</p>
-                            <p>📞 {savedAddress.phone}</p>
-
+                        <section className="checkout-detail-card">
+                            <header><div className="checkout-detail-icon"><FaMapMarkerAlt /></div><div><span>DELIVERY ADDRESS</span><h2>Where should we send your books?</h2></div>
                             <button
                                 className="change-address-btn"
                                 onClick={() => {
@@ -378,54 +374,62 @@ const Checkout = () => {
                                     setStep(3)
                                 }}
                             >
-                                Change Address
+                                <FaPen /> Change
                             </button>
-                        </div>
+                            </header>
+                            <div className="checkout-address"><div className="address-badge">{savedAddress.type || "Home"}</div><strong>{savedAddress.name}</strong><p>{savedAddress.house}, {savedAddress.area}</p><p>{savedAddress.city}, {savedAddress.state} — {savedAddress.pincode}</p><span>+91 {savedAddress.phone}</span></div>
+                        </section>
 
-                        <h3>Payment Method</h3>
-
-                        <div
+                        <section className="checkout-detail-card">
+                            <header><div className="checkout-detail-icon"><FaCreditCard /></div><div><span>PAYMENT METHOD</span><h2>Pay safely online</h2></div></header>
+                            <button
                             className={`payment-option ${selectedPayment === "razorpay" ? "active" : ""}`}
                             onClick={() => setSelectedPayment("razorpay")}
                         >
-                            Pay Online (Razorpay)
-                        </div>
+                                <div><FaCreditCard /><span><strong>Razorpay secure payment</strong><small>UPI, cards, net banking, and wallets</small></span></div><FaCheckCircle />
+                            </button>
+                            <p className="checkout-security-note"><FaLock /> Payment information is encrypted and processed securely.</p>
+                        </section>
 
                     </div>
 
                     <div className="payment-right">
-                        <h3>Order Summary</h3>
+                        <div className="checkout-summary-heading"><p>YOUR ORDER</p><h2>Order summary</h2><span>{cart.reduce((sum, item) => sum + item.quantity, 0)} items</span></div>
 
                         {cart.map((item) => (
-                            <div key={`${item.id || "guest"}-${item.book_id}`} className="summary-item">
+                            <div key={`${item.id || "guest"}-${item.book_id}`} className="checkout-summary-item">
 
                                 <img
                                     src={item.image}
                                     alt={item.title}
-                                    className="summary-img"
+                                    className="checkout-summary-img"
                                 />
 
-                                <div className="summary-info">
-                                    <p>{item.title}</p>
-                                    <p>Qty: {item.quantity}</p>
+                                <div className="checkout-summary-info">
+                                    <strong>{item.title}</strong>
+                                    <span>{money(item.price)} × {item.quantity}</span>
                                 </div>
 
-                                <div className="summary-price">
-                                    ₹{item.price * item.quantity}
-                                </div>
+                                <div className="checkout-summary-price">{money(item.price * item.quantity)}</div>
 
                             </div>
                         ))}
 
-                        <h2>Total: ₹{finalAmount}</h2>
+                        <div className="checkout-price-lines">
+                            <div><span>Subtotal</span><strong>{money(totalMRP)}</strong></div>
+                            {discount > 0 && <div className="checkout-discount"><span>Book discount</span><strong>- {money(discount)}</strong></div>}
+                            <div><span>Shipping</span><strong>{money(shipping)}</strong></div>
+                        </div>
+                        <div className="checkout-grand-total"><span>Total payable<small>Inclusive of all charges</small></span><strong>{money(finalAmount)}</strong></div>
 
                         <button
                             className="place-order-btn"
                             onClick={handleCreateOrder}
                             disabled={creatingOrder}
                         >
-                            {creatingOrder ? "Creating Order..." : "Proceed to Payment"}
+                            {creatingOrder ? "Preparing payment..." : <>Proceed to secure payment <FaArrowRight /></>}
                         </button>
+                        <p className="checkout-summary-secure"><FaLock /> Secure checkout powered by Razorpay</p>
                     </div>
 
                 </div>
