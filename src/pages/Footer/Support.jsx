@@ -12,7 +12,7 @@ const Support = () => {
             </p>
 
             <p>Email: picasso.india10@gmail.com</p>
-            <p>WhatsApp: +91 971318 86031</p>
+            <p>WhatsApp: +91 97131 86031</p>
 
             <p>
                 Support Hours: Monday - Saturday (10 AM - 7 PM)

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import api from "../../services/api";
@@ -9,39 +9,37 @@ const OrderSuccess = () => {
     const location = useLocation();
     const params = useParams();
 
-    const fetched = useRef(false);
-
     const { clearCart } = useCart();
 
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
 
     const orderId = location.state?.orderId || params.orderId;
-    const paymentId = location.state?.paymentId;
 
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + 5);
 
     useEffect(() => {
-        if (!orderId || fetched.current) return;
+        if (!orderId) return;
+        let isActive = true;
 
-        fetched.current = true;
+        const loadOrder = async () => {
+            try {
+                const res = await api.get(`/orders/${orderId}`);
+                if (isActive) setOrder(res.data);
+            } catch (err) {
+                console.error("ORDER FETCH ERROR:", err);
+            } finally {
+                if (isActive) setLoading(false);
+            }
+        };
 
         clearCart();
-        fetchOrder();
-
+        loadOrder();
+        return () => { isActive = false; };
+        // The cart method is intentionally run once for this confirmed order.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [orderId]);
-
-    const fetchOrder = async () => {
-        try {
-            const res = await api.get(`/orders/${orderId}`);
-            setOrder(res.data);
-        } catch (err) {
-            console.error("ORDER FETCH ERROR:", err);
-        } finally {
-            setLoading(false);
-        }
-    };
 
     if (loading) {
         return (

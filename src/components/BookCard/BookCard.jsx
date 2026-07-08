@@ -1,129 +1,61 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { FaArrowRight, FaEye, FaShoppingBag } from "react-icons/fa";
 import { useCart } from "../../context/CartContext";
 import Toast from "../Toast/Toast";
 import "./BookCard.css";
 
-const BookCard = ({ book, onQuickView }) => {
-
-  const { cart } = useCart();
+export default function BookCard({ book, onQuickView, badge }) {
   const navigate = useNavigate();
+  const { addToCart, getItemQuantity } = useCart();
   const [showToast, setShowToast] = useState(false);
-  const [toastMsg, setToastMsg] = useState("")
-  const discount = Math.round(
-    ((book.original_price - book.price) / book.original_price) * 100
-  );
+  const qtyInCart = getItemQuantity(book.id);
+  const originalPrice = Number(book.original_price) || Number(book.price);
+  const discount = originalPrice > book.price
+    ? Math.round(((originalPrice - book.price) / originalPrice) * 100)
+    : 0;
+  const authors = Array.isArray(book.author) ? book.author.join(", ") : book.author;
 
-  const deliveryDate = new Date();
-  deliveryDate.setDate(deliveryDate.getDate() + 4);
-
-  const { addToCart, getItemQuantity } = useCart()
-
-  const qtyInCart = getItemQuantity(book.id)
-
-  const handleShare = async () => {
-    try {
-      await navigator.share({
-        title: book.title,
-        text: `📚 ${book.title}
-Price: ₹${book.price}
-
-Buy from Picasso Publications`,
-        url: `https://picassopublications.com/seo/book/${book.id}`
-      });
-    } catch (err) {
-      console.log("Share cancelled");
-    }
-  };
-
-  const handleCartClick = () => {
+  const add = () => {
+    if (book.stock <= qtyInCart) return;
     addToCart(book, 1);
-
-    setToastMsg(
-      qtyInCart
-        ? "Cart Updated 🛒"
-        : "Added To Cart 🛒"
-    );
-
     setShowToast(true);
   };
 
   return (
-    <div className="book-card">
-
-      {/* IMAGE */}
+    <article className="book-card">
       <div className="book-image">
-        <img src={book.image}
-          alt={book.title}
-          onClick={() => {
-            navigate(`/book/${book.id}`)
-          }}
-          style={{ cursor: "pointer" }} />
-
-        <div
-          className="quick-view"
-          onClick={() => onQuickView(book)}
-        >
-          Quick View
-        </div>
-      </div>
-
-      {/* DETAILS */}
-      <h3>{book.title}</h3>
-      <p className="author">{book.author}</p>
-
-      <div className="price-row">
-
-        <div className="price">
-          ₹{book.price}
-          <span className="original">₹{book.original_price}</span>
-          <span className="discount">({discount}% OFF)</span>
-        </div>
-
-        <button className="share-icon" onClick={handleShare}>
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-            <circle cx="18" cy="5" r="3" stroke="black" strokeWidth="2" />
-            <circle cx="6" cy="12" r="3" stroke="black" strokeWidth="2" />
-            <circle cx="18" cy="19" r="3" stroke="black" strokeWidth="2" />
-            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" stroke="black" strokeWidth="2" />
-            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" stroke="black" strokeWidth="2" />
-          </svg>
+        {badge && <span className={`book-badge ${badge === "New" ? "new" : ""}`}>{badge}</span>}
+        {discount > 0 && <span className="discount-badge">Save {discount}%</span>}
+        <img src={book.image} alt={book.title} loading="lazy" onClick={() => navigate(`/book/${book.id}`)} />
+        <button className="quick-view" onClick={() => onQuickView?.(book)}>
+          <FaEye /> Quick view
         </button>
-
       </div>
-
-      <p className="delivery">
-        Delivery by {deliveryDate.toDateString()}
-      </p>
-
-      <div className={`cart-actions ${qtyInCart ? "split" : "single"}`}>
-
-        <button
-          className="add-cart"
-          onClick={handleCartClick}
-        >
-          {qtyInCart ? "Add More" : "Add to Cart 🛒"}
-        </button>
-
-        {qtyInCart > 0 && (
-          <button
-            className="go-cart show"
-            onClick={() => navigate("/cart")}
-          >
-            Go To Cart
+      <div className="book-card-body">
+        <p className="book-category">{book.category || "Competitive exams"}</p>
+        <h3 onClick={() => navigate(`/book/${book.id}`)}>{book.title}</h3>
+        <p className="author">by {authors || "Picasso Publications"}</p>
+        <div className="price-row">
+          <strong>Rs. {book.price}</strong>
+          {originalPrice > book.price && <span className="original">Rs. {originalPrice}</span>}
+        </div>
+        <div className="cart-actions">
+          <button className="add-cart" onClick={add} disabled={book.stock <= qtyInCart}>
+            <FaShoppingBag /> {book.stock <= qtyInCart ? "Out of stock" : qtyInCart ? "Add another" : "Add to cart"}
           </button>
-        )}
-
+          {qtyInCart > 0 && (
+            <button className="go-cart" onClick={() => navigate("/cart")} aria-label="Go to cart">
+              <FaArrowRight />
+            </button>
+          )}
+        </div>
       </div>
-
       <Toast
-        message={toastMsg}
+        message={qtyInCart ? "Cart updated" : "Added to cart"}
         show={showToast}
         onClose={() => setShowToast(false)}
       />
-
-    </div>
+    </article>
   );
-};
-
-export default BookCard;
+}

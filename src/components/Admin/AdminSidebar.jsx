@@ -1,68 +1,36 @@
-import React from "react";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { createElement } from "react";
+import { FaBook, FaChartPie, FaClipboardList, FaTimes } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 import "./AdminSidebar.css";
 
-const AdminSidebar = ({ isOpen, toggleSidebar }) => {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
+const links = [
+  { to: "/admin/dashboard", label: "Dashboard", icon: FaChartPie },
+  { to: "/admin/books", label: "Books", icon: FaBook },
+  { to: "/admin/orders", label: "Orders", icon: FaClipboardList },
+];
 
-  const handleLogout = () => {
-    logout();
-    navigate("/admin/login");
-  };
-
-  const handleLinkClick = () => {
-    // close sidebar on mobile after clicking
-    if (window.innerWidth <= 1024) {
-      toggleSidebar();
-    }
-  };
-
-  return (
-    <>
-      {/* Overlay for mobile */}
-      {isOpen && (
-        <div className="admin-overlay" onClick={toggleSidebar}></div>
-      )}
-
-      <div className={`admin-sidebar ${isOpen ? "open" : ""}`}>
+const AdminSidebar = ({ isOpen, onClose }) => (
+  <>
+    {isOpen && <button className="admin-overlay" onClick={onClose} aria-label="Close admin navigation" />}
+    <aside className={`admin-sidebar ${isOpen ? "open" : ""}`} aria-label="Admin navigation">
+      <div>
         <div className="admin-logo">
-          Picasso Admin
+          <div className="admin-logo-mark">P</div>
+          <div><strong>Picasso</strong><span>Administration</span></div>
+          <button onClick={onClose} aria-label="Close navigation"><FaTimes /></button>
         </div>
-
+        <p className="admin-nav-label">Workspace</p>
         <nav className="admin-nav">
-          <NavLink
-            to="/admin/dashboard"
-            className="admin-link"
-            onClick={handleLinkClick}
-          >
-            Dashboard
-          </NavLink>
-
-          <NavLink
-            to="/admin/books"
-            className="admin-link"
-            onClick={handleLinkClick}
-          >
-            Books
-          </NavLink>
-
-          <NavLink
-            to="/admin/orders"
-            className="admin-link"
-            onClick={handleLinkClick}
-          >
-            Orders
-          </NavLink>
+          {links.map(({ to, label, icon }) => (
+            <NavLink key={to} to={to} className={({ isActive }) => `admin-link ${isActive ? "active" : ""}`} onClick={onClose}>
+              {createElement(icon)}<span>{label}</span>
+            </NavLink>
+          ))}
         </nav>
-
-        <button className="admin-logout" onClick={handleLogout}>
-          Logout
-        </button>
       </div>
-    </>
-  );
-};
+      <div className="admin-sidebar-footer"><span>Store manager</span><strong>Picasso Publications</strong></div>
+    </aside>
+  </>
+);
 
 export default AdminSidebar;

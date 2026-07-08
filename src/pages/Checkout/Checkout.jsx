@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Checkout.css";
 import Toast from "../../components/Toast/Toast";
 import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import api from "../../services/api";
 
 const Checkout = () => {
     const { isAuthenticated, sendOtp, verifyOtp } = useAuth();
-    const [step, setStep] = useState(0);
+    const [step, setStep] = useState(() => isAuthenticated ? 0 : 1);
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -39,45 +40,28 @@ const Checkout = () => {
     /* ---------------- FETCH SAVED ADDRESS ---------------- */
 
     useEffect(() => {
-        if (isAuthenticated) {
-            fetchSavedAddress();
-        }
-    }, [isAuthenticated]);
+        if (!isAuthenticated) return;
 
-    useEffect(() => {
-        if (!isAuthenticated && step === 0) {
-            setStep(1);
-        }
-    }, []);
+        let isActive = true;
+        const loadAddress = async () => {
+            try {
+                const { data } = await api.get("/auth/address");
+                if (!isActive) return;
 
-    const fetchSavedAddress = async () => {
-        try {
-            const token = localStorage.getItem("token");
-
-            const res = await fetch(
-                "https://picasso-backend-v8ci.onrender.com/auth/address",
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
+                if (data.has_address) {
+                    setSavedAddress(data.address);
+                    setStep(4);
+                } else {
+                    setStep(3);
                 }
-            );
-
-            const data = await res.json();
-
-            console.log("ADDRESS RESPONSE:", data); // debug
-
-            if (data.has_address) {
-                setSavedAddress(data.address);
-                setStep(4); // skip address form
-            } else {
-                setStep(3); // show form
+            } catch {
+                if (isActive) setStep(3);
             }
+        };
 
-        } catch (err) {
-            setStep(3);
-        }
-    };
+        loadAddress();
+        return () => { isActive = false; };
+    }, [isAuthenticated]);
     /* ---------------- SEND OTP ---------------- */
 
     const handleSendOtp = async () => {
@@ -115,7 +99,13 @@ const Checkout = () => {
                 email: email
             }));
 
-            fetchSavedAddress();
+            const { data } = await api.get("/auth/address");
+            if (data.has_address) {
+                setSavedAddress(data.address);
+                setStep(4);
+            } else {
+                setStep(3);
+            }
 
         } catch {
             setToastMsg("Invalid OTP ❌");
@@ -155,19 +145,7 @@ const Checkout = () => {
         }
 
         try {
-            const token = localStorage.getItem("token");
-
-            await fetch("https://picasso-backend-v8ci.onrender.com/auth/address", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    ...address,
-                    type: address.type
-                })
-            });
+            await api.put("/auth/address", address);
 
             setSavedAddress(address);
 
@@ -197,29 +175,15 @@ const Checkout = () => {
         setCreatingOrder(true);
 
         try {
-            const token = localStorage.getItem("token");
-
-            const res = await fetch(
-                "https://picasso-backend-v8ci.onrender.com/orders/create",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({
-                        amount: finalAmount,
-                        items: uniqueItems.map(item => ({
-                            book_id: item.book_id ?? item.id,
-                            title: item.title,
-                            quantity: item.quantity,
-                            price: item.price
-                        }))
-                    })
-                }
-            );
-
-            const data = await res.json();
+            const { data } = await api.post("/orders/create", {
+                amount: finalAmount,
+                items: uniqueItems.map(item => ({
+                    book_id: item.book_id ?? item.id,
+                    title: item.title,
+                    quantity: item.quantity,
+                    price: item.price
+                }))
+            });
 
             navigate("/payment", {
                 state: {
@@ -433,7 +397,7 @@ const Checkout = () => {
                         <h3>Order Summary</h3>
 
                         {cart.map((item) => (
-                            <div key={`${item.id} || "guest"}-${item.book_id}`} className="summary-item">
+                            <div key={`${item.id || "guest"}-${item.book_id}`} className="summary-item">
 
                                 <img
                                     src={item.image}

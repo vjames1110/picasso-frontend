@@ -10,6 +10,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <ul className="nav-list">
+        <li className="nav-item nav-all" onClick={() => navigate("/")}>All Books</li>
         {categories.map((cat, index) => (
           
           <li

@@ -64,13 +64,15 @@
 
 /* ADMIN */
 
-.admin-link {
+.footer-admin-link {
   font-size: 13px;
   cursor: pointer;
   color: #94a3b8;
+  border: 0;
+  background: transparent;
 }
 
-.admin-link:hover {
+.footer-admin-link:hover {
   color: white;
 }
 
@@ -115,14 +117,16 @@ margin-bottom:15px;
 border-bottom:1px solid #1e293b;
 }
 
-.footer-links span{
+.footer-links button{
 font-size:13px;
 color:#94a3b8;
 cursor:pointer;
 transition:0.2s;
+border:0;
+background:transparent;
 }
 
-.footer-links span:hover{
+.footer-links button:hover{
 color:white;
 }
 

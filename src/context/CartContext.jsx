@@ -9,8 +9,14 @@ export const CartProvider = ({ children }) => {
   const { token } = useAuth();
 
   const [cart, setCart] = useState(() => {
-    const guestCart = localStorage.getItem("guest_cart");
-    return guestCart ? JSON.parse(guestCart) : [];
+    try {
+      const guestCart = localStorage.getItem("guest_cart");
+      const parsed = guestCart ? JSON.parse(guestCart) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      localStorage.removeItem("guest_cart");
+      return [];
+    }
   });
 
   // ===============================
@@ -33,29 +39,26 @@ export const CartProvider = ({ children }) => {
   const syncGuestCart = async () => {
     const guestCart = JSON.parse(localStorage.getItem("guest_cart"));
 
-    if (!guestCart || guestCart.length === 0) return;
+    if (!guestCart || guestCart.length === 0) {
+      await loadCart();
+      return;
+    }
 
     try {
-      // STEP 1: clear server cart safely
       const existing = await api.get("/cart/");
-
-      await Promise.all(
-        existing.data.map(item => api.delete(`/cart/${item.id}`))
-      );
 
       // STEP 2: REMOVE DUPLICATES BEFORE SENDING
       const uniqueCart = Array.from(
         new Map(guestCart.map(i => [i.book_id, i])).values()
       );
 
-      // STEP 3: re-add clean cart
       await Promise.all(
-        uniqueCart.map(item =>
-          api.post("/cart/", {
-            book_id: item.book_id,
-            quantity: item.quantity
-          })
-        )
+        uniqueCart.map(item => {
+          const serverItem = existing.data.find(i => i.book_id === item.book_id);
+          return serverItem
+            ? api.put(`/cart/${serverItem.id}`, { quantity: serverItem.quantity + item.quantity })
+            : api.post("/cart/", { book_id: item.book_id, quantity: item.quantity });
+        })
       );
 
       localStorage.removeItem("guest_cart");
@@ -77,32 +80,38 @@ const addToCart = async (book, qty = 1) => {
 
   // ---------- GUEST USER ----------
   if (!token) {
+    setCart((currentCart) => {
+      const existing = currentCart.find(i => i.book_id === book.id);
+      const stock = Number(book.stock || 0);
+      const safeQty = Math.max(1, Number(qty) || 1);
+      let updatedCart;
 
-    const existing = cart.find(i => i.book_id === book.id);
+      if (existing) {
+        updatedCart = currentCart.map(i =>
+          i.book_id === book.id
+            ? { ...i, quantity: stock > 0 ? Math.min(i.quantity + safeQty, stock) : i.quantity }
+            : i
+        );
+      } else if (stock > 0) {
+        updatedCart = [
+          ...currentCart,
+          {
+            book_id: book.id,
+            title: book.title,
+            price: Number(book.price),
+            originalPrice: Number(book.original_price || book.price),
+            image: book.image,
+            stock,
+            quantity: Math.min(safeQty, stock)
+          }
+        ];
+      } else {
+        return currentCart;
+      }
 
-    let updatedCart;
-
-    if (existing) {
-      updatedCart = cart.map(i =>
-        i.book_id === book.id
-          ? { ...i, quantity: i.quantity + qty }
-          : i
-      );
-    } else {
-      updatedCart = [
-        ...cart,
-        {
-          book_id: book.id,
-          title: book.title,
-          price: book.price,
-          image: book.image,
-          quantity: qty
-        }
-      ];
-    }
-
-    setCart(updatedCart);
-    localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
+      localStorage.setItem("guest_cart", JSON.stringify(updatedCart));
+      return updatedCart;
+    });
     return;
   }
 
@@ -173,7 +182,7 @@ const addToCart = async (book, qty = 1) => {
   const increaseQuantity = async (item) => {
 
     // STOCK GUARD
-    if (item.quantity >= item.stock) return;
+    if (Number(item.stock) > 0 && item.quantity >= Number(item.stock)) return;
 
     // GUEST
     if (!token) {
@@ -269,9 +278,11 @@ const addToCart = async (book, qty = 1) => {
   // ===============================
   useEffect(() => {
     if (token) {
+      // Synchronize local cart state after authentication.
       syncGuestCart();
-      loadCart();
     }
+    // The synchronization is keyed only to authentication changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
@@ -296,4 +307,5 @@ const addToCart = async (book, qty = 1) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => useContext(CartContext);

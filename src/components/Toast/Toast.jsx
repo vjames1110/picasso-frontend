@@ -4,9 +4,10 @@ import "./Toast.css";
 const Toast = ({ message, show, onClose }) => {
   useEffect(() => {
     if (show) {
-      setTimeout(onClose, 2000);
+      const timeout = setTimeout(onClose, 2000);
+      return () => clearTimeout(timeout);
     }
-  }, [show]);
+  }, [show, onClose]);
 
   return (
     <div className={`toast ${show ? "show" : ""}`}>

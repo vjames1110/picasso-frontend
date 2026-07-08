@@ -1,26 +1,25 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
-import AdminSidebar from "./AdminSidebar";
 import AdminHeader from "./AdminHeader";
+import AdminSidebar from "./AdminSidebar";
 import "./AdminLayout.css";
 
 const AdminLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  useEffect(() => {
+    if (!isOpen) return;
+    const closeOnEscape = (event) => event.key === "Escape" && setIsOpen(false);
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isOpen]);
 
   return (
-    <div className="admin-container">
-      <AdminSidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-
+    <div className="admin-shell">
+      <AdminSidebar isOpen={isOpen} onClose={() => setIsOpen(false)} />
       <div className="admin-main">
-        <AdminHeader toggleSidebar={toggleSidebar} />
-
-        <div className="admin-content">
-          <Outlet />
-        </div>
+        <AdminHeader onMenu={() => setIsOpen(true)} />
+        <div className="admin-content"><Outlet /></div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./Header.css";
-import { FaShieldAlt, FaShoppingCart, FaUser, FaHome } from 'react-icons/fa';
+import { FaShoppingCart, FaUser, FaSearch, FaClipboardCheck, FaBoxOpen } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 import { useCart } from '../../context/CartContext';
 import { useAuth } from "../../context/AuthContext";
@@ -20,15 +20,16 @@ const Header = () => {
                 className="logo-section"
                 onClick={() => navigate("/")}
                 style={{ cursor: "pointer"}}>
-                <h1>Picasso Publications</h1>
-                <p className='tagline'>Your Success Partner</p>
+                <div className="brand-mark">P</div>
+                <div><h1>Picasso Publications</h1>
+                <p className='tagline'>Your Success Partner</p></div>
             </div>
 
             {/* Search Section */}
             <div className='search-bar'>
                 <input
                     type='text'
-                    placeholder='Search Books for SSC, UPSC, Banking...'
+                    placeholder='Search by book, exam or author'
                     value={search || ""}
                     onChange={(e) => setSearch(e.target.value)}
                 />
@@ -42,7 +43,7 @@ const Header = () => {
                         }
                     }}
                 >
-                    Search
+                    <FaSearch aria-label="Search" />
                 </button>
             </div>
 
@@ -52,18 +53,19 @@ const Header = () => {
                 {/* Home Button */}
 
                 <button
-                    className='home-btn'
+                    className='mock-test-btn'
                     onClick={() => navigate("/")}
+                    title="Mock tests are coming soon"
                 >
-                    <FaHome /> Home
+                    <FaClipboardCheck /> <span>Give Mock Test</span>
                 </button>
 
                 {!isAuthenticated ? (
                     <button
                         className='login-btn'
-                        onClick={() => navigate("/checkout")}
+                        onClick={() => navigate("/login")}
                     >
-                        <FaUser /> Login
+                        <FaUser /> <span>Login</span>
                     </button>
                 ) : (
                     <button
@@ -73,23 +75,20 @@ const Header = () => {
                             navigate("/");
                         }}
                     >
-                        <FaUser /> Logout
+                        <FaUser /> <span>Logout</span>
                     </button>
                 )}
 
-                <div
-                    className='cart-icon'
-                    onClick={() => navigate("/cart")}
-                >
+                <button className='icon-action cart-icon' onClick={() => navigate("/cart")} aria-label="Open cart">
                     <FaShoppingCart />
                     <span className='cart-count'>{getTotalItems()}</span>
-                </div>
+                </button>
 
                 <button
-                    className="login-btn"
+                    className="orders-btn"
                     onClick={() => navigate("/my-orders")}
                 >
-                    My Orders
+                    <FaBoxOpen /> <span>Orders</span>
                 </button>
 
             </div>

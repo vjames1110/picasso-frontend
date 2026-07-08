@@ -15,37 +15,46 @@ const AdminOrders = () => {
   const [orders, setOrders] = useState([]);
   const [expanded, setExpanded] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(true);
 
   const loadOrders = async () => {
     try {
       const res = await api.get("/orders/admin/all");
       setOrders(res.data);
-    } catch (err) {
+    } catch {
       console.log("error loading orders");
     }
   };
 
   useEffect(() => {
-    loadOrders();
+    let isActive = true;
+    api.get("/orders/admin/all")
+      .then((res) => {
+        if (isActive) setOrders(res.data);
+      })
+      .catch(() => console.log("error loading orders"))
+      .finally(() => { if (isActive) setFetching(false); });
+
+    return () => { isActive = false; };
   }, []);
 
   const updateStatus = async (id, status) => {
     setLoading(true);
 
-    await api.put(`/orders/update-status/${id}`, {
-      status
-    });
-
-    setLoading(false);
-    loadOrders();
+    try {
+      await api.put(`/orders/update-status/${id}`, { status });
+      await loadOrders();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="admin-orders">
 
-      <h2>All Orders</h2>
+      <div className="admin-orders-heading"><div><p>FULFILMENT QUEUE</p><h2>All orders</h2></div><span>{orders.length} total</span></div>
 
-      {orders.length === 0 && (
+      {!fetching && orders.length === 0 && (
         <div className="no-orders">
           No orders yet
         </div>
@@ -69,6 +78,7 @@ const AdminOrders = () => {
               <div className="order-controls">
 
                 <select
+                  disabled={loading}
                   value={order.status}
                   onChange={(e) =>
                     updateStatus(order.id, e.target.value)
@@ -88,7 +98,7 @@ const AdminOrders = () => {
                     )
                   }
                 >
-                  Details
+                  {expanded === order.id ? "Hide details" : "View details"}
                 </button>
 
               </div>

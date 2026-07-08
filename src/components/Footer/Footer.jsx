@@ -11,13 +11,13 @@ const Footer = () => {
 
       <div className="footer-links">
 
-        <span onClick={() => navigate("/about")}>About Us</span>
-        <span onClick={() => navigate("/contact")}>Contact Us</span>
-        <span onClick={() => navigate("/privacy")}>Privacy Policy</span>
-        <span onClick={() => navigate("/terms")}>Terms & Conditions</span>
-        <span onClick={() => navigate("/refund")}>Refund Policy</span>
-        <span onClick={() => navigate("/shipping")}>Shipping Policy</span>
-        <span onClick={() => navigate("/support")}>Support</span>
+        <button onClick={() => navigate("/about")}>About Us</button>
+        <button onClick={() => navigate("/contact")}>Contact Us</button>
+        <button onClick={() => navigate("/privacy")}>Privacy Policy</button>
+        <button onClick={() => navigate("/terms")}>Terms & Conditions</button>
+        <button onClick={() => navigate("/refund")}>Refund Policy</button>
+        <button onClick={() => navigate("/shipping")}>Shipping Policy</button>
+        <button onClick={() => navigate("/support")}>Support</button>
 
       </div>
 
@@ -62,12 +62,12 @@ const Footer = () => {
             </a>
           </div>
 
-          <span
-            className="admin-link"
+          <button
+            className="footer-admin-link"
             onClick={() => navigate("/admin/login")}
           >
             Admin Login
-          </span>
+          </button>
 
         </div>
 

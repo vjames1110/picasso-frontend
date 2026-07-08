@@ -1,32 +1,34 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Hero from "./components/Hero/Hero";
 import BookSection from "./components/BookSection/BookSection";
-import BookDetails from "./pages/BookDetails/BookDetails";
-import Cart from "./pages/Cart/Cart";
-import Checkout from "./pages/Checkout/Checkout";
-import Payment from "./pages/Payment/Payment";
-import OrderSuccess from "./pages/OrderSuccess/OrderSuccess";
-import Login from "./pages/Login/Login";
 import ProtectedRoute from "./routes/ProtectedRoute";
-import MyOrders from "./pages/MyOrders/MyOrders";
-import OrderTracking from "./pages/OrderTracking/OrderTracking";
-import AdminLogin from "./pages/admin/AdminLogin/AdminLogin";
-import AdminDashboard from "./pages/admin/AdminDashboard/AdminDashboard";
-import AdminLayout from "./components/Admin/AdminLayout";
 import AdminProtectedRoute from "./routes/AdminProtectedRoute";
-import AdminBooks from "./pages/admin/AdminBooks/AdminBooks";
-import AdminOrders from "./pages/admin/AdminOrders/AdminOrders";
 import Footer from "./components/Footer/Footer";
-import About from "./pages/Footer/About";
-import Contact from "./pages/Footer/Contact";
-import Privacy from "./pages/Footer/Privacy";
-import Terms from "./pages/Footer/Terms";
-import Refund from "./pages/Footer/Refund";
-import Shipping from "./pages/Footer/Shipping";
-import Support from "./pages/Footer/Support";
+
+const BookDetails = lazy(() => import("./pages/BookDetails/BookDetails"));
+const Cart = lazy(() => import("./pages/Cart/Cart"));
+const Checkout = lazy(() => import("./pages/Checkout/Checkout"));
+const Payment = lazy(() => import("./pages/Payment/Payment"));
+const OrderSuccess = lazy(() => import("./pages/OrderSuccess/OrderSuccess"));
+const Login = lazy(() => import("./pages/Login/Login"));
+const MyOrders = lazy(() => import("./pages/MyOrders/MyOrders"));
+const OrderTracking = lazy(() => import("./pages/OrderTracking/OrderTracking"));
+const AdminLogin = lazy(() => import("./pages/admin/AdminLogin/AdminLogin"));
+const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard/AdminDashboard"));
+const AdminLayout = lazy(() => import("./components/Admin/AdminLayout"));
+const AdminBooks = lazy(() => import("./pages/admin/AdminBooks/AdminBooks"));
+const AdminOrders = lazy(() => import("./pages/admin/AdminOrders/AdminOrders"));
+const About = lazy(() => import("./pages/Footer/About"));
+const Contact = lazy(() => import("./pages/Footer/Contact"));
+const Privacy = lazy(() => import("./pages/Footer/Privacy"));
+const Terms = lazy(() => import("./pages/Footer/Terms"));
+const Refund = lazy(() => import("./pages/Footer/Refund"));
+const Shipping = lazy(() => import("./pages/Footer/Shipping"));
+const Support = lazy(() => import("./pages/Footer/Support"));
 
 function AppLayout() {
   const location = useLocation();
@@ -41,6 +43,7 @@ function AppLayout() {
       {!hideLayout && <Header />}
       {!hideLayout && <Navbar />}
 
+      <Suspense fallback={<div className="route-loading">Loading page...</div>}>
       <Routes>
 
         <Route
@@ -133,9 +136,10 @@ function AppLayout() {
 
         {/* Important Fallback */}
 
-        <Route path="*" element={<Cart />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
 
       </Routes>
+      </Suspense>
 
       {!hideLayout && <Footer />}
     </>

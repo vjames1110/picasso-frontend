@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
+import api from "../../services/api";
 import "./Payment.css";
 
 const Payment = () => {
@@ -25,6 +26,8 @@ const Payment = () => {
 
         razorPayOpened.current = true;
         handleRazorpay();
+        // Payment initialization must run once for the navigation state.
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state]);
 
     const loadRazorpay = () => {
@@ -61,31 +64,13 @@ const Payment = () => {
                 handler: async function (response) {
                     try {
 
-                        const token = localStorage.getItem("token");
+                        await api.post("/orders/verify", {
+                            razorpay_order_id: response.razorpay_order_id,
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            razorpay_signature: response.razorpay_signature
+                        });
 
-                        const verifyRes = await fetch(
-                            "https://picasso-backend-v8ci.onrender.com/orders/verify",
-                            {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    Authorization: `Bearer ${token}`
-                                },
-                                body: JSON.stringify({
-                                    razorpay_order_id: response.razorpay_order_id,
-                                    razorpay_payment_id: response.razorpay_payment_id,
-                                    razorpay_signature: response.razorpay_signature
-                                })
-                            }
-                        );
-
-                        if (!verifyRes.ok) {
-                            throw new Error("Verification failed");
-                        }
-
-                        await verifyRes.json();
-
-                        clearCart();
+                        await clearCart();
 
                         // ✅ STOP LOADING
                         setLoading(false);

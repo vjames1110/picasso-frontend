@@ -31,7 +31,16 @@ const AdminBooks = () => {
     };
 
     useEffect(() => {
-        if (mode === "edit") loadBooks();
+        if (mode !== "edit") return;
+
+        let isActive = true;
+        api.get("/books").then((res) => {
+            if (isActive) setBooks(res.data);
+        }).catch(() => {
+            if (isActive) setBooks([]);
+        });
+
+        return () => { isActive = false; };
     }, [mode]);
 
     // Handle change
@@ -86,7 +95,7 @@ const AdminBooks = () => {
                 setSuccess(false);
             }, 2000);
 
-        } catch (err) {
+        } catch {
             setLoading(false);
             alert("Error saving book");
         }
@@ -266,7 +275,7 @@ const AdminBooks = () => {
                     {books.map(book => (
                         <div className="book-row" key={book.id}>
 
-                            <img src={book.image} />
+                            <img src={book.image} alt={book.title} />
 
                             <div className="book-info">
                                 <h4>{book.title}</h4>

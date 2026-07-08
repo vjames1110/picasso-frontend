@@ -1,113 +1,80 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion as Motion } from "framer-motion";
 import "./Hero.css";
-import { motion, AnimatePresence } from "framer-motion";
 
 const slides = [
   {
-    title: "UPSC",
-    subtitle: "Crack Civil Services with the Best Books",
-    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f"
+    eyebrow: "CURATED FOR SERIOUS ASPIRANTS",
+    title: "Books that move your preparation forward.",
+    subtitle: "Trusted exam resources, thoughtful editions, and dependable delivery all in one place.",
+    image: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=900&q=80",
   },
   {
-    title: "SSC",
-    subtitle: "Prepare Smart for SSC Exams",
-    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc"
+    eyebrow: "PREPARE WITH CLARITY",
+    title: "Study smarter for every competitive exam.",
+    subtitle: "Focused material for SSC, teaching, banking, and state-level examinations.",
+    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?auto=format&fit=crop&w=900&q=80",
   },
   {
-    title: "Banking",
-    subtitle: "Ace Banking Exams with Confidence",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40"
-  }
+    eyebrow: "PICASSO PUBLICATIONS",
+    title: "Turn preparation into measurable progress.",
+    subtitle: "Quality books created to make difficult concepts easier to learn and revise.",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=900&q=80",
+  },
 ];
 
-const Hero = () => {
+export default function Hero() {
   const [current, setCurrent] = useState(0);
 
-  // ✅ Auto slide (slightly slower = smoother)
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
-    }, 5000);
-
+    const interval = setInterval(() => setCurrent((value) => (value + 1) % slides.length), 6000);
     return () => clearInterval(interval);
   }, []);
 
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+
   return (
     <section className="hero">
-
-      {/* LEFT */}
+      <div className="hero-glow" />
       <div className="hero-left">
         <AnimatePresence mode="wait">
-          <motion.div
+          <Motion.div
             key={current}
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 30 }}
-            transition={{ duration: 0.5 }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35 }}
           >
-            <h1>
-              {slides[current].title} <br />
-              <span>{slides[current].subtitle}</span>
-            </h1>
-          </motion.div>
+            <p className="hero-eyebrow">{slides[current].eyebrow}</p>
+            <h1>{slides[current].title}</h1>
+            <p className="hero-subtitle">{slides[current].subtitle}</p>
+          </Motion.div>
         </AnimatePresence>
-
         <div className="hero-buttons">
-          <button
-            className="btn-primary"
-            onClick={() =>
-              document
-                .getElementById("book-section")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Explore Books
-          </button>
-
-          <button
-            className="btn-secondary"
-            onClick={() =>
-              document
-                .getElementById("book-section")
-                ?.scrollIntoView({ behavior: "smooth" })
-            }
-          >
-            Top Sellers
-          </button>
+          <button className="btn-primary" onClick={() => scrollTo("new-arrivals")}>Explore new books</button>
+          <button className="btn-secondary" onClick={() => scrollTo("top-selling")}>View bestsellers</button>
         </div>
-
         <div className="hero-trust">
-          <div className="glass-card">✅ 10K+ Students</div>
-          <div className="glass-card">🚚 Fast Delivery</div>
-          <div className="glass-card">💯 Genuine Books</div>
+          <div className="glass-card"><strong>10K+</strong><span>Learners served</span></div>
+          <div className="glass-card"><strong>Fast</strong><span>Pan-India delivery</span></div>
+          <div className="glass-card"><strong>100%</strong><span>Genuine books</span></div>
         </div>
       </div>
-
-      {/* RIGHT */}
       <div className="hero-right">
         <AnimatePresence mode="wait">
-          <motion.img
+          <Motion.img
             key={slides[current].image}
             src={slides[current].image}
-            alt="Books"
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0, y: [0, -8, 0] }}
-            exit={{ opacity: 0, x: -30 }}
-            transition={{
-              opacity: { duration: 0.5 },
-              x: { duration: 0.5 },
-              y: {
-                duration: 3,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }
-            }}
+            alt="A curated Picasso Publications study collection"
+            loading="eager"
+            initial={{ opacity: 0, scale: .97 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: .45 }}
           />
         </AnimatePresence>
+        <div className="hero-image-label"><span>Editor's selection</span><strong>Built for your next milestone</strong></div>
       </div>
-
     </section>
   );
-};
-
-export default Hero;
+}

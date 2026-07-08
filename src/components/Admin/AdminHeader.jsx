@@ -1,33 +1,36 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import { FaBars, FaExternalLinkAlt, FaSignOutAlt } from "react-icons/fa";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import "./AdminHeader.css";
 
-const AdminHeader = ({ toggleSidebar }) => {
-  const { logout } = useAuth();
+const pageNames = {
+  "/admin/dashboard": ["Dashboard", "A quick view of store performance"],
+  "/admin/books": ["Book catalogue", "Add and manage publication inventory"],
+  "/admin/orders": ["Orders", "Review purchases and update fulfilment"],
+};
+
+const AdminHeader = ({ onMenu }) => {
+  const { pathname } = useLocation();
   const navigate = useNavigate();
+  const { logout } = useAuth();
+  const [title, subtitle] = pageNames[pathname] || ["Admin panel", "Picasso Publications"];
 
   const handleLogout = () => {
     logout();
-    window.location.href = "/";
+    navigate("/", { replace: true });
   };
 
   return (
-    <div className="admin-header">
+    <header className="admin-header">
       <div className="admin-header-left">
-        <div className="admin-hamburger" onClick={toggleSidebar}>
-          ☰
-        </div>
-
-        <h2>Admin Panel</h2>
+        <button className="admin-menu-button" onClick={onMenu} aria-label="Open admin navigation"><FaBars /></button>
+        <div><h1>{title}</h1><p>{subtitle}</p></div>
       </div>
-
-      <div className="admin-header-right">
-        <button className="admin-header-logout" onClick={handleLogout}>
-          Logout
-        </button>
+      <div className="admin-header-actions">
+        <button className="admin-store-link" onClick={() => navigate("/")}><FaExternalLinkAlt /><span>View store</span></button>
+        <button className="admin-header-logout" onClick={handleLogout}><FaSignOutAlt /><span>Logout</span></button>
       </div>
-    </div>
+    </header>
   );
 };
 
