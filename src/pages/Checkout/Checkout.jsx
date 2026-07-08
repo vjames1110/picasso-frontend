@@ -5,22 +5,22 @@ import { useCart } from "../../context/CartContext";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../services/api";
-import { FaArrowRight, FaCheckCircle, FaCreditCard, FaLock, FaMapMarkerAlt, FaPen } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaBuilding, FaCheckCircle, FaCity, FaCreditCard, FaEnvelope, FaHome, FaLock, FaMapMarkerAlt, FaPen, FaPhone, FaUser } from "react-icons/fa";
 
 const money = (value) => `Rs. ${Number(value || 0).toLocaleString("en-IN")}`;
 
 const Checkout = () => {
-    const { isAuthenticated, sendOtp, verifyOtp } = useAuth();
-    const [step, setStep] = useState(() => isAuthenticated ? 0 : 1);
+    const { isAuthenticated, user } = useAuth();
+    const [step, setStep] = useState(0);
     const navigate = useNavigate();
-
-    const [email, setEmail] = useState("");
-    const [enteredOTP, setEnteredOTP] = useState("");
 
     const [toastMsg, setToastMsg] = useState("");
     const [showToast, setShowToast] = useState(false);
 
     const [savedAddress, setSavedAddress] = useState(null);
+    const [addressError, setAddressError] = useState("");
+    const [addressSaving, setAddressSaving] = useState(false);
+    const [addressReload, setAddressReload] = useState(0);
 
     const [creatingOrder, setCreatingOrder] = useState(false);
 
@@ -52,73 +52,42 @@ const Checkout = () => {
                 if (!isActive) return;
 
                 if (data.has_address) {
-                    setSavedAddress(data.address);
+                    setSavedAddress({
+                        ...data.address,
+                        type: localStorage.getItem(`address_type_${user?.id}`) || "Home",
+                    });
                     setStep(4);
                 } else {
+                    setAddress((current) => ({ ...current, email: user?.email || current.email }));
                     setStep(3);
                 }
             } catch {
-                if (isActive) setStep(3);
+                if (isActive) setAddressError("We could not check your saved address. Please try again.");
             }
         };
 
         loadAddress();
         return () => { isActive = false; };
-    }, [isAuthenticated]);
-    /* ---------------- SEND OTP ---------------- */
+    }, [addressReload, isAuthenticated, user?.email, user?.id]);
 
-    const handleSendOtp = async () => {
-        if (!email.includes("@")) {
-            setToastMsg("Enter valid email ❌");
-            setShowToast(true);
-            return;
-        }
-
-        try {
-            await sendOtp(email);
-
-            setToastMsg("OTP sent to email 📩");
-            setShowToast(true);
-
-            setStep(2);
-
-        } catch {
-            setToastMsg("Failed to send OTP ❌");
-            setShowToast(true);
-        }
+    const updateAddress = (field, value) => {
+        setAddress((current) => ({ ...current, [field]: value }));
     };
 
-    /* ---------------- VERIFY OTP ---------------- */
-
-    const handleVerifyOtp = async () => {
-        try {
-            await verifyOtp(email, enteredOTP);
-
-            setToastMsg("OTP Verified ✅");
-            setShowToast(true);
-
-            setAddress(prev => ({
-                ...prev,
-                email: email
-            }));
-
-            const { data } = await api.get("/auth/address");
-            if (data.has_address) {
-                setSavedAddress(data.address);
-                setStep(4);
-            } else {
-                setStep(3);
-            }
-
-        } catch {
-            setToastMsg("Invalid OTP ❌");
-            setShowToast(true);
-        }
+    const editSavedAddress = () => {
+        setAddress({
+            ...address,
+            ...savedAddress,
+            email: savedAddress?.email || user?.email || "",
+            type: savedAddress?.type || address.type || "Home",
+        });
+        setStep(3);
     };
 
     /* ---------------- SAVE ADDRESS ---------------- */
 
-    const handleAddressSubmit = async () => {
+    const handleAddressSubmit = async (event) => {
+        event?.preventDefault();
 
         if (
             !address.name ||
@@ -130,36 +99,40 @@ const Checkout = () => {
             !address.city ||
             !address.state
         ) {
-            setToastMsg("Fill all fields ❌");
+            setToastMsg("Please complete all address fields");
             setShowToast(true);
             return;
         }
 
-        if (address.phone.length !== 10) {
-            setToastMsg("Invalid phone number ❌");
+        if (!/^\d{10}$/.test(address.phone)) {
+            setToastMsg("Enter a valid 10 digit phone number");
             setShowToast(true);
             return;
         }
 
-        if (address.pincode.length !== 6) {
-            setToastMsg("Invalid Pincode ❌");
+        if (!/^\d{6}$/.test(address.pincode)) {
+            setToastMsg("Enter a valid 6 digit pincode");
             setShowToast(true);
             return;
         }
 
         try {
+            setAddressSaving(true);
             await api.put("/auth/address", address);
+            localStorage.setItem(`address_type_${user?.id}`, address.type);
 
             setSavedAddress(address);
 
-            setToastMsg("Address Saved ✅");
+            setToastMsg(savedAddress ? "Delivery address updated" : "Delivery address saved");
             setShowToast(true);
 
             setStep(4);
 
-        } catch {
-            setToastMsg("Failed to save address ❌");
+        } catch (error) {
+            setToastMsg(error.response?.data?.detail || "Unable to save the address");
             setShowToast(true);
+        } finally {
+            setAddressSaving(false);
         }
     };
 
@@ -209,152 +182,34 @@ const Checkout = () => {
 
     return (
         <div className="checkout-container">
-
-            {/* STEP 1 EMAIL */}
-            {step === 1 && (
-                <div className="otp-overlay">
-                    <div className="checkout-card">
-                        <h2>Enter Email</h2>
-
-                        <input
-                            type="email"
-                            value={email}
-                            placeholder="Enter your email"
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-
-                        <button onClick={handleSendOtp}>
-                            Send OTP
-                        </button>
-                    </div>
+            {step === 0 && (
+                <div className="checkout-address-state">
+                    {addressError ? <><FaMapMarkerAlt /><h2>{addressError}</h2><button onClick={() => { setAddressError(""); setAddressReload((value) => value + 1); }}>Try again</button></> : <><span className="loader" /> Checking your saved address...</>}
                 </div>
             )}
 
-            {/* STEP 2 OTP */}
-            {step === 2 && (
-                <div className="otp-overlay">
-                    <div className="otp-popup">
-                        <h2>Verify OTP</h2>
+            {step === 3 && (
+                <main className="checkout-address-page">
+                    <button className="checkout-address-back" onClick={() => savedAddress ? setStep(4) : navigate("/cart")}><FaArrowLeft /> {savedAddress ? "Back to checkout" : "Back to cart"}</button>
+                    <div className="checkout-address-heading"><p>{savedAddress ? "UPDATE DELIVERY DETAILS" : "ONE LAST STEP"}</p><h1>{savedAddress ? "Change delivery address" : "Add your delivery address"}</h1><span>{savedAddress ? "Update the information below for this and future orders." : "We’ll save this securely, so you won’t need to enter it again."}</span></div>
 
-                        <input
-                            className="otp-input"
-                            value={enteredOTP}
-                            onChange={(e) => setEnteredOTP(e.target.value)}
-                        />
+                    <form className="checkout-address-form" onSubmit={handleAddressSubmit}>
+                        <div className="checkout-address-form-title"><FaMapMarkerAlt /><div><h2>Contact and delivery details</h2><p>Fields marked required must be completed.</p></div></div>
 
-                        <button
-                            className="verify-btn"
-                            onClick={handleVerifyOtp}
-                        >
-                            Verify
-                        </button>
-                    </div>
-                </div>
-            )}
+                        <label><span>Full name</span><div><FaUser /><input type="text" autoComplete="name" placeholder="Recipient’s full name" value={address.name} onChange={(event) => updateAddress("name", event.target.value)} required /></div></label>
+                        <label><span>Registered email</span><div className="readonly"><FaEnvelope /><input type="email" value={address.email || user?.email || ""} readOnly /></div><small>This is linked to your Picasso account.</small></label>
+                        <label><span>Phone number</span><div><FaPhone /><b>+91</b><input type="tel" inputMode="numeric" autoComplete="tel" maxLength={10} placeholder="10 digit number" value={address.phone} onChange={(event) => updateAddress("phone", event.target.value.replace(/\D/g, ""))} required /></div></label>
+                        <label><span>Pincode</span><div><FaMapMarkerAlt /><input type="text" inputMode="numeric" autoComplete="postal-code" maxLength={6} placeholder="6 digit pincode" value={address.pincode} onChange={(event) => updateAddress("pincode", event.target.value.replace(/\D/g, ""))} required /></div></label>
+                        <label className="wide"><span>House, flat or building</span><div><FaHome /><input type="text" autoComplete="address-line1" placeholder="House number, flat, building" value={address.house} onChange={(event) => updateAddress("house", event.target.value)} required /></div></label>
+                        <label className="wide"><span>Street, area or landmark</span><div><FaMapMarkerAlt /><input type="text" autoComplete="address-line2" placeholder="Area, street or nearby landmark" value={address.area} onChange={(event) => updateAddress("area", event.target.value)} required /></div></label>
+                        <label><span>City</span><div><FaCity /><input type="text" autoComplete="address-level2" placeholder="City" value={address.city} onChange={(event) => updateAddress("city", event.target.value)} required /></div></label>
+                        <label><span>State</span><div><FaBuilding /><input type="text" autoComplete="address-level1" placeholder="State" value={address.state} onChange={(event) => updateAddress("state", event.target.value)} required /></div></label>
 
-            {/* STEP 3 ADDRESS */}
-            {step === 3 && !savedAddress && (
-                <div className="otp-overlay">
-                    <div className="address-popup">
-                        <h2>Add Delivery Address</h2>
+                        <fieldset className="checkout-address-type"><legend>Address type</legend><button type="button" className={address.type === "Home" ? "active" : ""} onClick={() => updateAddress("type", "Home")}><FaHome /> Home</button><button type="button" className={address.type === "Office" ? "active" : ""} onClick={() => updateAddress("type", "Office")}><FaBuilding /> Office</button></fieldset>
 
-                        <div className="address-form">
-
-                            <input
-                                placeholder="Full Name"
-                                value={address.name}
-                                onChange={(e) =>
-                                    setAddress({ ...address, name: e.target.value })
-                                }
-                            />
-
-                            <div className="phone-input">
-                                <span>+91</span>
-                                <input
-                                    type="tel"
-                                    placeholder="Phone Number"
-                                    maxLength={10}
-                                    value={address.phone}
-                                    onChange={(e) =>
-                                        setAddress({ ...address, phone: e.target.value })
-                                    }
-                                />
-                            </div>
-
-                            <input
-                                placeholder="Email"
-                                value={address.email}
-                                onChange={(e) =>
-                                    setAddress({ ...address, email: e.target.value })
-                                }
-                            />
-
-                            <input
-                                placeholder="Pincode"
-                                value={address.pincode}
-                                onChange={(e) =>
-                                    setAddress({ ...address, pincode: e.target.value })
-                                }
-                            />
-
-                            <input
-                                placeholder="House"
-                                value={address.house}
-                                onChange={(e) =>
-                                    setAddress({ ...address, house: e.target.value })
-                                }
-                            />
-
-                            <input
-                                placeholder="Area"
-                                value={address.area}
-                                onChange={(e) =>
-                                    setAddress({ ...address, area: e.target.value })
-                                }
-                            />
-
-                            <input
-                                placeholder="City"
-                                value={address.city}
-                                onChange={(e) =>
-                                    setAddress({ ...address, city: e.target.value })
-                                }
-                            />
-
-                            <input
-                                placeholder="State"
-                                value={address.state}
-                                onChange={(e) =>
-                                    setAddress({ ...address, state: e.target.value })
-                                }
-                            />
-
-                        </div>
-
-                        <div className="address-type">
-                            <button
-                                className={address.type === "Home" ? "active" : ""}
-                                onClick={() => setAddress({ ...address, type: "Home" })}
-                            >
-                                Home
-                            </button>
-
-                            <button
-                                className={address.type === "Office" ? "active" : ""}
-                                onClick={() => setAddress({ ...address, type: "Office" })}
-                            >
-                                Office
-                            </button>
-                        </div>
-
-                        <button
-                            className="address-btn"
-                            onClick={handleAddressSubmit}
-                        >
-                            Continue
-                        </button>
-                    </div>
-                </div>
+                        <div className="checkout-address-actions">{savedAddress && <button type="button" className="checkout-address-cancel" onClick={() => setStep(4)}>Cancel</button>}<button type="submit" className="checkout-address-save" disabled={addressSaving}>{addressSaving ? "Saving address..." : <>Save and continue <FaArrowRight /></>}</button></div>
+                    </form>
+                </main>
             )}
 
             {/* STEP 4 PAYMENT */}
@@ -368,11 +223,7 @@ const Checkout = () => {
                             <header><div className="checkout-detail-icon"><FaMapMarkerAlt /></div><div><span>DELIVERY ADDRESS</span><h2>Where should we send your books?</h2></div>
                             <button
                                 className="change-address-btn"
-                                onClick={() => {
-                                    setAddress(savedAddress);
-                                    setSavedAddress(null);
-                                    setStep(3)
-                                }}
+                                onClick={editSavedAddress}
                             >
                                 <FaPen /> Change
                             </button>
