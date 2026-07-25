@@ -5,6 +5,19 @@ import QuickViewModal from "../QuickViewModal/QuickViewModal.jsx";
 import api from "../../services/api.js";
 import "./BookSection.css";
 
+const getBookTimestamp = (book) => {
+  const dateValue = book?.created_at || book?.createdAt || book?.updated_at || book?.updatedAt;
+  const parsed = Date.parse(dateValue);
+  return Number.isNaN(parsed) ? 0 : parsed;
+};
+
+const sortNewestFirst = (items = []) =>
+  [...items].sort((first, second) => {
+    const dateDiff = getBookTimestamp(second) - getBookTimestamp(first);
+    if (dateDiff) return dateDiff;
+    return Number(second?.id || 0) - Number(first?.id || 0);
+  });
+
 const Shelf = ({ id, eyebrow, title, description, books, badge, onQuickView }) => (
   <section className="book-shelf" id={id}>
     <div className="section-heading">
@@ -70,7 +83,7 @@ export default function BookSection() {
         const selling = results[1];
 
         if (all.status === "fulfilled") {
-          setBooks(all.value.data || []);
+          setBooks(sortNewestFirst(all.value.data || []));
         } else {
           if (!isCanceled(all.reason)) {
             setBooks([]);
@@ -113,6 +126,8 @@ export default function BookSection() {
   }
 
   const filtered = Boolean(search || category);
+  const newestBooks = sortNewestFirst(books);
+  const topSellingBooks = topSelling.length ? topSelling : newestBooks.slice(0, 8);
 
   return (
     <main className="book-section">
@@ -131,7 +146,7 @@ export default function BookSection() {
             eyebrow="Fresh from the press"
             title="Newly added books"
             description="The latest titles in our catalogue, newest first."
-            books={books.slice(0, 8)}
+            books={newestBooks.slice(0, 8)}
             badge="New"
             onQuickView={setSelectedBook}
           />
@@ -140,7 +155,7 @@ export default function BookSection() {
             eyebrow="Reader favourites"
             title="Top selling books"
             description="The books learners choose most often."
-            books={topSelling}
+            books={topSellingBooks}
             badge="Bestseller"
             onQuickView={setSelectedBook}
           />
