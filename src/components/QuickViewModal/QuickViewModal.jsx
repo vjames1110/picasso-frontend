@@ -87,7 +87,7 @@ const QuickViewModal = ({ book, onClose }) => {
             >
               View details
             </button>
-            {qtyInCart > 0 && <button className="quick-modal-go-cart" onClick={() => navigate("/cart")}>Go to cart</button>}
+            {qtyInCart > 0 && <button className="quick-modal-go-cart" onClick={() => navigate("/cart")}>Buy Now</button>}
           </div>
 
           <Toast message={toastMsg} show={showToast} onClose={() => setShowToast(false)} />

@@ -45,7 +45,7 @@ export default function BookCard({ book, onQuickView, badge }) {
             <FaShoppingBag /> {book.stock <= qtyInCart ? "Out of stock" : qtyInCart ? "Add another" : "Add to cart"}
           </button>
           {qtyInCart > 0 && (
-            <button className="go-cart" onClick={() => navigate("/cart")} aria-label="Go to cart">
+            <button className="go-cart" onClick={() => navigate("/cart")} aria-label="Buy Now">
               <FaArrowRight />
             </button>
           )}

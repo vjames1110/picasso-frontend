@@ -240,7 +240,7 @@ const BookDetails = () => {
 
             {qtyInCart > 0 && (
               <button className="secondary-action" onClick={() => navigate("/cart")}>
-                Go to cart
+                Buy Now
               </button>
             )}
 
