@@ -1,0 +1,1228 @@
+:root {
+  --ink-900: #1B2A4A;
+  --ink-700: #2B3E63;
+  --ink-100: #E7EAF2;
+  --canvas: #FAFAF7;
+  --surface: #FFFFFF;
+  --text-900: #1A1D23;
+  --slate-600: #5B6472;
+  --slate-400: #8B93A1;
+  --chalk-200: #E7E9EE;
+  --chalk-100: #F1F2F5;
+  --ochre-500: #E8A33D;
+  --ochre-100: #FBEBD2;
+  --green-600: #1E8E5A;
+  --green-100: #DFF3E9;
+  --red-600: #D64545;
+  --red-100: #FBE4E4;
+  --violet-600: #7C5CBF;
+  --font-ui: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-6: 24px;
+  --sp-8: 32px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-full: 999px;
+  --shadow-card: 0 1px 2px rgba(27, 42, 74, .06), 0 4px 12px rgba(27, 42, 74, .06);
+  --shadow-pop: 0 8px 24px rgba(27, 42, 74, .14);
+}
+
+html,
+body {
+  background: var(--canvas);
+  color: var(--text-900);
+  font-family: var(--font-ui);
+}
+
+body {
+  min-width: 320px;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+span,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-ui);
+  letter-spacing: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(232, 163, 61, .25);
+  outline-offset: 2px;
+}
+
+input,
+textarea,
+select {
+  border-color: var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--ochre-500);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, .25);
+}
+
+.route-loading,
+.catalog-state,
+.tracking-state,
+.customer-orders-state,
+.order-success-state,
+.book-details-loading {
+  color: var(--slate-600);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.loader {
+  border-color: var(--chalk-200);
+  border-top-color: var(--ochre-500);
+}
+
+/* Header and navigation */
+.header {
+  z-index: 80;
+  min-height: 64px;
+  padding: 10px max(var(--sp-6), calc((100vw - 1180px) / 2));
+  gap: var(--sp-6);
+  border-bottom: 0;
+  background: var(--ink-900);
+  color: #fff;
+  box-shadow: var(--shadow-pop);
+}
+
+.brand-mark {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--ochre-500);
+  color: transparent;
+  font-size: 0;
+  transform: rotate(45deg);
+}
+
+.logo-section h1 {
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.tagline {
+  color: #B9C2D6;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.search-bar {
+  height: 44px;
+  border-color: rgba(255, 255, 255, .14);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, .08);
+}
+
+.search-bar:focus-within {
+  border-color: var(--ochre-500);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, .25);
+}
+
+.search-bar input {
+  color: #fff;
+}
+
+.search-bar input::placeholder {
+  color: #B9C2D6;
+}
+
+.search-button {
+  color: var(--ochre-500);
+}
+
+.mock-test-btn,
+.admin-header-logout,
+.admin-login-box button,
+.checkout-address-card button,
+.checkout-add-address button,
+.checkout-save-address-btn,
+.checkout-pay-btn,
+.cart-checkout,
+.tracking-help button,
+.customer-orders-empty > button,
+.order-success-shop,
+.order-success-track,
+.cart-empty > button,
+.book-details-loading button,
+.quick-modal-cart,
+.primary-action,
+.add-cart {
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--ink-900);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.mock-test-btn {
+  background: var(--ochre-500);
+  color: var(--ink-900);
+}
+
+.mock-test-btn:hover,
+.mock-test-btn:disabled {
+  background: #D79129;
+  color: var(--ink-900);
+}
+
+.login-btn,
+.orders-btn,
+.icon-action {
+  min-height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+}
+
+.login-btn:hover,
+.orders-btn:hover,
+.icon-action:hover {
+  background: rgba(255, 255, 255, .14);
+  color: var(--ochre-500);
+}
+
+.cart-count {
+  border-color: var(--ink-900);
+  background: var(--ochre-500);
+  color: var(--ink-900);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.navbar {
+  padding: 0 max(var(--sp-6), calc((100vw - 1180px) / 2));
+  border-bottom: 1px solid var(--chalk-200);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.nav-list {
+  gap: var(--sp-6);
+}
+
+.nav-item {
+  padding: 13px 0;
+  color: var(--slate-600);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.nav-item:hover,
+.nav-all {
+  color: var(--ink-900);
+}
+
+.dropdown {
+  border-color: var(--chalk-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+}
+
+.dropdown-item:hover {
+  background: var(--ink-100);
+  color: var(--ink-900);
+}
+
+/* Hero */
+.hero {
+  width: min(1180px, calc(100% - 48px));
+  min-height: 520px;
+  margin: var(--sp-6) auto 0;
+  padding: 56px var(--sp-8) 64px;
+  grid-template-columns: 1.05fr .95fr;
+  gap: var(--sp-12);
+  border-radius: var(--radius-lg);
+  background: var(--ink-900);
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.hero-glow {
+  display: none;
+}
+
+.hero-eyebrow,
+.book-category,
+.section-heading p,
+.cart-page-header p,
+.cart-summary-eyebrow,
+.checkout-section-heading p,
+.checkout-summary-heading p,
+.tracking-hero p,
+.tracking-main-card header p,
+.tracking-summary > p,
+.tracking-items-card header p,
+.customer-orders-header p,
+.order-success-hero p,
+.quick-modal-eyebrow,
+.eyebrow,
+.section-eyebrow,
+.admin-welcome p {
+  color: var(--ochre-500);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  max-width: 640px;
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.hero-subtitle {
+  max-width: 640px;
+  color: #B9C2D6;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.hero-buttons button,
+.quick-modal-actions button,
+.action-row button,
+.cart-empty > button,
+.cart-checkout,
+.checkout-pay-btn,
+.order-success-actions button,
+.customer-order-actions button,
+.admin-books button,
+.admin-header-actions button {
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.btn-primary,
+.primary-action,
+.add-cart,
+.cart-checkout,
+.checkout-pay-btn,
+.quick-modal-cart {
+  border-color: var(--ink-900);
+  background: var(--ink-900);
+  color: #fff;
+}
+
+.btn-primary:hover,
+.primary-action:hover,
+.add-cart:hover,
+.cart-checkout:hover,
+.checkout-pay-btn:hover,
+.quick-modal-cart:hover {
+  background: var(--ink-700);
+  transform: none;
+}
+
+.btn-secondary,
+.secondary-action,
+.quick-modal-details,
+.customer-order-view,
+.tracking-back,
+.cart-back,
+.checkout-address-back,
+.admin-store-link {
+  border: 1.5px solid var(--ink-900);
+  background: transparent;
+  color: var(--ink-900);
+}
+
+.hero .btn-secondary {
+  border-color: rgba(255, 255, 255, .42);
+  color: #fff;
+}
+
+.hero .btn-secondary:hover {
+  border-color: var(--ochre-500);
+  background: rgba(255, 255, 255, .08);
+}
+
+.glass-card {
+  border-color: rgba(255, 255, 255, .14);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, .08);
+}
+
+.glass-card strong {
+  color: #fff;
+  font-family: var(--font-mono);
+}
+
+.glass-card span {
+  color: #B9C2D6;
+}
+
+.hero-right img {
+  height: 360px;
+  border-radius: var(--radius-md);
+  box-shadow: 16px 16px 0 var(--ochre-500);
+}
+
+.hero-image-label {
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-md);
+  color: var(--text-900);
+  box-shadow: var(--shadow-pop);
+}
+
+.hero-image-label span {
+  color: var(--ochre-500);
+  font-family: var(--font-mono);
+}
+
+.hero-image-label strong {
+  color: var(--ink-900);
+  font-family: var(--font-ui);
+}
+
+/* Catalogue and cards */
+.book-section,
+.book-details-page,
+.cart-page,
+.checkout-container,
+.customer-orders-page,
+.tracking-page,
+.order-success-page {
+  width: min(1180px, 100%);
+  max-width: 1180px;
+  background: var(--canvas);
+}
+
+.book-section {
+  padding: var(--sp-6) var(--sp-6) 96px;
+}
+
+.book-shelf {
+  padding: 56px 0;
+  border-bottom: 1px solid var(--chalk-200);
+}
+
+.book-shelf + .book-shelf {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.book-shelf:last-child {
+  border-bottom: 0;
+}
+
+.section-heading {
+  align-items: flex-end;
+  margin-bottom: var(--sp-8);
+}
+
+.book-section .section-heading h2,
+.cart-page-header h1,
+.checkout-section-heading h1,
+.customer-orders-header h1,
+.tracking-hero h1,
+.order-success-hero h1,
+.book-copy h1,
+.related-section .section-heading h2,
+.detail-card h2,
+.cart-summary h2,
+.tracking-main-card h2,
+.tracking-summary h2,
+.tracking-items-card h2,
+.quick-modal-copy h2,
+.admin-header-left h1,
+.admin-welcome h2 {
+  color: var(--text-900);
+  font-family: var(--font-ui);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.book-section .section-heading h2,
+.related-section .section-heading h2,
+.cart-summary h2,
+.tracking-main-card h2,
+.tracking-summary h2,
+.tracking-items-card h2 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+.book-section .section-heading div > span,
+.cart-page-header > span,
+.checkout-section-heading > span,
+.customer-orders-header div > span,
+.tracking-hero > div > span,
+.quick-modal-description,
+.description-copy,
+.delivery-note,
+.cart-shipping-note,
+.help-msg {
+  color: var(--slate-600);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.section-count,
+.customer-orders-header > strong,
+.customer-order-status,
+.tracking-status strong {
+  border-color: var(--chalk-200);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  color: var(--slate-600);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.book-grid {
+  gap: var(--sp-4);
+}
+
+.book-card,
+.quick-modal-content,
+.cart-item,
+.cart-summary,
+.checkout-detail-card,
+.tracking-main-card,
+.tracking-summary,
+.tracking-items-card,
+.customer-order-card,
+.detail-card,
+.admin-metric-card,
+.admin-book-form,
+.admin-books .book-row,
+.admin-login-box,
+.payment-container,
+.address-card,
+.order-card {
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.book-card:hover,
+.admin-metric-card:hover,
+.admin-books .book-row:hover {
+  border-color: var(--ink-100);
+  box-shadow: var(--shadow-pop);
+  transform: translateY(-2px);
+}
+
+.book-image {
+  background: var(--chalk-100);
+}
+
+.book-badge {
+  border-radius: var(--radius-sm);
+  background: var(--ink-900);
+}
+
+.book-badge.new,
+.discount-badge {
+  background: var(--ochre-100);
+  color: var(--ink-900);
+}
+
+.quick-view {
+  border-radius: var(--radius-md);
+  background: rgba(27, 42, 74, .94);
+  font-weight: 600;
+}
+
+.book-card h3,
+.cart-item-details h2,
+.customer-order-item strong,
+.tracking-item strong {
+  color: var(--text-900);
+  font-family: var(--font-ui);
+  font-weight: 600;
+}
+
+.book-card .author,
+.book-card .original,
+.tracking-item span,
+.customer-order-item span,
+.cart-item-stock,
+.cart-assurance,
+.cart-summary-lines > div {
+  color: var(--slate-600);
+}
+
+.book-card .price-row strong,
+.book-copy .price-row strong,
+.quick-modal-price,
+.cart-total strong,
+.customer-order-summary strong,
+.tracking-meta strong {
+  color: var(--ink-900);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.cart-actions button,
+.quick-modal-actions button,
+.action-row button {
+  border-radius: var(--radius-md);
+}
+
+.go-cart,
+.quick-modal-go-cart,
+.share-action,
+.checkout-container .change-address-btn {
+  border: 1px solid var(--chalk-200);
+  background: var(--chalk-100);
+  color: var(--ink-900);
+}
+
+.go-cart:hover,
+.quick-modal-go-cart:hover,
+.share-action:hover,
+.checkout-container .change-address-btn:hover {
+  border-color: var(--ochre-500);
+  background: var(--ochre-100);
+  color: var(--ink-900);
+}
+
+.add-cart:disabled,
+.quick-modal-cart:disabled,
+.primary-action:disabled {
+  background: var(--chalk-100);
+  color: var(--slate-400);
+  cursor: not-allowed;
+}
+
+/* Book detail, cart, checkout, orders */
+.book-hero,
+.tracking-hero,
+.order-success-hero,
+.admin-welcome {
+  border-radius: var(--radius-lg);
+  background: var(--ink-900);
+  color: #fff;
+  box-shadow: var(--shadow-card);
+}
+
+.book-copy h1,
+.tracking-hero h1,
+.order-success-hero h1,
+.admin-welcome h2 {
+  color: #fff;
+}
+
+.book-author,
+.book-meta span,
+.trust-row span,
+.tracking-hero > div > span,
+.order-success-hero span,
+.admin-welcome > div > span {
+  color: #B9C2D6;
+}
+
+.book-meta span,
+.trust-row span,
+.cart-assurance span,
+.detail-pills span,
+.tracking-status,
+.checkout-address,
+.checkout-container .payment-option,
+.customer-order-summary > div,
+.tracking-help {
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: var(--chalk-100);
+}
+
+.cover-shell,
+.cart-item-cover,
+.tracking-book-mark,
+.customer-order-number > div,
+.customer-order-item-mark,
+.checkout-detail-icon,
+.cart-empty-icon,
+.customer-orders-empty > div {
+  border-radius: var(--radius-md);
+  background: var(--chalk-100);
+  color: var(--ink-900);
+}
+
+.delivery-card,
+.cart-summary,
+.checkout-detail-card,
+.tracking-main-card,
+.tracking-summary,
+.tracking-items-card {
+  border-color: var(--chalk-200);
+}
+
+.pincode-row input,
+.admin-book-form input,
+.admin-book-form textarea,
+.login-form input,
+.payment-form input,
+.checkout-container input,
+.checkout-container textarea {
+  min-height: 44px;
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--text-900);
+  font-size: 14px;
+}
+
+.cart-savings,
+.tracking-status-delivered,
+.customer-order-status.status-delivered,
+.admin-books .success {
+  border-color: var(--green-100);
+  background: var(--green-100);
+  color: var(--green-600);
+}
+
+.customer-order-status,
+.checkout-container .payment-option.active {
+  border-color: var(--ochre-500);
+  background: var(--ochre-100);
+  color: var(--ink-900);
+}
+
+.tracking-step.complete .tracking-step-icon {
+  border-color: var(--green-600);
+  background: var(--green-600);
+}
+
+.tracking-step.current .tracking-step-icon {
+  box-shadow: 0 0 0 6px var(--ochre-100);
+}
+
+.tracking-timeline::after {
+  background: var(--green-600);
+}
+
+/* Auth, admin, footer, overlays */
+.login-page,
+.admin-login-page,
+.checkout-container:has(.payment-container) {
+  background: var(--canvas);
+}
+
+.login-shell,
+.login-panel,
+.admin-login-card,
+.admin-login-box {
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+.login-shell {
+  overflow: hidden;
+}
+
+.login-story {
+  background: var(--ink-900);
+  color: #fff;
+}
+
+.login-brand,
+.login-story-copy h1,
+.login-panel h2,
+.admin-login-brand strong,
+.admin-login-card h1 {
+  font-family: var(--font-ui);
+  letter-spacing: 0;
+}
+
+.login-brand > svg,
+.admin-login-brand > span {
+  border-radius: 2px;
+  background: var(--ochre-500);
+  color: transparent;
+  transform: rotate(45deg);
+}
+
+.login-story-copy h1,
+.login-trust strong {
+  color: #fff;
+}
+
+.login-story-copy > span,
+.login-trust span {
+  color: #B9C2D6;
+}
+
+.login-story-copy > p,
+.login-eyebrow,
+.admin-login-eyebrow {
+  color: var(--ochre-500);
+  font-family: var(--font-mono);
+  letter-spacing: .1em;
+}
+
+.login-panel h2,
+.admin-login-card h1 {
+  color: var(--text-900);
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.login-intro,
+.login-legal,
+.admin-login-intro,
+.admin-login-note,
+.admin-login-options {
+  color: var(--slate-600);
+}
+
+.login-field,
+.admin-login-field {
+  min-height: 44px;
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  color: var(--slate-600);
+}
+
+.login-field:focus-within,
+.admin-login-field:focus-within {
+  border-color: var(--ochre-500);
+  box-shadow: 0 0 0 3px rgba(232, 163, 61, .25);
+}
+
+.login-field input,
+.admin-login-field input {
+  color: var(--text-900);
+}
+
+.login-primary,
+.admin-login-primary {
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--ink-900);
+  color: #fff;
+  font-weight: 600;
+}
+
+.login-primary:hover:not(:disabled),
+.admin-login-primary:hover:not(:disabled) {
+  background: var(--ink-700);
+}
+
+.login-secondary-actions button,
+.admin-login-options button,
+.login-back,
+.admin-login-back {
+  color: var(--ink-900);
+}
+
+.login-secondary-actions button:hover,
+.admin-login-options button:hover,
+.login-back:hover,
+.admin-login-back:hover {
+  color: var(--ochre-500);
+}
+
+.admin-header {
+  min-height: 64px;
+  border-bottom-color: var(--chalk-200);
+  background: rgba(255, 255, 255, .92);
+  backdrop-filter: blur(14px);
+}
+
+.admin-layout,
+.admin-content {
+  background: var(--canvas);
+}
+
+.admin-sidebar {
+  border-right-color: var(--chalk-200);
+  background: var(--ink-900);
+}
+
+.admin-sidebar a,
+.admin-sidebar button {
+  color: #B9C2D6;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar button:hover {
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+}
+
+.admin-sidebar .admin-link.active {
+  background: var(--surface);
+  color: var(--ink-900);
+}
+
+.admin-logo-mark {
+  border-radius: 2px;
+  background: var(--ochre-500);
+  color: transparent;
+  transform: rotate(45deg);
+}
+
+.admin-logo strong,
+.admin-books .book-info h4,
+.admin-books .delete-box h3 {
+  color: inherit;
+  font-family: var(--font-ui);
+}
+
+.admin-logo span,
+.admin-nav-label,
+.admin-books .book-info p {
+  color: var(--ochre-500);
+  font-family: var(--font-mono);
+  letter-spacing: .1em;
+}
+
+.admin-metric-icon,
+.admin-revenue > div {
+  border-radius: var(--radius-md);
+  background: var(--ink-100);
+  color: var(--ink-900);
+}
+
+.admin-revenue {
+  border-radius: var(--radius-md);
+}
+
+.admin-books-top {
+  border-color: var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: var(--chalk-100);
+}
+
+.admin-books-top button.active {
+  background: var(--surface);
+  color: var(--ink-900);
+}
+
+.admin-books .book-actions .edit,
+.admin-books .delete-actions .cancel {
+  border-color: var(--chalk-200);
+  background: var(--surface);
+  color: var(--ink-900);
+}
+
+.admin-books .book-actions .delete,
+.admin-books .delete-actions button:first-child,
+.toast-error .toast-progress {
+  background: var(--red-600);
+  color: #fff;
+}
+
+.footer {
+  border-top: 1px solid var(--chalk-200);
+  background: var(--ink-900);
+  color: #B9C2D6;
+}
+
+.footer h3,
+.footer h4,
+.footer strong {
+  color: #fff;
+  font-family: var(--font-ui);
+}
+
+.footer button,
+.footer a {
+  color: #B9C2D6;
+}
+
+.footer button:hover,
+.footer a:hover {
+  color: var(--ochre-500);
+}
+
+.social-icons a {
+  background: rgba(255, 255, 255, .08);
+  color: #fff;
+}
+
+.social-icons a:hover {
+  background: var(--ochre-500);
+  color: var(--ink-900);
+  transform: none;
+}
+
+.toast {
+  border-color: var(--chalk-200);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, .97);
+  color: var(--text-900);
+  box-shadow: var(--shadow-pop);
+}
+
+.toast-icon {
+  border-radius: var(--radius-md);
+  background: var(--green-100);
+  color: var(--green-600);
+}
+
+.toast-error .toast-icon {
+  background: var(--red-100);
+  color: var(--red-600);
+}
+
+.toast-info .toast-icon {
+  background: var(--ink-100);
+  color: var(--ink-900);
+}
+
+.toast-progress {
+  background: var(--green-600);
+}
+
+.exam-loading-overlay,
+.quick-modal-overlay,
+.admin-books .delete-modal {
+  background: rgba(27, 42, 74, .68);
+}
+
+.exam-loading-panel,
+.admin-books .delete-box {
+  border: 1px solid var(--chalk-200);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  color: var(--text-900);
+  box-shadow: var(--shadow-pop);
+}
+
+.exam-loading-orbit {
+  border-color: var(--chalk-200);
+  background: var(--chalk-100);
+}
+
+.exam-loading-orbit::before {
+  border-color: var(--ochre-500);
+  border-top-color: transparent;
+}
+
+.exam-loading-orbit::after {
+  border-radius: 2px;
+  background: var(--ink-900);
+  color: transparent;
+  transform: rotate(45deg);
+}
+
+.exam-loading-orbit span:nth-child(1),
+.exam-loading-orbit span:nth-child(3) {
+  background: var(--ochre-500);
+}
+
+.exam-loading-panel p {
+  color: var(--ochre-500);
+}
+
+.exam-loading-orbit span:nth-child(2) {
+  background: var(--green-600);
+}
+
+.exam-loading-panel strong {
+  color: var(--text-900);
+  font-family: var(--font-ui);
+}
+
+.exam-loading-progress {
+  background: var(--chalk-100);
+}
+
+.exam-loading-progress span {
+  background: linear-gradient(90deg, var(--ink-900), var(--ochre-500));
+}
+
+@media (max-width: 1023px) {
+  .hero,
+  .book-hero,
+  .tracking-hero,
+  .order-success-hero,
+  .admin-welcome {
+    border-radius: 0;
+  }
+
+  .hero {
+    width: 100%;
+    margin-top: 0;
+    grid-template-columns: 1fr;
+    padding: 48px var(--sp-6);
+  }
+
+  .book-section,
+  .book-details-page,
+  .cart-page,
+  .checkout-container,
+  .customer-orders-page,
+  .tracking-page,
+  .order-success-page {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 760px) {
+  .header {
+    padding: var(--sp-3);
+  }
+
+  .header-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mock-test-btn,
+  .login-btn,
+  .orders-btn,
+  .icon-action {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 var(--sp-3);
+  }
+
+  .search-bar {
+    background: rgba(255, 255, 255, .1);
+  }
+
+  .navbar {
+    padding: 0 var(--sp-3);
+  }
+
+  .nav-list {
+    gap: var(--sp-4);
+  }
+
+  .book-section {
+    padding: 0 var(--sp-4) 72px;
+  }
+
+  .book-shelf {
+    padding: var(--sp-12) 0;
+  }
+
+  .section-heading,
+  .cart-page-header,
+  .customer-orders-header,
+  .tracking-main-card > header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .book-section .section-heading h2,
+  .related-section .section-heading h2,
+  .cart-page-header h1,
+  .checkout-section-heading h1,
+  .customer-orders-header h1 {
+    font-size: 24px;
+  }
+
+  .hero h1 {
+    font-size: 32px;
+  }
+
+  .hero-right img {
+    height: 260px;
+    box-shadow: 10px 10px 0 var(--ochre-500);
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .book-card {
+    border-radius: var(--radius-md);
+  }
+
+  .book-image {
+    height: 210px;
+  }
+
+  .quick-view {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .cart-layout,
+  .checkout-container .payment-container,
+  .tracking-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero {
+    padding: 40px var(--sp-4);
+  }
+
+  .hero-buttons,
+  .action-row,
+  .quick-modal-actions,
+  .customer-order-actions,
+  .admin-books .form-buttons {
+    flex-direction: column;
+  }
+
+  .hero-buttons button,
+  .action-row button,
+  .quick-modal-actions button,
+  .customer-order-actions button,
+  .admin-books .form-buttons button {
+    width: 100%;
+  }
+
+  .book-image {
+    height: 180px;
+  }
+
+  .book-card-body {
+    padding: var(--sp-3);
+  }
+
+  .cart-actions {
+    flex-direction: column;
+  }
+
+  .go-cart {
+    width: 100%;
+  }
+}
