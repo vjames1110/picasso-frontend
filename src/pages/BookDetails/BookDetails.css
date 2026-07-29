@@ -477,3 +477,316 @@
     grid-template-columns:1fr;
   }
 }
+
+/* Picasso Exams design-system alignment */
+.book-details-page{
+  width:min(1180px,100%);
+  max-width:1180px;
+  padding:var(--sp-8) var(--sp-6) 96px;
+  background:var(--canvas);
+  color:var(--text-900);
+}
+
+.book-details-loading{
+  color:var(--slate-600);
+  font-size:14px;
+  font-weight:600;
+}
+
+.book-details-error button{
+  min-height:44px;
+  padding:0 var(--sp-6);
+  border-radius:var(--radius-md);
+  background:var(--ink-900);
+  color:#fff;
+  font-size:14px;
+  font-weight:600;
+}
+
+.book-details-error button:hover{
+  background:var(--ink-700);
+}
+
+.book-hero{
+  grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr);
+  gap:var(--sp-8);
+  padding:var(--sp-8);
+  border:1px solid var(--chalk-200);
+  border-radius:var(--radius-lg);
+  background:var(--surface);
+  box-shadow:var(--shadow-card);
+}
+
+.cover-shell{
+  min-height:500px;
+  padding:var(--sp-8);
+  border-radius:var(--radius-md);
+  background:var(--ink-900);
+}
+
+.cover-shell::after{
+  display:none;
+}
+
+.cover-shell img{
+  max-width:340px;
+  max-height:430px;
+  filter:drop-shadow(0 20px 26px rgba(0,0,0,.22));
+}
+
+.cover-badge{
+  padding:var(--sp-2) var(--sp-3);
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:var(--radius-md);
+  background:rgba(255,255,255,.08);
+  color:#B9C2D6;
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.1em;
+}
+
+.book-copy{
+  gap:var(--sp-4);
+}
+
+.eyebrow,
+.section-eyebrow,
+.book-details-page .section-heading p{
+  color:var(--ochre-500);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.1em;
+}
+
+.book-copy h1{
+  color:var(--text-900);
+  font-family:var(--font-ui);
+  font-size:36px;
+  font-weight:700;
+  line-height:1.15;
+  letter-spacing:0;
+}
+
+.book-author,
+.description-copy,
+.delivery-note,
+.detail-card p,
+.detail-card ul{
+  color:var(--slate-600);
+  font-size:14px;
+  line-height:1.6;
+}
+
+.book-meta span,
+.detail-pills span,
+.trust-row span{
+  border:1px solid var(--chalk-200);
+  border-radius:var(--radius-full);
+  background:var(--chalk-100);
+  color:var(--slate-600);
+  font-size:12px;
+  font-weight:600;
+}
+
+.book-details-page > .book-hero .price-row{
+  gap:var(--sp-3);
+}
+
+.book-details-page > .book-hero .price-row strong{
+  color:var(--ink-900);
+  font-family:var(--font-mono);
+  font-size:32px;
+  font-weight:700;
+}
+
+.book-details-page > .book-hero .price-row span{
+  color:var(--slate-400);
+  font-size:16px;
+}
+
+.discount-copy{
+  color:var(--green-600);
+  font-size:14px;
+  font-weight:600;
+}
+
+.qty-box{
+  border-color:var(--chalk-200);
+  border-radius:var(--radius-md);
+  background:var(--surface);
+}
+
+.qty-box button{
+  width:44px;
+  height:44px;
+  background:var(--chalk-100);
+  color:var(--ink-900);
+}
+
+.qty-box button:hover:not(:disabled){
+  background:var(--ink-100);
+}
+
+.qty-box span{
+  min-width:44px;
+  color:var(--text-900);
+  font-family:var(--font-mono);
+  font-weight:600;
+}
+
+.primary-action,
+.secondary-action,
+.share-action,
+.delivery-card button{
+  min-height:44px;
+  padding:0 var(--sp-6);
+  border-radius:var(--radius-md);
+  font-size:14px;
+  font-weight:600;
+  box-shadow:none;
+  transition:background .2s ease,border-color .2s ease,color .2s ease;
+}
+
+.primary-action{
+  border:1.5px solid var(--ink-900);
+  background:var(--ink-900);
+  color:#fff;
+}
+
+.primary-action:hover:not(:disabled),
+.delivery-card button:hover{
+  background:var(--ink-700);
+  transform:none;
+}
+
+.primary-action:disabled{
+  background:var(--chalk-100);
+  color:var(--slate-400);
+}
+
+.secondary-action,
+.share-action{
+  border:1.5px solid var(--ink-900);
+  background:transparent;
+  color:var(--ink-900);
+}
+
+.secondary-action:hover,
+.share-action:hover{
+  border-color:var(--ochre-500);
+  background:var(--ochre-100);
+  color:var(--ink-900);
+  transform:none;
+}
+
+.delivery-card,
+.detail-card{
+  border:1px solid var(--chalk-200);
+  border-radius:var(--radius-md);
+  background:var(--surface);
+  box-shadow:var(--shadow-card);
+}
+
+.delivery-title,
+.detail-card h2,
+.book-details-page .section-heading h2{
+  color:var(--text-900);
+  font-family:var(--font-ui);
+  font-weight:700;
+  letter-spacing:0;
+}
+
+.detail-card h2,
+.book-details-page .section-heading h2{
+  font-size:24px;
+  line-height:1.3;
+}
+
+.pincode-row input{
+  height:44px;
+  border:1px solid var(--chalk-200);
+  border-radius:var(--radius-md);
+  background:var(--surface);
+  color:var(--text-900);
+  font-size:14px;
+}
+
+.pincode-row input:focus{
+  border-color:var(--ochre-500);
+  box-shadow:0 0 0 3px rgba(232,163,61,.25);
+}
+
+.pincode-row button{
+  border:1.5px solid var(--ink-900);
+  background:var(--ink-900);
+  color:#fff;
+}
+
+.details-grid{
+  gap:var(--sp-4);
+}
+
+.related-section{
+  margin-top:var(--sp-12);
+}
+
+.book-details-page .section-heading{
+  margin-bottom:var(--sp-6);
+}
+
+.book-details-page .section-heading > span{
+  border:1px solid var(--chalk-200);
+  border-radius:var(--radius-full);
+  background:var(--surface);
+  color:var(--slate-600);
+  font-family:var(--font-mono);
+  font-size:12px;
+  font-weight:600;
+}
+
+.empty-state{
+  border:1px dashed var(--chalk-200);
+  border-radius:var(--radius-md);
+  background:var(--chalk-100);
+  color:var(--slate-600);
+}
+
+.book-details-page .book-card .price-row strong{
+  font-size:19px;
+}
+
+@media (max-width: 1100px){
+  .book-hero{
+    grid-template-columns:1fr;
+  }
+}
+
+@media (max-width: 768px){
+  .book-details-page{
+    padding:var(--sp-4) var(--sp-3) 72px;
+  }
+
+  .book-hero{
+    padding:var(--sp-4);
+    border-radius:var(--radius-md);
+  }
+
+  .cover-shell{
+    min-height:320px;
+    padding:var(--sp-4);
+  }
+
+  .book-copy h1{
+    font-size:32px;
+  }
+
+  .book-details-page > .book-hero .price-row strong{
+    font-size:28px;
+  }
+
+  .detail-card{
+    padding:var(--sp-4);
+  }
+}
