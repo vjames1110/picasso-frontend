@@ -145,7 +145,7 @@ const Checkout = () => {
     const sellingPrice = getTotalPrice();
     const totalMRP = cart.reduce((sum, item) => sum + Number(item.originalPrice || item.original_price || item.price || 0) * item.quantity, 0);
     const discount = Math.max(totalMRP - sellingPrice, 0);
-    const shipping = cart.reduce((sum, item) => sum + (item.quantity || 0), 0) * 65;
+    const shipping = cart.reduce((sum, item) => sum + (item.quantity || 0), 0) * 100;
     const finalAmount = sellingPrice + shipping;
     const handleCreateOrder = async () => {
 

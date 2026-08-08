@@ -29,7 +29,7 @@ const Cart = () => {
   );
   const sellingPrice = Number(getTotalPrice());
   const discount = Math.max(totalMRP - sellingPrice, 0);
-  const shipping = totalItems * 65;
+  const shipping = totalItems * 100;
   const finalPrice = sellingPrice + shipping;
 
   return (
@@ -77,7 +77,7 @@ const Cart = () => {
             <span><FaLock /> Secure checkout</span>
             <span><FaTruck /> Reliable delivery</span>
           </div>
-          <p className="cart-shipping-note">Shipping is calculated at Rs. 65 per item.</p>
+          <p className="cart-shipping-note">Shipping is calculated at Rs. 100 per item.</p>
         </aside>
       </div>
     </main>
